@@ -76,40 +76,11 @@ import { renderCardFace } from './card-renderer.js';
     els.cardInner.classList.remove('flipped');
   }
 
-  function clearCardFeedback() {
-    els.cardInner.classList.remove('card-feedback-correct', 'card-feedback-wrong', 'card-feedback-push');
-  }
-
-  function applyCardFeedback(result) {
-    clearCardFeedback();
-    if (result === 'correct') {
-      els.cardInner.classList.add('card-feedback-correct');
-      setTimeout(function () {
-        els.cardInner.classList.remove('card-feedback-correct');
-      }, 600);
-    } else if (result === 'wrong') {
-      els.cardInner.classList.add('card-feedback-wrong');
-    } else if (result === 'push') {
-      els.cardInner.classList.add('card-feedback-push');
-      setTimeout(function () {
-        els.cardInner.classList.remove('card-feedback-push');
-      }, 600);
-    }
-  }
-
-  function pulseStreak() {
-    els.streak.classList.add('streak-pulse');
-    setTimeout(function () {
-      els.streak.classList.remove('streak-pulse');
-    }, 200);
-  }
-
   function render() {
     setState(engine.state);
 
     if (engine.state === 'ready') {
       flipToFaceDown();
-      clearCardFeedback();
       renderCard(null);
       renderStreak(0);
       renderCardsRemaining(engine.cardsRemaining);
@@ -159,8 +130,6 @@ import { renderCardFace } from './card-renderer.js';
           var prevEngine = engine;
           engine = engine.resolveWith(engine);
           render();
-          applyCardFeedback(engine.lastResult);
-          if (engine.lastResult === 'correct') pulseStreak();
 
           if (engine.lastResult === 'correct') {
             announce('Correct! ' + prevEngine.nextCard.displayName + '. Streak: ' + engine.streak + '. Higher or Lower?');
@@ -180,7 +149,6 @@ import { renderCardFace } from './card-renderer.js';
 
     if (engine.state !== 'playing') return;
 
-    clearCardFeedback();
     engine = engine.guess(direction);
     setState('revealing');
 
@@ -195,8 +163,6 @@ import { renderCardFace } from './card-renderer.js';
           var prevEngine = engine;
           engine = engine.resolveWith(engine);
           render();
-          applyCardFeedback(engine.lastResult);
-          if (engine.lastResult === 'correct') pulseStreak();
 
           if (engine.lastResult === 'correct') {
             announce('Correct! ' + prevEngine.nextCard.displayName + '. Streak: ' + engine.streak + '. Higher or Lower?');

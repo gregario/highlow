@@ -1,0 +1,68 @@
+{
+  "_type": "story_context",
+  "_assembled_at": "2026-05-04T16:44:01.875Z",
+  "story": {
+    "spec": {
+      "id": "game-ui-layout",
+      "name": "Game UI Layout & Responsive Behavior"
+    },
+    "id": "game-ui-layout",
+    "name": "Game UI Layout & Responsive Behavior",
+    "depends_on": [
+      "css-card-rendering",
+      "design-system"
+    ],
+    "affected_entities": [],
+    "affected_screens": [],
+    "fix_memory": [],
+    "attempt_number": 1,
+    "status": "in-progress"
+  },
+  "foundation": {
+    "architecture_map": {},
+    "schemas": [],
+    "integrations": [],
+    "deployment": {
+      "method": "unknown",
+      "staging_url": "https://gregario.github.io/highlow/",
+      "db": null
+    }
+  },
+  "related_stories": [
+    {
+      "id": "css-card-rendering",
+      "status": "done",
+      "files_changed": [],
+      "env_limitations": [],
+      "issues_encountered": []
+    },
+    {
+      "id": "design-system",
+      "status": "done",
+      "files_changed": [],
+      "env_limitations": [],
+      "issues_encountered": []
+    }
+  ],
+  "milestone_learnings": [],
+  "fix_patterns": {},
+  "shipped_insights": [],
+  "vision_summary": "undefined: undefined. Target: unknown. Deploy: unknown.",
+  "product_standard": {},
+  "library_heuristics": [],
+  "decomposition_strategy": {
+    "profile": "single-page",
+    "rationale": "Single HTML file, vanilla JS, no framework, no routing, no database. Product is a single-page game with state-based transitions.",
+    "foundation_pass": "none needed beyond what was already built",
+    "capabilities": {
+      "foundation-needed": false,
+      "dependency-ordering": false,
+      "parallel-building": false,
+      "integration-pass": false,
+      "integration-escalation": false
+    }
+  },
+  "relevant_decisions": [],
+  "relevant_questions": [],
+  "relevant_divergences": []
+}
