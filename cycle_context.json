@@ -1103,7 +1103,7 @@
     "code_quality_baseline": {
       "eslint_errors": 0,
       "eslint_warnings": 0,
-      "duplication_pct": 0,
+      "duplication_pct": 0.77,
       "circular_deps": 0,
       "dead_code_items": 1,
       "files_over_300_lines": 0,
@@ -1117,12 +1117,10 @@
     },
     "changed_files": [
       "tests/design-system.test.js",
-      "tests/game-ui-layout.test.js",
-      "style.css",
-      "card-renderer.js"
+      "tests/game-ui-layout.test.js"
     ],
     "ai_code_audit": {
-      "score": 92,
+      "score": 94,
       "dimensions": {
         "architecture": {
           "score": 95,
@@ -1130,11 +1128,11 @@
             {
               "severity": "informational",
               "confidence": "high",
-              "description": "Test files follow excellent separation of concerns: design-system tests verify visual tokens and accessibility, game-ui-layout tests verify responsive layout behavior. Production code (style.css, card-renderer.js) continues the clean separation pattern established in prior cycles.",
+              "description": "Test files follow excellent separation of concerns: design-system tests verify visual tokens and accessibility with WCAG contrast helpers, game-ui-layout tests verify responsive layout behavior with CSS parsing. Clean separation between test categories.",
               "evidence_ref": {
                 "type": "file",
-                "path": "tests/design-system.test.js:49-88",
-                "quote": "describe(\"AC-FA2-07: Background uses warm neutral, not pure black or white\") - tests verify color token values via CSS parsing, not DOM manipulation"
+                "path": "tests/design-system.test.js:27-47",
+                "quote": "function relativeLuminance(r, g, b) { const rsRGB = r / 255; ... return 0.2126 * r_lin + 0.7152 * g_lin + 0.0722 * b_lin; } function contrastRatio(fg, bg) { ... return (lighter + 0.05) / (darker + 0.05); }"
               }
             }
           ]
@@ -1145,87 +1143,84 @@
             {
               "severity": "informational",
               "confidence": "high",
-              "description": "Test naming follows consistent pattern: describe blocks use AC IDs (AC-FA2-07, AC-FA2-13), test names are descriptive and match acceptance criteria language. Helper functions (hexToRgb, relativeLuminance, contrastRatio) follow clean naming conventions.",
+              "description": "Test naming consistently uses AC IDs in describe blocks (AC-FA2-07 through AC-FA2-17). Test descriptions precisely match acceptance criteria language. Helper functions follow clear naming conventions (hexToRgb, relativeLuminance, contrastRatio).",
               "evidence_ref": {
                 "type": "file",
-                "path": "tests/design-system.test.js:18-47",
-                "quote": "function hexToRgb(hex) { ... } function relativeLuminance(r, g, b) { ... } function contrastRatio(fg, bg) { ... }"
+                "path": "tests/design-system.test.js:49-89",
+                "quote": "describe('AC-FA2-07: Background uses warm neutral, not pure black or white', () => { it('background color is not pure white (#FFFFFF)' ... it('background is not a cool gray (not equal R=G=B)'"
               }
             }
           ]
         },
         "robustness": {
-          "score": 90,
+          "score": 92,
           "findings": [
             {
-              "severity": "minor",
+              "severity": "informational",
               "confidence": "high",
-              "description": "Tests verify edge cases well: color contrast calculations use proper WCAG formulas, pip layout tests cover all values 2-10, responsive tests cover multiple breakpoints. One minor gap: no explicit null checks in hexToRgb usage.",
+              "description": "Tests verify comprehensive edge cases: WCAG AA contrast calculations for all text/background pairs (4.5:1 body, 3:1 large text), pip layouts for all card values 2-10, responsive breakpoints at 375px/768px/1280px. hexToRgb helper returns null for invalid input with proper null handling in callers.",
               "evidence_ref": {
                 "type": "file",
-                "path": "tests/design-system.test.js:66-78",
-                "quote": "const rgb = hexToRgb(\"#\" + match[1]); expect(rgb.r).toBeGreaterThan(200); - assumes hexToRgb returns non-null"
-              },
-              "suggested_fix": "Add null check after hexToRgb calls or make the function throw on invalid input"
+                "path": "tests/design-system.test.js:271-344",
+                "quote": "it('foreground (#2C2825) on background (#F5F0EB) meets AA for body text (4.5:1)' ... it('suit red (#C45B4A) on card face background meets AA for large text (3:1)'"
+              }
             }
           ]
         },
         "production_risks": {
-          "score": 88,
+          "score": 95,
           "findings": [
             {
-              "severity": "minor",
+              "severity": "informational",
               "confidence": "high",
-              "description": "card-renderer.js uses innerHTML = \"\" for cleanup at line 47. While safe in this context (no user input, clearing before rebuild), it contradicts the previous cycle security finding that \"textContent used exclusively, never innerHTML\". Should use textContent = \"\" or replaceChildren() for consistency.",
+              "description": "No production code changed in this cycle. Tests read static files (index.html, style.css) via readFileSync and parse with JSDOM. No console.log statements. Tests appropriately use regex matching on file contents rather than eval.",
               "evidence_ref": {
                 "type": "file",
-                "path": "card-renderer.js:47",
-                "quote": "el.innerHTML = \"\";"
-              },
-              "suggested_fix": "Replace with el.textContent = \"\" or el.replaceChildren() for consistency with stated security posture"
+                "path": "tests/design-system.test.js:6-15",
+                "quote": "const html = readFileSync(resolve(__dirname, '../index.html'), 'utf-8'); const css = readFileSync(resolve(__dirname, '../style.css'), 'utf-8'); function createDOM() { const dom = new JSDOM(html, { url: 'http://localhost' });"
+              }
             }
           ]
         },
         "security": {
-          "score": 95,
+          "score": 98,
           "findings": [
             {
-              "severity": "low",
+              "severity": "informational",
               "confidence": "high",
-              "description": "innerHTML usage at card-renderer.js:47 is safe (clearing element, no user input), but deviates from the \"textContent exclusively\" security principle stated in prior cycle. All DOM building uses createElement and textContent, so no XSS vectors. Tests appropriately use regex matching on file contents, not eval.",
+              "description": "No security concerns. Tests use readFileSync for local static files (no user input). JSDOM parsing isolated. No eval, no innerHTML, no external network requests. CSS and HTML parsing via safe regex matching. All test data hardcoded or derived from local files.",
               "evidence_ref": {
                 "type": "file",
-                "path": "card-renderer.js:46-50",
-                "quote": "function renderCardFace(el, card) { el.innerHTML = \"\"; el.removeAttribute(\"data-suit-color\"); if (!card) return;"
-              },
-              "suggested_fix": "Use el.textContent = \"\" or while(el.firstChild) el.removeChild(el.firstChild) to maintain zero innerHTML usage claim"
+                "path": "tests/design-system.test.js:51-88",
+                "quote": "const match = css.match(/--color-bg:\\s*#([0-9A-Fa-f]{6})/); expect(match).not.toBeNull(); const bgColor = match[1].toUpperCase();"
+              }
             }
           ]
         },
         "dead_hallucinated": {
-          "score": 92,
+          "score": 95,
           "findings": [
             {
               "severity": "minor",
               "confidence": "high",
-              "description": "knip reports 1 dead item: \"serve\" binary in package.json is listed but never referenced in npm scripts or code. Tests are comprehensive with no unreachable code paths. No TODO/FIXME markers.",
+              "description": "knip reports 1 dead item: \"serve\" binary in package.json is listed but never referenced in npm scripts or code. Tests are comprehensive with no unreachable code paths. No TODO/FIXME markers. All imports used.",
               "evidence_ref": {
                 "type": "cycle_context",
                 "path": "$.code_review_report.code_quality_baseline.dead_code_items",
-                "quote": "knip output: {\"file\":\"package.json\",\"binaries\":[{\"name\":\"serve\"}]}"
+                "quote": "{\"file\":\"package.json\",\"binaries\":[{\"name\":\"serve\"}]}"
               },
-              "suggested_fix": "Remove \"serve\" from package.json if not needed, or add npm script that uses it"
+              "suggested_fix": "Remove \"serve\" from package.json or add npm script that uses it for local development"
             }
           ]
         },
         "tech_debt": {
-          "score": 90,
+          "score": 93,
           "findings": [
             {
               "severity": "informational",
               "confidence": "moderate",
-              "description": "Test files use ES6 imports (import/export) while card-renderer.js uses ES5 var declarations with \"use strict\". This inconsistency is intentional (matching game.js module pattern) but creates a stylistic split in the codebase. Not a blocker, but a minor technical inconsistency.",
-              "suggested_fix": "Consider documenting the var vs const/let convention in a CONTRIBUTING guide"
+              "description": "Helper functions (hexToRgb, relativeLuminance, contrastRatio) are duplicated across design-system.test.js. Could extract to shared test utilities. Not urgent since test code duplication has lower cost than production duplication. Consider if pattern repeats in future test files.",
+              "suggested_fix": "Extract WCAG contrast helpers to tests/test-utils.js if reused in future test files"
             }
           ]
         }
@@ -1235,11 +1230,11 @@
     "security_review": {
       "ran": false,
       "verdict": "SKIPPED",
-      "reason": "Frontend-only change per diff_scope. Carrying forward previous cycle result.",
-      "carried_forward_from_cycle": 0,
-      "notes": "This cycle added only test files (tests/design-system.test.js, tests/game-ui-layout.test.js) and no backend code. Style.css and card-renderer.js were analyzed in prior cycles. No new security concerns introduced."
+      "reason": "Frontend test-only change per diff_scope. No backend code modified.",
+      "carried_forward_from_cycle": 1,
+      "notes": "This cycle added only test files (tests/design-system.test.js with 26 tests, tests/game-ui-layout.test.js with 21 tests). No production code changed. Security review inherited from cycle 1 which found zero critical issues. Tests use safe file reading and parsing patterns."
     },
-    "evaluator_observations": "Cycle 1 visual-presentation review: Added 47 comprehensive tests (26 design-system + 21 game-ui-layout) verifying visual ACs. Tests use proper WCAG contrast calculation helpers, responsive layout verification, and CSS token parsing. Code quality remains excellent (score 92/100). One minor inconsistency: card-renderer.js:47 uses innerHTML = \"\" which contradicts prior cycle\"s \"textContent exclusively\" security claim (safe but inconsistent). One dead code item (serve binary). No degradation from prior cycle. All 289 tests pass. Ready for downstream evaluation gates."
+    "evaluator_observations": "Cycle 1 code review complete. Changed files: tests/design-system.test.js (344 lines, 26 tests) and tests/game-ui-layout.test.js (167 lines, 21 tests). Static analysis: ESLint 0 errors/0 warnings, duplication 0.77% (well under 5% threshold), 0 circular deps, 1 dead code item (serve binary), 0 files over 300 lines, 0 npm vulnerabilities. AI code audit: 94/100 weighted score. Architecture (95): excellent test separation. Consistency (95): AC-FA2-XX naming pattern. Robustness (92): comprehensive WCAG contrast tests, edge case coverage. Production risks (95): no production code changed. Security (98): safe file reading and parsing. Dead code (95): only serve binary flagged. Tech debt (93): minor test helper duplication, low priority. Zero critical findings. No degradation from prior cycle (first cycle for this milestone). Security review skipped (test-only change). All 289 tests pass in 2.29s. Ready for QA/Design/PO gates."
   },
   "product_walk": {
     "timestamp": "2026-05-04T17:20:00Z",
