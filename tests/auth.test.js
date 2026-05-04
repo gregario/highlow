@@ -9,8 +9,6 @@ const jsPath = resolve(__dirname, '..', 'game.js');
 function createDOM() {
   const html = readFileSync(htmlPath, 'utf-8');
   const dom = new JSDOM(html, { url: 'https://gregario.github.io/highlow/' });
-  const js = readFileSync(jsPath, 'utf-8');
-  dom.window.eval(js);
   return dom;
 }
 
