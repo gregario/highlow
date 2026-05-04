@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>High Low</title>
+  <meta name="description" content="A higher-or-lower card game. Guess whether the next card is higher or lower. Every detail is a decision.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="High Low">
+  <meta property="og:description" content="A higher-or-lower card game where every detail is a decision.">
+  <meta property="og:type" content="website">
+  <!-- og:image: capture a screenshot of the game in playing state with a face card visible -->
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- GAME CONTAINER: Single centered column, full viewport height -->
+  <main class="game" data-state="ready" role="main" aria-label="High Low card game">
+
+    <!-- TITLE: Quiet, small, always present -->
+    <header class="game-title">
+      <h1>High Low</h1>
+    </header>
+
+    <!-- CARD AREA: The centerpiece -->
+    <div class="card-area">
+      <!-- Card component renders here: face-up or face-down depending on state -->
+      <!-- See design/pass-3-visual-design.yaml for card rendering spec -->
+      <div class="card" aria-label="Playing card">
+        <div class="card-face">
+          <!-- Value, suit symbol, pips rendered by game.js -->
+        </div>
+        <div class="card-back">
+          <!-- Geometric CSS pattern -->
+        </div>
+      </div>
+    </div>
+
+    <!-- STREAK DISPLAY: Visible during play, prominent on game over -->
+    <div class="streak" aria-live="polite">
+      <!-- "5" during play, "12" on game over (larger) -->
+    </div>
+
+    <!-- CARDS REMAINING: Visible during play only -->
+    <div class="cards-remaining" aria-label="Cards remaining in deck">
+      <!-- "38 remaining" -->
+    </div>
+
+    <!-- ACTION BUTTONS: Higher/Lower during play, Play Again on game over -->
+    <div class="actions">
+      <button class="btn btn-higher" type="button">Higher</button>
+      <button class="btn btn-lower" type="button">Lower</button>
+      <!-- Play Again button injected by game.js on game-over state -->
+    </div>
+
+    <!-- BEST SCORE: Visible on game over only -->
+    <div class="best-score" aria-live="polite">
+      <!-- "Best: 7" and conditionally "New best!" -->
+    </div>
+
+    <!-- SCREEN READER LIVE REGION: Announces card reveals, results, state changes -->
+    <div class="sr-announcements" role="status" aria-live="polite" aria-atomic="true">
+      <!-- "Seven of Hearts. Correct. Streak: 5." -->
+    </div>
+
+  </main>
+
+  <!-- FOOTER: Minimal, quiet -->
+  <footer class="site-footer">
+    <span class="footer-title">High Low</span>
+    <a href="https://github.com/gregario/highlow" class="footer-github" aria-label="View source on GitHub">
+      <!-- GitHub icon: inline SVG, 16x16 -->
+    </a>
+  </footer>
+
+  <script src="game.js"></script>
+</body>
+</html>

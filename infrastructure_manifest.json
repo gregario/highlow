@@ -1,0 +1,40 @@
+{
+  "database": {
+    "type": "none",
+    "provider": null,
+    "client": null,
+    "reason": "No server-side state. Only persistence is localStorage for personal best score — entirely client-side."
+  },
+  "deploy": {
+    "target": "github-pages",
+    "staging_env": null,
+    "production_env": "gh-pages branch",
+    "reason": "Static SPA with zero backend requirements. GitHub Pages specified in original brief. Zero cost, zero config, permanent URL."
+  },
+  "auth": {
+    "strategy": "none",
+    "provider": null,
+    "reason": "Single-player anonymous game. No user accounts, no protected resources."
+  },
+  "framework": {
+    "type": "none",
+    "reason": "Vanilla HTML + CSS + JS. No bundler, no transpiler. The absence of a framework is a portfolio signal — clean source code, sub-100KB total weight. A framework scaffold would add complexity with zero user-facing benefit for a single-page game."
+  },
+  "font": {
+    "source": "google-fonts",
+    "loading": "font-display: swap",
+    "count": 1,
+    "reason": "Single quality sans-serif from Google Fonts. CDN-cached, swap prevents FOIT. Specific typeface to be determined by DESIGN discipline."
+  },
+  "data_sources": [],
+  "external_integrations": [],
+  "incompatibilities_resolved": [],
+  "depends_on_projects": [],
+  "factory_decisions": {
+    "file_structure": "Flat — index.html, style.css, game.js at root. No src/ directory, no module bundling.",
+    "version_control": "Git, gh-pages branch for deployment, main branch for source.",
+    "ci_cd": "None required — push to gh-pages branch triggers GitHub Pages rebuild automatically. No build step needed.",
+    "env_vars": "None — no secrets, no API keys, no configuration.",
+    "total_page_weight_budget": "< 100KB (HTML + CSS + JS + font)"
+  }
+}

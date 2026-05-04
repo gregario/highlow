@@ -1,0 +1,55 @@
+{
+  "project": "highlow",
+  "name": "highlow",
+  "current_state": "foundation",
+  "budget_cap_usd": 100,
+  "milestones": [],
+  "escalations": [],
+  "seedingProgress": {
+    "disciplines": [
+      {
+        "discipline": "brainstorming",
+        "status": "complete"
+      },
+      {
+        "discipline": "sizing",
+        "status": "complete"
+      },
+      {
+        "discipline": "taste",
+        "status": "complete"
+      },
+      {
+        "discipline": "competition",
+        "status": "complete"
+      },
+      {
+        "discipline": "spec",
+        "status": "complete"
+      },
+      {
+        "discipline": "infrastructure",
+        "status": "complete"
+      },
+      {
+        "discipline": "design",
+        "status": "complete"
+      },
+      {
+        "discipline": "legal-privacy",
+        "status": "complete"
+      },
+      {
+        "discipline": "marketing",
+        "status": "complete"
+      }
+    ],
+    "completedCount": 9,
+    "totalCount": 9,
+    "currentDiscipline": "marketing"
+  },
+  "createdAt": "2026-05-04T12:25:33.264Z",
+  "foundation": {
+    "status": "pending"
+  }
+}

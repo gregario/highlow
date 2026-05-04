@@ -1,0 +1,43 @@
+{
+  "session_id": "b2958b0c-3595-47e8-9c5c-3d8c5c7d0266",
+  "status": "complete",
+  "started_at": "2026-05-04T12:25:33.265Z",
+  "disciplines_prompted": [
+    "brainstorming",
+    "taste",
+    "competition",
+    "spec",
+    "infrastructure",
+    "design",
+    "legal-privacy",
+    "marketing"
+  ],
+  "last_activity": "2026-05-04T13:45:55.171Z",
+  "last_heartbeat_at": "2026-05-04T13:07:03.823Z",
+  "mode": "running_autonomous",
+  "disciplines_complete": [
+    "brainstorming",
+    "sizing",
+    "taste",
+    "competition",
+    "spec",
+    "infrastructure",
+    "design",
+    "legal-privacy",
+    "marketing"
+  ],
+  "current_discipline": "marketing",
+  "applicable_disciplines": [
+    "brainstorming",
+    "sizing",
+    "taste",
+    "competition",
+    "spec",
+    "infrastructure",
+    "design",
+    "legal-privacy",
+    "marketing"
+  ],
+  "project_size": "M",
+  "seeding_complete": true
+}

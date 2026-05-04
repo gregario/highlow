@@ -1,0 +1,17 @@
+{
+  "schema_version": "sizing-v1",
+  "project_size": "M",
+  "signals": {
+    "entity_count": 5,
+    "integration_count": 2,
+    "role_count": 4,
+    "journey_count": 3,
+    "screen_count": 7
+  },
+  "reasoning": "Classified M: driven by entity_count=5 (M), screen_count=7 (M). lower signals: integration_count=2 (S), role_count=4 (L), journey_count=3 (S).",
+  "signal_source": "keyword-fallback",
+  "classifier_version": "bridge-v1",
+  "classified_at": "2026-05-04T12:34:46.135Z",
+  "decided_by": "auto-classifier",
+  "human_override": null
+}

@@ -1,0 +1,199 @@
+ux_architecture:
+  pass: 1
+  product_type: "single-page stateful game"
+  note: "This product has one URL (/) with multiple game states rendered in-place. 'Screens' below are game states sharing a single viewport, not separate routes."
+
+  sitemap:
+    screens:
+      - path: "/"
+        name: "High Low"
+        state: "ready"
+        auth_required: false
+        navigation_group: "none"
+        description: "Initial state. Card face-down, title visible, game has not started."
+        connects_to: ["/:playing"]
+
+      - path: "/"
+        name: "High Low"
+        state: "playing"
+        auth_required: false
+        navigation_group: "none"
+        description: "Active game. Current card face-up, Higher/Lower buttons active, streak and cards-remaining visible."
+        connects_to: ["/:revealing"]
+
+      - path: "/"
+        name: "High Low"
+        state: "revealing"
+        auth_required: false
+        navigation_group: "none"
+        description: "Transient state (~400ms). Card mid-flip, buttons disabled. Resolves to playing, game-over, or playing (push)."
+        connects_to: ["/:playing", "/:game-over"]
+
+      - path: "/"
+        name: "High Low"
+        state: "game-over"
+        auth_required: false
+        navigation_group: "none"
+        description: "Game ended. Final streak prominent, best score shown, Play Again affordance replaces buttons."
+        connects_to: ["/:ready"]
+
+      - path: "/"
+        name: "High Low"
+        state: "deck-complete"
+        auth_required: false
+        navigation_group: "none"
+        description: "Perfect run (51/51). Variant of game-over with distinct celebration. Play Again available."
+        connects_to: ["/:ready"]
+
+    navigation:
+      primary: []
+      secondary: []
+      utility: []
+      auth_boundary: null
+      note: "No navigation. Single page, single URL. State transitions are the navigation model."
+
+    total_screens: 1
+    total_states: 5
+    total_navigation_links: 0
+
+  journey_maps:
+    - journey_name: "Play a complete game"
+      feature_area: "FA1-game-logic"
+      entry_point: "/"
+      total_clicks: 2
+      three_click_compliant: true
+      steps:
+        - step: 1
+          action: "Click Higher or Lower to start (first guess is also the start trigger)"
+          screen_from: "/:ready"
+          screen_to: "/:playing → /:revealing"
+          click_count: 1
+          note: "First card flips from back to face (ceremony), then reveals next card"
+        - step: 2
+          action: "Observe result (correct → continue, wrong → game over)"
+          screen_from: "/:revealing"
+          screen_to: "/:playing or /:game-over"
+          click_count: 0
+          note: "Automatic transition after flip animation completes"
+        - step: 3
+          action: "Continue guessing (repeat clicks) or see game over"
+          screen_from: "/:playing"
+          screen_to: "/:revealing → /:playing or /:game-over"
+          click_count: 1
+          note: "Each guess is one click. Game loop: click → flip → result → click"
+      decision_points:
+        - point: "Higher or Lower?"
+          frequency: "every round"
+          cognitive_load: "low — binary choice based on visible card value"
+      error_recovery:
+        - trigger: "None applicable — no network requests, no auth, no data loading"
+          recovery: "N/A"
+      success_outcome: "Player experiences the game loop — card flip, result feedback, streak building"
+      failure_outcome: "Wrong guess → game over with final streak shown. Not a failure state in UX terms — it's the natural conclusion."
+
+    - journey_name: "Beat personal best"
+      feature_area: "FA1-game-logic"
+      entry_point: "/:game-over"
+      total_clicks: 1
+      three_click_compliant: true
+      steps:
+        - step: 1
+          action: "Click Play Again"
+          screen_from: "/:game-over"
+          screen_to: "/:ready → /:playing"
+          click_count: 1
+          note: "Fresh deck shuffled, streak reset, ceremony plays, new game begins"
+        - step: 2
+          action: "Play until streak exceeds displayed Best score"
+          screen_from: "/:playing"
+          screen_to: "/:game-over"
+          click_count: "variable (N guesses)"
+        - step: 3
+          action: "Observe 'New best!' indicator on game over"
+          screen_from: "/:game-over"
+          screen_to: null
+          click_count: 0
+      decision_points: []
+      error_recovery:
+        - trigger: "localStorage unavailable"
+          recovery: "Game works normally, best score not persisted. No error shown. Graceful absence."
+      success_outcome: "Player sees 'New best!' indicator, best score updated in localStorage"
+      failure_outcome: "Player's streak doesn't exceed best — sees current best unchanged. Still a complete, non-broken experience."
+
+  three_click_violations: []
+
+  information_hierarchy:
+    - screen: "/ (ready state)"
+      primary:
+        element: "Card (face-down)"
+        justification: "The card is the entire product. It dominates the viewport to signal 'this is a card game' within 1 second."
+      secondary:
+        - element: "Higher / Lower buttons"
+          justification: "The only available action. Visible but subordinate to the card."
+      tertiary:
+        - element: "Game title"
+          justification: "Quiet type above the card. Orients but doesn't compete for attention."
+
+    - screen: "/ (playing state)"
+      primary:
+        element: "Current card (face-up)"
+        justification: "The decision input. Player must read the card value to decide. Largest, most prominent element."
+      secondary:
+        - element: "Higher / Lower buttons"
+          justification: "The available actions. Prominent but below the card."
+        - element: "Streak counter"
+          justification: "Progress indicator. Visible during play but not attention-dominant."
+      tertiary:
+        - element: "Cards remaining indicator"
+          justification: "Tension-building context. Smallest, most peripheral UI element. Adds subtle awareness without demanding attention."
+
+    - screen: "/ (game-over state)"
+      primary:
+        element: "Final streak count"
+        justification: "The result. What the player cares about most at this moment."
+      secondary:
+        - element: "Best score / 'New best!' indicator"
+          justification: "Context for the result — did you beat your record?"
+        - element: "Play Again affordance"
+          justification: "The only available action."
+      tertiary:
+        - element: "Card (with wrong-guess red tint, still visible)"
+          justification: "The card that ended the game. Context for the loss, not the focus."
+
+    - screen: "/ (deck-complete state)"
+      primary:
+        element: "Streak count (51) with celebration treatment"
+        justification: "The achievement. This is the rarest outcome and deserves primary focus."
+      secondary:
+        - element: "Play Again affordance"
+          justification: "The only action available."
+      tertiary: []
+
+  task_flows:
+    - task: "Start a new game"
+      type: "single-action"
+      steps:
+        - step: 1
+          screen: "/:ready or /:game-over"
+          action: "Click Higher, Lower, or Play Again"
+          success: "New deck shuffled, first-deal ceremony plays, game begins"
+          failure: "N/A — no failure mode for starting a game"
+      decision_points: []
+
+  pass_1_scores:
+    sitemap_completeness: 10
+    journey_efficiency: 10
+    hierarchy_clarity: 10
+    error_coverage: 9
+    task_flow_completeness: 10
+
+    minimum_threshold: 8
+    dimensions_below_threshold: []
+    notes:
+      - "Error coverage scored 9 not 10: the product has almost no error modes (no network, no auth, no data loading). The only 'error' path is localStorage unavailability, which is handled by graceful absence. A score of 9 reflects reality, not a gap."
+
+    pass_1_approved: true
+
+  pass_1_estimate:
+    human_team: "~1 day"
+    rouge_cycles: "~0.5 build cycles (architecture is trivial for a single-page game)"

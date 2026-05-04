@@ -1,0 +1,48 @@
+{
+  "product_name": "High Low",
+  "one_liner": "High Low — a higher-or-lower card game that demonstrates taste",
+  "persona": "Portfolio visitors (developers, recruiters, hiring managers) who assess craft within seconds of landing on a GitHub Pages link",
+  "problem": "Portfolios lack interactive artifacts that signal design judgment",
+  "infrastructure": {
+    "deployment_target": "github-pages",
+    "needs_database": false,
+    "needs_auth": false
+  },
+  "generated": true,
+  "generated_at": "2026-05-04T13:53:11.508Z",
+  "scope": {
+    "in": [
+      "CSS-rendered cards (no image assets)",
+      "Curated palette with warm neutrals + one accent",
+      "Single quality sans-serif typeface",
+      "Physical-feeling 3D card flip animation (~400ms ease-out)",
+      "Controlled micro-interactions (button press, correct/wrong feedback, round transitions, first-deal ceremony)",
+      "Streak counter with localStorage personal best",
+      "Cards-remaining tension indicator",
+      "Single-page with in-place state transitions",
+      "Mobile-first responsive layout",
+      "GitHub Pages static hosting"
+    ],
+    "out": [
+      "Sound/audio",
+      "Dark/light mode toggle",
+      "Sharing/social features",
+      "Haptic feedback",
+      "About/credits page",
+      "Multi-page routing",
+      "Backend/API",
+      "Global leaderboard",
+      "Tutorial/onboarding",
+      "Settings page"
+    ],
+    "deferred": [
+      "Sound design (v2)",
+      "Dark mode (v2)",
+      "Social sharing (v2)",
+      "Cabinet of curiosities portfolio (12-month vision)"
+    ]
+  },
+  "complexity_profile": {
+    "primary": "multi-route"
+  }
+}
