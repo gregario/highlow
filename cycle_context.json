@@ -7,6 +7,9 @@
     "story_id": "accessibility-edge-cases",
     "outcome": "pass",
     "files_changed": [
+      "index.html",
+      "style.css",
+      "game.js",
       "tests/accessibility-edge-cases.test.js"
     ],
     "tests_added": 65,
