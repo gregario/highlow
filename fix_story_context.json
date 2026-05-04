@@ -1,0 +1,18 @@
+{
+  "_type": "fix_story_context",
+  "_assembled_at": "2026-05-04T16:07:34.610Z",
+  "regressions": [
+    {},
+    {},
+    {}
+  ],
+  "root_cause_analysis": [],
+  "retry_history": {},
+  "do_not_repeat": [],
+  "relevant_decisions": [],
+  "affected_files": [],
+  "active_spec": {},
+  "deployment_url": null,
+  "milestone": "game-logic",
+  "story": null
+}
