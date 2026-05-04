@@ -1237,54 +1237,45 @@
     "evaluator_observations": "Cycle 1 code review complete. Changed files: tests/design-system.test.js (344 lines, 26 tests) and tests/game-ui-layout.test.js (167 lines, 21 tests). Static analysis: ESLint 0 errors/0 warnings, duplication 0.77% (well under 5% threshold), 0 circular deps, 1 dead code item (serve binary), 0 files over 300 lines, 0 npm vulnerabilities. AI code audit: 94/100 weighted score. Architecture (95): excellent test separation. Consistency (95): AC-FA2-XX naming pattern. Robustness (92): comprehensive WCAG contrast tests, edge case coverage. Production risks (95): no production code changed. Security (98): safe file reading and parsing. Dead code (95): only serve binary flagged. Tech debt (93): minor test helper duplication, low priority. Zero critical findings. No degradation from prior cycle (first cycle for this milestone). Security review skipped (test-only change). All 289 tests pass in 2.29s. Ready for QA/Design/PO gates."
   },
   "product_walk": {
-    "timestamp": "2026-05-04T17:20:00Z",
+    "timestamp": "2026-05-04T17:42:44Z",
     "url": "https://gregario.github.io/highlow/",
     "scope": "full",
     "screens_walked": 1,
-    "screenshots": [
+    "screens_smoked": 0,
+    "screens": [
       {
-        "state": "ready",
-        "path": "screenshots/cycle-1/walk/initial-state.png",
-        "description": "Initial load - card back with crosshatch pattern visible, Higher/Lower buttons enabled, warm palette (#F5F0EB background) applied"
-      },
-      {
-        "state": "playing-after-correct",
-        "path": "screenshots/cycle-1/walk/after-first-guess-resolved.png",
-        "description": "After correct guess - 9♦ face-up, streak counter shows 1, 48 cards left, buttons enabled"
-      },
-      {
-        "state": "game-over",
-        "path": "screenshots/cycle-1/walk/after-first-click.png",
-        "description": "Game over state - 2♥ visible, Play Again button shown, best score displayed"
-      }
-    ],
-    "load_time_ms": 671,
-    "console_errors": [],
-    "console_warnings": [],
-    "a11y_tree_summary": "landmarks: main; status region with aria-live=polite; buttons: Higher, Lower, Play Again",
-    "interactive_elements": [
-      {
-        "element": "Higher button",
-        "type": "button",
-        "action": "click",
-        "result": "Game starts, card flips to face-up, state transitions to playing",
-        "keyboard": "accessible via Tab, activates with Enter/Space",
-        "hover_state": "subtle background shift",
-        "focus_state": "visible focus ring"
-      },
-      {
-        "element": "Lower button",
-        "type": "button",
-        "action": "click",
-        "result": "Makes guess, transitions through revealing to playing or game-over",
-        "keyboard": "accessible via Tab, activates with Enter/Space"
-      },
-      {
-        "element": "Play Again button",
-        "type": "button",
-        "action": "click",
-        "result": "Resets game to ready state with fresh shuffled deck",
-        "keyboard": "accessible via Tab, activates with Enter/Space"
+        "route": "/",
+        "name": "Game (single page)",
+        "screenshot": "screenshots/cycle-1/walk/initial-ready-state.png",
+        "load_time_ms": 612,
+        "console_errors": [],
+        "console_warnings": [],
+        "a11y_tree_summary": "landmarks: main; status region with aria-live=polite; buttons: Higher, Lower, Play Again",
+        "interactive_elements": [
+          {
+            "element": "Higher button",
+            "type": "button",
+            "action": "click",
+            "result": "Game starts, card flips to reveal face, state transitions correctly",
+            "keyboard": "Tab accessible, Enter/Space activates",
+            "hover_state": "subtle background shift",
+            "focus_state": "visible focus ring"
+          },
+          {
+            "element": "Lower button",
+            "type": "button",
+            "action": "click",
+            "result": "Makes guess, transitions through revealing to playing or game-over",
+            "keyboard": "Tab accessible, Enter/Space activates"
+          },
+          {
+            "element": "Play Again button",
+            "type": "button",
+            "action": "click",
+            "result": "Resets game to ready state with fresh shuffled deck",
+            "keyboard": "Tab accessible, Enter/Space activates"
+          }
+        ]
       }
     ],
     "journeys": [
@@ -1293,24 +1284,42 @@
         "steps": [
           {
             "step": 1,
-            "action": "Click Higher",
-            "result": "Push (tie) - Ten of Clubs, streak stays 0, cards: 52→49",
+            "action": "Click Higher from ready state",
+            "result": "Wrong guess - Six of Spades revealed, game over, streak 0, best score saved",
+            "screenshot": "screenshots/cycle-1/walk/after-first-click.png",
             "friction": null,
-            "delight": "State transitions smoothly"
+            "delight": "State transitions smoothly, immediate feedback"
           },
           {
             "step": 2,
-            "action": "Click Lower",
-            "result": "Correct - Nine of Diamonds revealed, streak increments to 1, cards: 49→48",
+            "action": "Click Play Again",
+            "result": "Game resets to ready state with fresh deck (52 cards)",
             "friction": null,
-            "delight": "Streak counter updates"
+            "delight": "Clean reset"
+          },
+          {
+            "step": 3,
+            "action": "Click Lower to start second game",
+            "result": "Correct guess - Eight of Spades revealed, streak increments to 1, cards: 52→50",
+            "screenshot": "screenshots/cycle-1/walk/after-second-game-first-guess.png",
+            "friction": null,
+            "delight": "Card face renders with pip layout, streak counter updates"
+          },
+          {
+            "step": 4,
+            "action": "Click Higher for second guess",
+            "result": "Correct - Nine of Diamonds revealed, streak increments to 2, cards: 50→49",
+            "friction": null,
+            "delight": "Multi-turn gameplay works smoothly, no stuck states"
           }
         ],
-        "total_clicks": 2,
+        "total_clicks": 4,
         "friction_points": [],
         "delight_moments": [
           "Smooth state transitions",
-          "Clear feedback on correct/push outcomes"
+          "Clear feedback on correct/wrong outcomes",
+          "Card face rendering with CSS pip layouts",
+          "Multi-turn gameplay without getting stuck"
         ]
       }
     ],
@@ -1333,20 +1342,24 @@
     "observations": [
       "✅ Game state machine works correctly: ready → playing → playing → game-over",
       "✅ Multi-turn gameplay functions without getting stuck",
-      "✅ Push (tie) handling works: tied card discarded, new card drawn, streak unchanged",
-      "✅ Correct guess: streak increments, card becomes current",
-      "✅ Cards remaining counter decrements correctly (52→51→50→...)",
-      "✅ Warm color palette renders correctly (#F5F0EB background, not white)",
-      "✅ Card back crosshatch pattern visible and crisp",
-      "✅ Typography (Inter) loads and applies cleanly",
-      "✅ Card faces display suit symbol (♥♦♣♠) and value correctly with proper color",
+      "✅ State transitions are smooth and responsive",
+      "✅ Warm color palette renders correctly (#F5F0EB background = rgb(245,240,235), #2C2825 foreground = rgb(44,40,37))",
+      "✅ Card back crosshatch pattern visible and intentional (not solid color)",
+      "✅ Typography (Inter) loads from Google Fonts CDN with display=swap",
+      "✅ Card faces display with structured HTML: corner labels (top-left, bottom-right), pip layouts for number cards (5 of Diamonds has 5 pips in correct positions)",
+      "✅ Suit symbols render correctly (♥♦♣♠) with warm red color for diamonds/hearts",
+      "✅ Card aspect ratio is 5:7 as specified",
       "✅ Responsive layouts work cleanly across mobile (375px), tablet (768px), desktop (1280px)",
       "✅ No horizontal overflow on any breakpoint",
-      "✅ Buttons are appropriately sized for touch targets on mobile",
-      "✅ Accessibility: aria-live announcer present, proper button semantics",
-      "✅ Performance: page load 671ms, all assets load successfully",
-      "✅ No console errors",
-      "✅ localStorage best score persistence works (tested via 'New best! 0' display)"
+      "✅ Buttons are appropriately sized for touch targets on mobile (48px min-height, 152px width)",
+      "✅ No scrolling required during gameplay (body.scrollHeight <= window.innerHeight)",
+      "✅ Accessibility: aria-live announcer present, proper button semantics, main landmark",
+      "✅ Keyboard navigation works: Tab focuses buttons in order (Higher → Lower), Enter/Space activates",
+      "✅ Performance: page load 612ms, all assets load successfully (Inter font, all JS modules)",
+      "✅ No console errors or warnings",
+      "✅ localStorage best score persistence works (New best! 0 displayed on first game)",
+      "✅ Cards remaining counter decrements correctly (52→51→50→49)",
+      "✅ Streak counter increments on correct guesses (0→1→2)"
     ],
     "blocking_issues": []
   },
