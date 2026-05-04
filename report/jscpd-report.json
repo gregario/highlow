@@ -1,0 +1,277 @@
+{
+  "statistics": {
+    "detectionDate": "2026-05-04T17:40:34.865Z",
+    "formats": {
+      "javascript": {
+        "sources": {
+          "vitest.config.js": {
+            "lines": 7,
+            "tokens": 50,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "game.js": {
+            "lines": 201,
+            "tokens": 1750,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 38,
+            "duplicatedTokens": 450,
+            "percentage": 18.91,
+            "percentageTokens": 25.71,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "game-engine.js": {
+            "lines": 113,
+            "tokens": 982,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "deck.js": {
+            "lines": 66,
+            "tokens": 876,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "card-renderer.js": {
+            "lines": 74,
+            "tokens": 1266,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 461,
+          "tokens": 4924,
+          "sources": 5,
+          "clones": 1,
+          "duplicatedLines": 19,
+          "duplicatedTokens": 225,
+          "percentage": 4.12,
+          "percentageTokens": 4.57,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "json": {
+        "sources": {
+          "task_ledger.json": {
+            "lines": 902,
+            "tokens": 5061,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "story_context.json": {
+            "lines": 67,
+            "tokens": 421,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "seeding-state.json": {
+            "lines": 27,
+            "tokens": 119,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "package.json": {
+            "lines": 14,
+            "tokens": 82,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "milestone_context.json": {
+            "lines": 508,
+            "tokens": 2613,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "fix_story_context.json": {
+            "lines": 17,
+            "tokens": 108,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 1535,
+          "tokens": 8404,
+          "sources": 6,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "css": {
+        "sources": {
+          "style.css": {
+            "lines": 418,
+            "tokens": 2322,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 418,
+          "tokens": 2322,
+          "sources": 1,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "markup": {
+        "sources": {
+          "index.html": {
+            "lines": 45,
+            "tokens": 500,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 45,
+          "tokens": 500,
+          "sources": 1,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 2459,
+      "tokens": 16150,
+      "sources": 13,
+      "clones": 1,
+      "duplicatedLines": 19,
+      "duplicatedTokens": 225,
+      "percentage": 0.77,
+      "percentageTokens": 1.39,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "javascript",
+      "lines": 20,
+      "fragment": ");\n\n        setTimeout(function () {\n          var prevEngine = engine;\n          engine = engine.resolveWith(engine);\n          render();\n\n          if (engine.lastResult === 'correct') {\n            announce('Correct! ' + prevEngine.nextCard.displayName + '. Streak: ' + engine.streak + '. Higher or Lower?');\n          } else if (engine.lastResult === 'wrong') {\n            announce('Wrong. ' + prevEngine.nextCard.displayName + '. Game over. Final streak: ' + engine.streak + '.');\n          } else if (engine.lastResult === 'push') {\n            announce('Push! ' + prevEngine.nextCard.displayName + '. Streak stays at ' + engine.streak + '. Higher or Lower?');\n          }\n\n          if (engine.state === 'deck-complete') {\n            announce('Incredible! You guessed all 51 cards! Streak: 51.');\n          }\n        }, 400);\n      }, 50",
+      "tokens": 0,
+      "firstFile": {
+        "name": "game.js",
+        "start": 160,
+        "end": 179,
+        "startLoc": {
+          "line": 160,
+          "column": 2,
+          "position": 1352
+        },
+        "endLoc": {
+          "line": 179,
+          "column": 3,
+          "position": 1577
+        }
+      },
+      "secondFile": {
+        "name": "game.js",
+        "start": 127,
+        "end": 146,
+        "startLoc": {
+          "line": 127,
+          "column": 9,
+          "position": 1038
+        },
+        "endLoc": {
+          "line": 146,
+          "column": 4,
+          "position": 1263
+        }
+      }
+    }
+  ]
+}

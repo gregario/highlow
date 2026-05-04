@@ -1,45 +1,26 @@
 {
   "_type": "milestone_context",
-  "_assembled_at": "2026-05-04T16:17:39.211Z",
+  "_assembled_at": "2026-05-04T17:35:35.940Z",
   "milestone": {
-    "name": "game-logic",
+    "name": "visual-presentation",
     "stories_completed": [
       {
-        "id": "deck-and-card-model",
-        "name": "Deck & Card Model",
-        "files_changed": [
-          "deck.js",
-          "tests/deck.test.js",
-          "tests/fixtures.js"
-        ],
+        "id": "css-card-rendering",
+        "name": "CSS Card Rendering",
+        "files_changed": [],
         "env_limitations": []
       },
       {
-        "id": "game-state-machine",
-        "name": "Game State Machine",
-        "files_changed": [
-          "game-engine.js",
-          "game.js",
-          "index.html",
-          "tests/game-engine.test.js",
-          "tests/game-state.test.js",
-          "tests/auth.test.js"
-        ],
+        "id": "design-system",
+        "name": "Design System — Palette, Typography, Spacing",
+        "files_changed": [],
         "env_limitations": []
       },
       {
-        "id": "higher-lower-comparison",
-        "name": "Higher-Lower Comparison & Streak",
+        "id": "game-ui-layout",
+        "name": "Game UI Layout & Responsive Behavior",
         "files_changed": [
-          "tests/comparison-streak.test.js"
-        ],
-        "env_limitations": []
-      },
-      {
-        "id": "score-persistence",
-        "name": "Score Persistence & Best Tracking",
-        "files_changed": [
-          "tests/score-persistence.test.js"
+          "tests/game-ui-layout.test.js"
         ],
         "env_limitations": []
       }
@@ -47,7 +28,7 @@
     "stories_blocked": [],
     "stories_skipped": []
   },
-  "deployment_url": null,
+  "deployment_url": "https://gregario.github.io/highlow/",
   "diff_scope": {
     "frontend": true,
     "backend": false,
@@ -387,6 +368,74 @@
       "affects": [
         "tests/score-persistence.test.js"
       ]
+    },
+    {
+      "decision": "Search Before Building audit for css-card-rendering story",
+      "context": "Pre-implementation code reuse analysis for css-card-rendering story (cycle 1, visual-presentation milestone)",
+      "alternatives_considered": [],
+      "rationale": "Found: 1 BUILD (card-renderer.js — new module for structured HTML card face rendering with pip layouts, corner labels, face card typography), 1 EXTEND (game.js — replaced inline renderCard with import of renderCardFace from card-renderer.js), 2 REUSE (AC-FA2-04 card back pattern already in style.css, AC-FA2-05 aspect ratio already defined). Also extended style.css with card face CSS (corners, pip grid, value/suit styling, suit color via data-suit-color attribute). Updated game-flow-integration.test.js to include card-renderer functions in JSDOM combined script.",
+      "confidence": "high",
+      "affects": [
+        "card-renderer.js",
+        "game.js",
+        "style.css",
+        "tests/card-rendering.test.js",
+        "tests/game-flow-integration.test.js"
+      ]
+    },
+    {
+      "decision": "Separate card-renderer.js module for card face rendering",
+      "context": "Card face rendering needs structured HTML (corner labels, pip grids, face card typography) — too complex for inline in game.js, needs to be testable independently.",
+      "alternatives_considered": [
+        "Inline rendering in game.js — rejected: would make game.js too large, mix rendering concerns with game logic, harder to test",
+        "Template literals in HTML — rejected: static HTML can't handle dynamic card values and pip counts"
+      ],
+      "rationale": "card-renderer.js exports renderCardFace(el, card) which creates structured DOM: corner labels (top-left, bottom-right), pip grid for number cards (2-10), card-value + card-suit for face cards (J/Q/K/A), large center-suit for Aces. Sets data-suit-color attribute for CSS color targeting. Uses innerHTML='' for cleanup (safe — no user input). Follows same ES module pattern as deck.js and game-engine.js.",
+      "confidence": "high",
+      "affects": [
+        "card-renderer.js",
+        "game.js",
+        "style.css"
+      ]
+    },
+    {
+      "decision": "Pip layout uses CSS Grid with predefined position map",
+      "context": "Number cards (2-10) need traditional playing card pip arrangements. Pips must be HTML elements positioned to match standard card layouts.",
+      "alternatives_considered": [
+        "Flexbox layout — rejected: traditional pip arrangements (e.g., 7 of hearts with center pip) don't map to linear flex layouts",
+        "Absolute positioning — rejected: harder to maintain, doesn't scale with card size",
+        "SVG — rejected: spec requires HTML/CSS only, no images"
+      ],
+      "rationale": "PIP_POSITIONS maps card values 2-10 to [col, row] grid positions. CSS Grid (3 columns x 9 rows) handles all layouts. Bottom-half pips get .pip-inverted class for 180deg rotation (traditional card design). Grid scales naturally with card size. Each pip is a <span class='pip'> containing the suit symbol character.",
+      "confidence": "high",
+      "affects": [
+        "card-renderer.js",
+        "style.css"
+      ]
+    },
+    {
+      "decision": "Suit color driven by data-suit-color attribute on card-front",
+      "context": "Card faces need warm red for hearts/diamonds and near-black for clubs/spades. Need a clean way to apply color from JS.",
+      "alternatives_considered": [
+        "Inline style.color only — rejected: works but doesn't allow CSS-based targeting for future enhancements",
+        "CSS class toggle — rejected: data attribute is more semantic and matches existing data-state pattern"
+      ],
+      "rationale": "renderCardFace sets data-suit-color='red' or 'dark' on the card-front element. CSS rules .card-front[data-suit-color='red'] { color: var(--color-suit-red) } target suit color via tokens. Also sets inline style.color as a backup. Matches the data-state pattern already used for game state. Tests verify the attribute is set correctly for all four suits.",
+      "confidence": "high",
+      "affects": [
+        "card-renderer.js",
+        "style.css"
+      ]
+    },
+    {
+      "decision": "Search Before Building audit for game-ui-layout story",
+      "context": "Pre-implementation code reuse analysis for game-ui-layout story (visual-presentation milestone)",
+      "alternatives_considered": [],
+      "rationale": "Found: 0 BUILD, 0 EXTEND, 5 REUSE, 0 REFACTOR-THEN-BUILD tasks. All 5 ACs (AC-FA2-13 through AC-FA2-17) are fully satisfied by existing foundation CSS. AC-FA2-13 (single-column layout): .game has display:flex, flex-direction:column, align-items:center. AC-FA2-14 (mobile-first 375px): card min-width 140px, btn min-height 48px, card width uses min(200px, 50vw), padding 48px 24px. AC-FA2-15 (desktop max-width): .game has max-width:480px, margin:0 auto. AC-FA2-16 (equal buttons): .btn-higher/.btn-lower use flex:1 in flex container with 16px gap. AC-FA2-17 (no scroll): 100dvh with justify-content:center, compact padding. Added 21 verification tests, all pass immediately.",
+      "confidence": "high",
+      "affects": [
+        "tests/game-ui-layout.test.js"
+      ]
     }
   ],
   "factory_questions": [
@@ -437,9 +486,16 @@
     {
       "name": "Foundation",
       "status": "complete",
-      "stories_done": 3,
+      "stories_done": 5,
       "stories_blocked": 0,
       "stories_total": 5
+    },
+    {
+      "name": "game-logic",
+      "status": "complete",
+      "stories_done": 4,
+      "stories_blocked": 0,
+      "stories_total": 4
     }
   ],
   "infrastructure": {

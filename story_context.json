@@ -1,14 +1,17 @@
 {
   "_type": "story_context",
-  "_assembled_at": "2026-05-04T16:24:31.985Z",
+  "_assembled_at": "2026-05-04T16:44:01.875Z",
   "story": {
     "spec": {
-      "id": "css-card-rendering",
-      "name": "CSS Card Rendering"
+      "id": "game-ui-layout",
+      "name": "Game UI Layout & Responsive Behavior"
     },
-    "id": "css-card-rendering",
-    "name": "CSS Card Rendering",
-    "depends_on": [],
+    "id": "game-ui-layout",
+    "name": "Game UI Layout & Responsive Behavior",
+    "depends_on": [
+      "css-card-rendering",
+      "design-system"
+    ],
     "affected_entities": [],
     "affected_screens": [],
     "fix_memory": [],
@@ -25,18 +28,25 @@
       "db": null
     }
   },
-  "related_stories": [],
-  "milestone_learnings": [],
-  "fix_patterns": {},
-  "shipped_insights": [
+  "related_stories": [
     {
-      "milestone": "game-logic",
-      "completed_at": "2026-05-04T16:24:01.760Z",
-      "story_count": 4,
-      "retry_count": 0,
-      "patterns_discovered": []
+      "id": "css-card-rendering",
+      "status": "done",
+      "files_changed": [],
+      "env_limitations": [],
+      "issues_encountered": []
+    },
+    {
+      "id": "design-system",
+      "status": "done",
+      "files_changed": [],
+      "env_limitations": [],
+      "issues_encountered": []
     }
   ],
+  "milestone_learnings": [],
+  "fix_patterns": {},
+  "shipped_insights": [],
   "vision_summary": "undefined: undefined. Target: unknown. Deploy: unknown.",
   "product_standard": {},
   "library_heuristics": [],
@@ -52,22 +62,7 @@
       "integration-escalation": false
     }
   },
-  "relevant_decisions": [
-    {
-      "decision": "Card back uses CSS repeating-linear-gradient crosshatch pattern",
-      "context": "Design pass-3 specifies 'repeating diagonal lines or crosshatch using repeating-linear-gradient' with base #3D3632 and accent rgba(245, 240, 235, 0.08).",
-      "alternatives_considered": [
-        "SVG pattern — rejected: adds asset, more complex",
-        "Solid color — rejected: design spec says 'not a solid color', must register as intentional"
-      ],
-      "rationale": "Pure CSS, zero file weight, matches spec exactly. Two overlapping 45deg/-45deg repeating gradients at 8px spacing with 1px accent lines.",
-      "confidence": "high",
-      "affects": [
-        "style.css",
-        "FA2-css-card-rendering"
-      ]
-    }
-  ],
+  "relevant_decisions": [],
   "relevant_questions": [],
   "relevant_divergences": []
 }

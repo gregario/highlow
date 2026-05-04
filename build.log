@@ -71,3 +71,7 @@ Path must be within: /private/tmp, /Users/gregario/Projects/ClaudeCode/The-Rouge
 [screenshot] Browse command failed: screenshot /Users/gregario/.rouge/projects/highlow/screenshots/loop-0/home.png — Command failed: /Users/gregario/.claude/skills/gstack/browse/dist/browse screenshot /Users/gregario/
 [screenshot]   ✗ home.png failed
 [screenshot] Captured 0/1 screenshots
+[2026-05-04T17:20:46Z] [rouge-loop] starting pid=82933 filter=highlow node=v25.6.1 cwd=/Users/gregario/Projects/ClaudeCode/The-Rouge
+[2026-05-04T17:20:46Z] [deploy] ❌ Deploy refused: highlow has no vision.json.infrastructure.deployment_target declared. Set it to one of: vercel, cloudflare, cloudflare-workers, docker-compose, docker, github-pages, gh-pages. Rouge will not guess a deploy target — see #96.
+[2026-05-04T17:21:16Z] [deploy] ❌ Deploy refused: highlow has no vision.json.infrastructure.deployment_target declared. Set it to one of: vercel, cloudflare, cloudflare-workers, docker-compose, docker, github-pages, gh-pages. Rouge will not guess a deploy target — see #96.
+[2026-05-04T17:21:46Z] [deploy] ❌ Deploy refused: highlow has no vision.json.infrastructure.deployment_target declared. Set it to one of: vercel, cloudflare, cloudflare-workers, docker-compose, docker, github-pages, gh-pages. Rouge will not guess a deploy target — see #96.

@@ -1,0 +1,28 @@
+{
+  "session_id": null,
+  "status": "complete",
+  "seeding_complete": true,
+  "disciplines_complete": [
+    "brainstorming",
+    "sizing",
+    "taste",
+    "competition",
+    "spec",
+    "infrastructure",
+    "design",
+    "legal-privacy",
+    "marketing"
+  ],
+  "applicable_disciplines": [
+    "brainstorming",
+    "sizing",
+    "taste",
+    "competition",
+    "spec",
+    "infrastructure",
+    "design",
+    "legal-privacy",
+    "marketing"
+  ],
+  "project_size": "M"
+}
