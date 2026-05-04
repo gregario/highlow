@@ -1,0 +1,1098 @@
+{
+  "project": "highlow",
+  "name": "highlow",
+  "current_state": "analyzing",
+  "budget_cap_usd": 100,
+  "milestones": [
+    {
+      "name": "Foundation",
+      "status": "complete",
+      "stories": [
+        {
+          "id": "f-scaffold",
+          "name": "Project scaffold",
+          "acceptance_criteria": [
+            "Framework initialized with correct config",
+            "All dependencies installed",
+            "Dev server starts without errors",
+            "Production build succeeds"
+          ],
+          "depends_on": [],
+          "status": "done",
+          "foundation": true,
+          "description": "Project scaffold",
+          "feature_area": "foundation",
+          "affected_entities": [],
+          "affected_screens": [],
+          "po_checks": [
+            "Framework initialized with correct config",
+            "All dependencies installed",
+            "Dev server starts without errors",
+            "Production build succeeds"
+          ],
+          "env_limitations": [
+            "git push and gh CLI commands blocked by session permission system. Deploy to gh-pages cannot complete until push permissions are granted or repo is pushed manually."
+          ],
+          "completed_at": "2026-05-04T14:31:46.879Z",
+          "files_changed": [
+            ".gitignore",
+            ".nojekyll",
+            "package.json",
+            "vitest.config.js",
+            "index.html",
+            "style.css",
+            "game.js",
+            "tests/shell.test.js",
+            "tests/tokens.test.js",
+            "tests/fixtures.js",
+            "tests/fixtures.test.js",
+            "tests/scaffold.test.js"
+          ]
+        },
+        {
+          "id": "f-auth",
+          "name": "Auth flows (none)",
+          "acceptance_criteria": [
+            "Registration creates user and returns session",
+            "Login authenticates and returns session",
+            "Logout destroys session",
+            "Protected routes reject unauthenticated requests",
+            "Session persistence works across page refresh"
+          ],
+          "depends_on": [
+            "f-scaffold"
+          ],
+          "status": "done",
+          "foundation": true,
+          "description": "Auth flows (none)",
+          "feature_area": "foundation",
+          "affected_entities": [],
+          "affected_screens": [],
+          "po_checks": [
+            "Registration creates user and returns session",
+            "Login authenticates and returns session",
+            "Logout destroys session",
+            "Protected routes reject unauthenticated requests",
+            "Session persistence works across page refresh"
+          ],
+          "env_limitations": [],
+          "completed_at": "2026-05-04T14:35:34.827Z",
+          "files_changed": [
+            "tests/auth.test.js"
+          ]
+        },
+        {
+          "id": "f-ui-shell",
+          "name": "App shell + navigation",
+          "acceptance_criteria": [
+            "App shell renders without errors",
+            "Navigation includes links for all feature areas",
+            "Theme tokens applied consistently",
+            "Error boundaries catch and display errors",
+            "Loading states exist for async operations"
+          ],
+          "depends_on": [
+            "f-scaffold"
+          ],
+          "status": "done",
+          "foundation": true,
+          "description": "App shell + navigation",
+          "feature_area": "foundation",
+          "affected_entities": [],
+          "affected_screens": [],
+          "po_checks": [
+            "App shell renders without errors",
+            "Navigation includes links for all feature areas",
+            "Theme tokens applied consistently",
+            "Error boundaries catch and display errors",
+            "Loading states exist for async operations"
+          ],
+          "env_limitations": [],
+          "completed_at": "2026-05-04T14:39:27.758Z",
+          "files_changed": [
+            "index.html",
+            "style.css",
+            "game.js",
+            "tests/shell.test.js",
+            "tests/tokens.test.js"
+          ]
+        },
+        {
+          "id": "f-fixtures",
+          "name": "Test fixtures + seed data",
+          "acceptance_criteria": [
+            "Seed data for every entity in schema",
+            "Data is realistic (domain-appropriate names, values, dates)",
+            "Data generators produce consistent output",
+            "Fixtures importable by feature tests"
+          ],
+          "depends_on": [
+            "f-database"
+          ],
+          "status": "pending",
+          "foundation": true,
+          "description": "Test fixtures + seed data",
+          "feature_area": "foundation",
+          "affected_entities": [],
+          "affected_screens": [],
+          "po_checks": [
+            "Seed data for every entity in schema",
+            "Data is realistic (domain-appropriate names, values, dates)",
+            "Data generators produce consistent output",
+            "Fixtures importable by feature tests"
+          ],
+          "env_limitations": []
+        },
+        {
+          "id": "f-deploy",
+          "name": "Staging deploy (github-pages)",
+          "acceptance_criteria": [
+            "Deploy to staging succeeds",
+            "Staging URL accessible",
+            "Health check endpoint returns 200 (or index.html exists for static)",
+            "Environment variables documented"
+          ],
+          "depends_on": [
+            "f-scaffold",
+            "f-auth",
+            "f-ui-shell",
+            "f-fixtures"
+          ],
+          "status": "pending",
+          "foundation": true,
+          "description": "Staging deploy (github-pages)",
+          "feature_area": "foundation",
+          "affected_entities": [],
+          "affected_screens": [],
+          "po_checks": [
+            "Deploy to staging succeeds",
+            "Staging URL accessible",
+            "Health check endpoint returns 200 (or index.html exists for static)",
+            "Environment variables documented"
+          ],
+          "env_limitations": []
+        }
+      ]
+    },
+    {
+      "name": "game-logic",
+      "status": "in-progress",
+      "stories": [
+        {
+          "id": "deck-and-card-model",
+          "name": "Deck & Card Model",
+          "feature_area": "FA1",
+          "status": "done",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA1-01",
+              "name": "Standard 52-card deck creation",
+              "given": "The game initializes a new round",
+              "when": "A new deck is created",
+              "then": "The deck contains exactly 52 cards: 4 suits (hearts, diamonds, clubs, spades) x 13 values (A=1, 2-10, J=11, Q=12, K=13)",
+              "measurement": "Unit test: create deck, assert length === 52, assert all 52 unique suit+value combinations present"
+            },
+            {
+              "id": "AC-FA1-02",
+              "name": "Deck shuffle randomness",
+              "given": "A new deck is created",
+              "when": "The deck is shuffled",
+              "then": "The card order is randomized using Fisher-Yates shuffle. Two consecutive shuffles produce different orderings (with overwhelming probability)",
+              "measurement": "Unit test: shuffle twice, assert orderings differ. Statistical test: shuffle 1000 times, verify first-card distribution is approximately uniform across all 52 values"
+            },
+            {
+              "id": "AC-FA1-03",
+              "name": "Card draw depletes deck",
+              "given": "A shuffled deck with N cards remaining",
+              "when": "A card is drawn",
+              "then": "The drawn card is removed from the deck. Deck size decreases by 1. The same card cannot be drawn again in this game session",
+              "measurement": "Unit test: draw all 52 cards, assert no duplicates, assert deck is empty after 52 draws"
+            },
+            {
+              "id": "AC-FA1-04",
+              "name": "Card value representation",
+              "given": "Any card in the deck",
+              "when": "Its value is accessed",
+              "then": "The card has a numeric value (1-13), a display label (A, 2-10, J, Q, K), and a suit (hearts, diamonds, clubs, spades). Suit has both a name and a symbol (♥, ♦, ♣, ♠)",
+              "measurement": "Unit test: for each of the 52 cards, assert value is integer 1-13, label matches value, suit has name and symbol"
+            }
+          ],
+          "depends_on": [],
+          "po_checks": [
+            "Does the deck creation feel instantaneous with no visible delay?",
+            "If you play 10 games in a row, do the starting cards feel varied (not always the same card)?"
+          ],
+          "completed_at": "2026-05-04T14:48:36.415Z",
+          "files_changed": [
+            "deck.js",
+            "tests/deck.test.js",
+            "tests/fixtures.js"
+          ],
+          "env_limitations": []
+        },
+        {
+          "id": "game-state-machine",
+          "name": "Game State Machine",
+          "feature_area": "FA1",
+          "status": "done",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA1-05",
+              "name": "Initial state is Ready",
+              "given": "The page loads for the first time or after a completed game",
+              "when": "The app initializes",
+              "then": "The game state is 'ready'. One card from the deck is designated as the initial face-down card. Higher and Lower buttons are visible. No streak counter is shown (or shows 0).",
+              "measurement": "DOM check: verify state attribute or class is 'ready', verify one card element exists, verify both buttons exist and are enabled"
+            },
+            {
+              "id": "AC-FA1-06",
+              "name": "Ready to Playing transition",
+              "given": "Game state is 'ready' and a card is face-down",
+              "when": "The player clicks either Higher or Lower (or a Deal/Start affordance)",
+              "then": "Game state transitions to 'playing'. The initial card flips to face-up. The player's first guess is registered. The next card from the deck is drawn for comparison.",
+              "measurement": "DOM check: state changes to 'playing', card element shows face-up content (value + suit visible), streak counter becomes visible"
+            },
+            {
+              "id": "AC-FA1-07",
+              "name": "Playing to Revealing transition",
+              "given": "Game state is 'playing' and a current card is face-up",
+              "when": "The player clicks Higher or Lower",
+              "then": "Game state transitions to 'revealing'. Both buttons become disabled (pointer-events: none, reduced opacity). The next card begins its reveal sequence.",
+              "measurement": "DOM check: state is 'revealing', both buttons have disabled attribute or class, buttons do not respond to click events during this state"
+            },
+            {
+              "id": "AC-FA1-08",
+              "name": "Revealing to Playing on correct guess",
+              "given": "Game state is 'revealing' and the player's guess matches the comparison result",
+              "when": "The reveal animation completes",
+              "then": "Game state returns to 'playing'. The revealed card becomes the new current card. Buttons re-enable. Streak increments by 1. Cards-remaining decrements by 1.",
+              "measurement": "DOM check: state is 'playing', buttons are enabled, streak display shows previous value + 1, current card shows the value of the just-revealed card"
+            },
+            {
+              "id": "AC-FA1-09",
+              "name": "Revealing to Game Over on wrong guess",
+              "given": "Game state is 'revealing' and the player's guess does not match the comparison result",
+              "when": "The reveal animation completes",
+              "then": "Game state transitions to 'game-over'. Higher/Lower buttons are replaced by a 'Play again' affordance. Final streak is displayed prominently. Best score is updated if beaten.",
+              "measurement": "DOM check: state is 'game-over', Higher/Lower buttons are not visible, 'Play again' element is visible, final streak text content matches the streak count"
+            },
+            {
+              "id": "AC-FA1-10",
+              "name": "Revealing to Playing on tie (push)",
+              "given": "Game state is 'revealing' and the next card has equal value to the current card",
+              "when": "The reveal animation completes",
+              "then": "Game state returns to 'playing'. The tied card is discarded. A new card is drawn from the deck and becomes the next card to guess against. Streak does NOT change. Cards-remaining decrements by 1. A distinct visual treatment indicates the push (different from correct/wrong).",
+              "measurement": "DOM check: state is 'playing', streak unchanged from before the guess, a push indicator is briefly visible or the card has a distinct class/treatment"
+            },
+            {
+              "id": "AC-FA1-11",
+              "name": "Game Over to Ready on restart",
+              "given": "Game state is 'game-over'",
+              "when": "The player clicks 'Play again'",
+              "then": "A new deck is created and shuffled. Streak resets to 0. Game state transitions to 'ready' (or directly into the first-deal ceremony). All game state is fresh except for the persisted best score.",
+              "measurement": "DOM check: state is 'ready' or 'playing', streak shows 0, card content differs from previous game's starting card (with high probability)"
+            },
+            {
+              "id": "AC-FA1-12",
+              "name": "Deck Complete state",
+              "given": "Game state is 'playing' and the player has correctly guessed 51 consecutive cards (deck exhausted)",
+              "when": "The 51st correct guess is confirmed",
+              "then": "Game state transitions to 'deck-complete' (a variant of game-over). Streak shows 51. A distinct celebration treatment appears (different from normal game-over). 'Play again' is available.",
+              "measurement": "DOM check: state is 'deck-complete' or has a distinct class, streak shows 51, a celebration element or class is present that does not appear on normal game-over"
+            }
+          ],
+          "depends_on": [
+            "deck-and-card-model"
+          ],
+          "po_checks": [
+            "Does every state transition feel intentional and smooth, or are there any jarring jumps?",
+            "Is it always clear what state the game is in — can you tell at a glance whether you're in Ready, Playing, or Game Over?",
+            "When you hit Play Again, does it feel like a fresh start or a glitchy reset?"
+          ],
+          "completed_at": "2026-05-04T15:10:15.955Z",
+          "files_changed": [
+            "game-engine.js",
+            "game.js",
+            "index.html",
+            "tests/game-engine.test.js",
+            "tests/game-state.test.js",
+            "tests/auth.test.js"
+          ],
+          "env_limitations": []
+        },
+        {
+          "id": "higher-lower-comparison",
+          "name": "Higher-Lower Comparison & Streak",
+          "feature_area": "FA1",
+          "status": "done",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA1-13",
+              "name": "Higher guess correct when next card is higher",
+              "given": "Current card has value N and the next card in the deck has value M where M > N",
+              "when": "The player clicks Higher",
+              "then": "The guess is evaluated as correct. Streak increments.",
+              "measurement": "Unit test: set current=5, next=9, guess='higher', assert result === 'correct'. Repeat for boundary: current=12 (Q), next=13 (K)."
+            },
+            {
+              "id": "AC-FA1-14",
+              "name": "Lower guess correct when next card is lower",
+              "given": "Current card has value N and the next card in the deck has value M where M < N",
+              "when": "The player clicks Lower",
+              "then": "The guess is evaluated as correct. Streak increments.",
+              "measurement": "Unit test: set current=9, next=5, guess='lower', assert result === 'correct'. Repeat for boundary: current=2, next=1 (A)."
+            },
+            {
+              "id": "AC-FA1-15",
+              "name": "Higher guess wrong when next card is lower",
+              "given": "Current card has value N and next card has value M where M < N",
+              "when": "The player clicks Higher",
+              "then": "The guess is evaluated as wrong. Game transitions to game-over.",
+              "measurement": "Unit test: set current=9, next=3, guess='higher', assert result === 'wrong'"
+            },
+            {
+              "id": "AC-FA1-16",
+              "name": "Lower guess wrong when next card is higher",
+              "given": "Current card has value N and next card has value M where M > N",
+              "when": "The player clicks Lower",
+              "then": "The guess is evaluated as wrong. Game transitions to game-over.",
+              "measurement": "Unit test: set current=3, next=9, guess='lower', assert result === 'wrong'"
+            },
+            {
+              "id": "AC-FA1-17",
+              "name": "Tie results in push regardless of guess direction",
+              "given": "Current card has value N and next card has value M where M === N (different suit)",
+              "when": "The player clicks either Higher or Lower",
+              "then": "The result is 'push'. Streak does not change. The tied card is consumed from the deck. A new card is drawn for the next comparison.",
+              "measurement": "Unit test: set current=7♥, next=7♠, guess='higher', assert result === 'push', assert streak unchanged. Repeat with guess='lower'."
+            },
+            {
+              "id": "AC-FA1-18",
+              "name": "Streak increments only on correct guess",
+              "given": "Current streak is S and the player makes a correct guess",
+              "when": "The comparison resolves as correct",
+              "then": "Streak becomes S + 1. The streak display updates to show the new value.",
+              "measurement": "DOM check: play 3 correct guesses in sequence, verify streak display reads '1', '2', '3' after each"
+            },
+            {
+              "id": "AC-FA1-19",
+              "name": "Streak resets on new game",
+              "given": "A game has ended with streak S > 0 and the player starts a new game",
+              "when": "The new game begins",
+              "then": "Streak resets to 0.",
+              "measurement": "DOM check: after game over with streak 5, click play again, verify streak display shows 0 or is hidden"
+            },
+            {
+              "id": "AC-FA1-20",
+              "name": "Cards remaining tracks deck depletion",
+              "given": "A game starts with 52 cards in the deck and 1 is dealt as the initial card (51 remaining to guess)",
+              "when": "Each card is revealed (correct, wrong, or push)",
+              "then": "The cards-remaining count decrements by 1 for each card consumed from the deck",
+              "measurement": "DOM check: start game, note cards remaining shows 51 (or 50 if displayed as 'cards left to guess'), make one guess, verify count decremented by 1"
+            }
+          ],
+          "depends_on": [
+            "game-state-machine"
+          ],
+          "po_checks": [
+            "Does a tie (push) feel fair and clearly different from both correct and wrong?",
+            "Is the streak counter visible but not distracting during play?",
+            "Does the cards-remaining indicator add tension or does it feel like noise?"
+          ],
+          "completed_at": "2026-05-04T15:14:18.909Z",
+          "files_changed": [
+            "tests/comparison-streak.test.js"
+          ],
+          "env_limitations": []
+        },
+        {
+          "id": "score-persistence",
+          "name": "Score Persistence & Best Tracking",
+          "feature_area": "FA1",
+          "status": "done",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA1-21",
+              "name": "Best score saved to localStorage on game over",
+              "given": "A game ends with streak S and no previous best score exists in localStorage",
+              "when": "The game-over state is entered",
+              "then": "S is written to localStorage under a key like 'highlow-best'. The game-over screen shows 'Best: S'.",
+              "measurement": "After first game with streak 5: read localStorage key, assert value === 5. DOM check: 'Best' display reads '5'."
+            },
+            {
+              "id": "AC-FA1-22",
+              "name": "Best score updates only when beaten",
+              "given": "localStorage contains best score B and the current game ends with streak S where S > B",
+              "when": "The game-over state is entered",
+              "then": "localStorage is updated to S. A 'New best!' indicator appears on the game-over screen. The best display shows S.",
+              "measurement": "Set localStorage best to 3, play game ending with streak 5. Assert localStorage now reads 5. DOM check: 'New best' element is visible."
+            },
+            {
+              "id": "AC-FA1-23",
+              "name": "Best score unchanged when not beaten",
+              "given": "localStorage contains best score B and the current game ends with streak S where S <= B",
+              "when": "The game-over state is entered",
+              "then": "localStorage retains B. No 'New best!' indicator appears. The best display shows B.",
+              "measurement": "Set localStorage best to 10, play game ending with streak 3. Assert localStorage still reads 10. DOM check: no 'New best' element visible. Best display reads '10'."
+            },
+            {
+              "id": "AC-FA1-24",
+              "name": "Best score persists across page reloads",
+              "given": "localStorage contains best score B from a previous session",
+              "when": "The page is reloaded and a new game ends",
+              "then": "The best score B is read from localStorage and displayed correctly on game-over. Comparison logic works against the persisted value.",
+              "measurement": "Set localStorage best to 7, reload page, play game ending with streak 3. DOM check: best display reads '7'. Play game ending with streak 9. DOM check: best display reads '9', 'New best' visible."
+            },
+            {
+              "id": "AC-FA1-25",
+              "name": "Graceful degradation without localStorage",
+              "given": "localStorage is unavailable (private browsing, storage quota exceeded, or disabled)",
+              "when": "The game is played and ends",
+              "then": "The game functions normally. No JavaScript errors thrown. Best score display either shows nothing or shows current session best only. No error messages shown to user.",
+              "measurement": "Mock localStorage to throw on access. Play a full game. Assert no uncaught exceptions. DOM check: no error elements visible. Game-over screen still shows current streak."
+            },
+            {
+              "id": "AC-FA1-26",
+              "name": "First game with no prior best",
+              "given": "localStorage has no best score stored (first visit or cleared data)",
+              "when": "The game-over screen displays",
+              "then": "Best display either shows the current streak (since it's automatically the best) or shows a dash/empty state before the first game ends. After the game, the current streak IS the best.",
+              "measurement": "Clear localStorage, reload page, play game ending with streak 4. DOM check: best display shows '4' (not '0' or 'undefined')."
+            }
+          ],
+          "depends_on": [
+            "higher-lower-comparison"
+          ],
+          "po_checks": [
+            "Does the 'New best!' indicator feel satisfying or does it get in the way?",
+            "When you return days later, does seeing your best score make you want to beat it?",
+            "In private browsing mode, does anything feel broken or is the absence of persistence invisible?"
+          ],
+          "completed_at": "2026-05-04T15:18:10.049Z",
+          "files_changed": [
+            "tests/score-persistence.test.js"
+          ],
+          "env_limitations": []
+        }
+      ]
+    },
+    {
+      "name": "visual-presentation",
+      "status": "pending",
+      "stories": [
+        {
+          "id": "css-card-rendering",
+          "name": "CSS Card Rendering",
+          "feature_area": "FA2",
+          "status": "pending",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA2-01",
+              "name": "Card face renders value and suit in CSS/HTML only",
+              "given": "A card with value V and suit S is displayed face-up",
+              "when": "The card renders",
+              "then": "The card displays: (1) the value label (A, 2-10, J, Q, K) in large, centered typography, (2) the suit symbol (♥♦♣♠) positioned near the value, (3) suit-appropriate coloring (warm red for hearts/diamonds, near-black for clubs/spades). No image elements (<img>, background-image) are used for card content.",
+              "measurement": "DOM check: card element contains no <img> tags, no CSS background-image rules. Text content includes the correct value label and suit symbol. Computed color matches expected warm-red or near-black."
+            },
+            {
+              "id": "AC-FA2-02",
+              "name": "Card face includes pip layout for number cards",
+              "given": "A number card (2-10) is displayed face-up",
+              "when": "The card renders",
+              "then": "Suit pips (♥♦♣♠) are arranged in the traditional playing card layout — count matches the card value. Pips are rendered as HTML/CSS elements, not images.",
+              "measurement": "DOM check: for a 7 of hearts, count pip elements inside the card — expect 7. For a 3 of spades, expect 3 pips. Pips are HTML elements with text content matching the suit symbol."
+            },
+            {
+              "id": "AC-FA2-03",
+              "name": "Face cards display letter and suit without illustration",
+              "given": "A face card (J, Q, K) or Ace is displayed face-up",
+              "when": "The card renders",
+              "then": "The card shows the letter (J/Q/K/A) prominently with the suit symbol. No attempt at face card illustrations — the typography IS the design. Clean, geometric treatment.",
+              "measurement": "DOM check: card contains value text (J/Q/K/A), suit symbol, no <img> or <svg> illustration elements, no background-image."
+            },
+            {
+              "id": "AC-FA2-04",
+              "name": "Card back displays geometric pattern",
+              "given": "A card is displayed face-down (back visible)",
+              "when": "The card back renders",
+              "then": "The card back shows a geometric pattern or texture — a repeating motif rendered in CSS (gradients, repeating patterns, or pseudo-elements). Not a solid color, not an image. Visually distinct from the card face.",
+              "measurement": "DOM check: card-back element has CSS properties creating a pattern (background with gradient/repeating-linear-gradient, or pseudo-elements). No <img> tags. Visual screenshot comparison: back is not a solid fill."
+            },
+            {
+              "id": "AC-FA2-05",
+              "name": "Card dimensions maintain playing card aspect ratio",
+              "given": "A card is rendered on any viewport size",
+              "when": "The card is visible",
+              "then": "The card maintains approximately a 2.5:3.5 (5:7) aspect ratio, consistent with standard playing cards. Width and height scale together.",
+              "measurement": "DOM check: measure card element offsetWidth and offsetHeight, assert ratio is between 0.68 and 0.75 (5/7 = 0.714)."
+            },
+            {
+              "id": "AC-FA2-06",
+              "name": "Suit colors use refined palette",
+              "given": "Any card is displayed",
+              "when": "Suit elements render",
+              "then": "Hearts and diamonds use a warm red tone (not pure #FF0000 — a muted, sophisticated red). Clubs and spades use a near-black (not pure #000000 — a warm dark tone from the palette). The two color groups are distinguishable from each other and from the background.",
+              "measurement": "DOM computed style: red suit color is NOT #FF0000 or #F00, is in the warm-red range (hue 0-10, saturation 60-85%). Dark suit color is NOT #000000 or #000. Both pass WCAG AA contrast against card background."
+            }
+          ],
+          "depends_on": [],
+          "po_checks": [
+            "Do the cards look 'designed' or do they look like default HTML? Would you screenshot this?",
+            "Is the card back pattern visible during the flip and does it register as intentional?",
+            "Can you read every card value instantly at arm's length on a phone?"
+          ]
+        },
+        {
+          "id": "design-system",
+          "name": "Design System — Palette, Typography, Spacing",
+          "feature_area": "FA2",
+          "status": "pending",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA2-07",
+              "name": "Background uses warm neutral, not pure black or white",
+              "given": "The page loads",
+              "when": "The background renders",
+              "then": "The body/main background color is a warm neutral — either a warm off-white (slight yellow/beige cast) or a warm dark (not pure black). Not #FFFFFF, not #000000, not a cool gray.",
+              "measurement": "DOM computed style: background-color is not #FFFFFF, #000000, or any pure gray (#NNN where R=G=B). If light: lightness > 90%, warmth detectable (R slightly > B). If dark: lightness < 15%, not pure black."
+            },
+            {
+              "id": "AC-FA2-08",
+              "name": "Single typeface loaded and applied",
+              "given": "The page loads and fonts are available",
+              "when": "Text renders",
+              "then": "All text uses a single sans-serif typeface (loaded via Google Fonts or self-hosted). Card values, UI text, score display, and buttons all use the same font family. No second font. Fallback is a clean system sans-serif.",
+              "measurement": "DOM computed style: sample font-family from card value, button, and score elements — all return the same primary font. Only one @font-face or Google Fonts <link> in the document."
+            },
+            {
+              "id": "AC-FA2-09",
+              "name": "Font loading uses swap strategy",
+              "given": "The page loads on a slow connection where the web font is delayed",
+              "when": "Text renders before the font loads",
+              "then": "Text is immediately visible in the fallback system font. When the web font loads, text swaps without layout shift (font-display: swap). No FOIT (invisible text).",
+              "measurement": "Check CSS: @font-face declaration includes font-display: swap (or Google Fonts URL includes &display=swap). Throttle network in DevTools, verify text is visible immediately."
+            },
+            {
+              "id": "AC-FA2-10",
+              "name": "Type hierarchy establishes visual priority",
+              "given": "All UI elements are visible during gameplay",
+              "when": "The player looks at the screen",
+              "then": "The card value is the largest text on screen. The streak counter is smaller than the card but clearly readable. Button labels are medium-sized. Any secondary text (cards remaining, best score) is the smallest. No two text elements compete for attention.",
+              "measurement": "DOM computed style: measure font-size of card value, streak, buttons, and secondary text. Assert card value > streak > buttons >= secondary. Ratio between largest and smallest is at least 3:1."
+            },
+            {
+              "id": "AC-FA2-11",
+              "name": "Generous spacing — card breathes",
+              "given": "The game UI is rendered",
+              "when": "The card and surrounding elements are measured",
+              "then": "The card has at least 24px of clear space on all sides (no elements crowding it). Buttons are separated from the card by at least 32px. The overall layout uses no more than 60% of the viewport width on desktop.",
+              "measurement": "DOM measurement: calculate distance from card element edges to nearest sibling elements — all gaps >= 24px. Button container top edge is >= 32px below card bottom edge. On viewport >= 1024px, game container width <= 60% of viewport width."
+            },
+            {
+              "id": "AC-FA2-12",
+              "name": "All text passes WCAG AA contrast",
+              "given": "Any text element on the page",
+              "when": "Contrast is measured against its background",
+              "then": "All text meets WCAG AA minimum contrast ratios: 4.5:1 for body text (< 18pt), 3:1 for large text (>= 18pt bold or >= 24pt regular).",
+              "measurement": "For each text element: compute foreground color and background color, calculate contrast ratio per WCAG formula. Assert all ratios meet AA thresholds."
+            }
+          ],
+          "depends_on": [],
+          "po_checks": [
+            "Does the page feel 'warm' and considered, or cold and default?",
+            "Does the typography feel like one voice, or a mismatched collection?",
+            "Is there enough space that the design breathes, without feeling empty?"
+          ]
+        },
+        {
+          "id": "game-ui-layout",
+          "name": "Game UI Layout & Responsive Behavior",
+          "feature_area": "FA2",
+          "status": "pending",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA2-13",
+              "name": "Single-column centered layout",
+              "given": "The page loads on any viewport",
+              "when": "The game UI renders",
+              "then": "All elements are in a single vertical column: title (quiet, top), card (center, dominant), streak counter, buttons (below card), secondary info (cards remaining, best score). Everything is horizontally centered.",
+              "measurement": "DOM check: all major elements (title, card, buttons, score) have centered horizontal alignment. No elements are side-by-side (except the Higher/Lower buttons, which are a horizontal pair)."
+            },
+            {
+              "id": "AC-FA2-14",
+              "name": "Mobile-first at 375px viewport",
+              "given": "The viewport is 375px wide (iPhone SE / small phone)",
+              "when": "The game renders",
+              "then": "All elements fit without horizontal scrolling. Card is legible (value and suit readable). Buttons are large enough for thumb taps (minimum 44x44px touch target). No content overflows the viewport.",
+              "measurement": "Set viewport to 375x667. DOM check: document.body.scrollWidth <= 375 (no horizontal overflow). Button elements have offsetWidth >= 44 and offsetHeight >= 44. Card value text computed font-size >= 24px."
+            },
+            {
+              "id": "AC-FA2-15",
+              "name": "Desktop centers with max-width",
+              "given": "The viewport is 1440px wide or larger",
+              "when": "The game renders",
+              "then": "The game container is centered horizontally with a max-width (approximately 480-600px). The card does not stretch to fill the wide viewport. Proportions are maintained — the game looks composed, like a poster on a wall.",
+              "measurement": "Set viewport to 1440x900. DOM check: game container element has max-width set (computed <= 600px). Container is horizontally centered (left margin approximately equals right margin)."
+            },
+            {
+              "id": "AC-FA2-16",
+              "name": "Higher and Lower buttons are equally sized and side-by-side",
+              "given": "The game is in 'playing' state",
+              "when": "The buttons render",
+              "then": "Higher and Lower buttons are displayed side-by-side (horizontal row), equally sized, with equal spacing between them. Neither button is visually prioritized over the other.",
+              "measurement": "DOM check: both buttons have the same offsetWidth (within 2px). Both have the same offsetHeight. They are in the same flex/grid row. Gap between them is > 0."
+            },
+            {
+              "id": "AC-FA2-17",
+              "name": "No scrolling required during gameplay",
+              "given": "The game is in 'playing' state on a viewport >= 375x600",
+              "when": "All game elements are visible",
+              "then": "The card, buttons, streak counter, and cards-remaining indicator all fit within the viewport without scrolling. The page height does not exceed the viewport height.",
+              "measurement": "Set viewport to 375x600 (smallest supported). DOM check: document.body.scrollHeight <= window.innerHeight. All game elements have getBoundingClientRect().bottom <= window.innerHeight."
+            }
+          ],
+          "depends_on": [
+            "css-card-rendering",
+            "design-system"
+          ],
+          "po_checks": [
+            "On your phone, can you play comfortably with one thumb?",
+            "On a wide desktop monitor, does it look intentionally composed or awkwardly small?",
+            "Is everything visible without scrolling on a short phone (iPhone SE)?"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "polish-and-feel",
+      "status": "pending",
+      "stories": [
+        {
+          "id": "card-flip-animation",
+          "name": "Card Flip Animation",
+          "feature_area": "FA3",
+          "status": "pending",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA3-01",
+              "name": "3D card flip on Y-axis",
+              "given": "A card is about to be revealed (state transitions to 'revealing')",
+              "when": "The flip animation plays",
+              "then": "The card rotates around its vertical (Y) axis using CSS 3D transforms. The card back is visible during the first half of the rotation (~0-180deg), the card face during the second half. The animation uses perspective to create depth. Duration is 350-450ms.",
+              "measurement": "Inspect CSS: transform includes rotateY(), parent or element has perspective set (800-1200px). Measure animation duration via transitionend event or computed transition-duration — assert between 350ms and 450ms."
+            },
+            {
+              "id": "AC-FA3-02",
+              "name": "Flip animation uses physical-feeling easing",
+              "given": "The card flip animation plays",
+              "when": "The animation is observed",
+              "then": "The easing curve is ease-out or a custom cubic-bezier that decelerates (fast start, gradual stop) — simulating physical card weight. Not linear, not ease-in.",
+              "measurement": "Inspect CSS: transition-timing-function is 'ease-out' or a cubic-bezier where the curve decelerates (p2 and p4 values produce deceleration). Not 'linear' or 'ease-in'."
+            },
+            {
+              "id": "AC-FA3-03",
+              "name": "Card back visible during flip",
+              "given": "A card flip animation is in progress",
+              "when": "The animation is at approximately 25% progress (card rotated ~45deg)",
+              "then": "The card back pattern is visible (not the card face, not a blank surface). The back uses backface-visibility: hidden on the face layer and the back layer is rendered.",
+              "measurement": "CSS check: card has two layers (front and back) with backface-visibility: hidden on each. During flip, at 90deg rotation point, the back layer is the visible surface."
+            },
+            {
+              "id": "AC-FA3-04",
+              "name": "Flip animation is GPU-accelerated",
+              "given": "The flip animation plays on any device",
+              "when": "The browser renders the animation",
+              "then": "The animation uses CSS transform (not top/left/width/height). The card element has will-change: transform or is otherwise promoted to its own compositor layer. No layout or paint triggered during the animation.",
+              "measurement": "CSS check: animation property is 'transform' (not 'left', 'top', etc.). DevTools Layers panel shows the card on its own layer during animation. Performance panel shows no forced reflows during flip."
+            },
+            {
+              "id": "AC-FA3-05",
+              "name": "No double-flip on rapid click",
+              "given": "A flip animation is in progress",
+              "when": "The player clicks a button (Higher or Lower)",
+              "then": "The click is ignored. No second flip begins. No animation queue builds up. The current flip completes normally before input is accepted again.",
+              "measurement": "Programmatically click Higher, then immediately click Lower within 100ms. Assert only one flip animation occurs. Assert final state is consistent (not a corrupted double-transition)."
+            }
+          ],
+          "depends_on": [],
+          "po_checks": [
+            "Does the flip feel like a real card being turned, or a digital transition?",
+            "Is the timing satisfying — not too fast (mechanical) and not too slow (sluggish)?",
+            "Do you see the card back pattern during the flip, even briefly?"
+          ]
+        },
+        {
+          "id": "feedback-microinteractions",
+          "name": "Feedback & Micro-interactions",
+          "feature_area": "FA3",
+          "status": "pending",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA3-06",
+              "name": "Correct guess — subtle green feedback on card",
+              "given": "The player's guess is correct and the card has been revealed",
+              "when": "The correct result is displayed",
+              "then": "The card briefly shows a green-tinted treatment (border glow, shadow, or edge tint) that lasts ~500-800ms then fades. The green is muted/desaturated — not a bright neon green. The feedback is visible but not attention-dominating.",
+              "measurement": "DOM/CSS check after correct guess: card element has a temporary class or style with a green-ish color (hue 100-150). The class/style is removed or fades after 500-800ms (check with setTimeout + assertion)."
+            },
+            {
+              "id": "AC-FA3-07",
+              "name": "Wrong guess — muted red feedback on card",
+              "given": "The player's guess is wrong and the card has been revealed",
+              "when": "The wrong result is displayed",
+              "then": "The card shows a muted red treatment (border glow, shadow, or tint). The red is desaturated — not alarm-red. The treatment persists into the game-over state rather than flashing briefly.",
+              "measurement": "DOM/CSS check after wrong guess: card element has a class or style with red-ish color (hue 0-15 or 345-360). Treatment is still present when game-over state is entered."
+            },
+            {
+              "id": "AC-FA3-08",
+              "name": "Push (tie) — distinct neutral feedback",
+              "given": "The revealed card has equal value (push/tie)",
+              "when": "The push result is displayed",
+              "then": "The card shows a neutral treatment visually distinct from both correct (green) and wrong (red). This could be a brief amber/yellow tint, a gentle pulse, or a subtle 'slide' effect. The player can clearly distinguish this from a correct guess.",
+              "measurement": "DOM/CSS check: push treatment uses a color that is neither in the green range (hue 100-150) nor the red range (hue 0-15/345-360). Treatment is visually distinct in screenshot comparison against correct/wrong."
+            },
+            {
+              "id": "AC-FA3-09",
+              "name": "Streak counter pulses on increment",
+              "given": "The streak increments after a correct guess",
+              "when": "The streak display updates",
+              "then": "The streak number briefly scales up (~1.05x) and back to 1.0x over ~200ms. The animation is subtle — a gentle pulse, not a dramatic bounce.",
+              "measurement": "Observe streak element during update: CSS transform includes scale that peaks above 1.0 and returns to 1.0. Total animation duration <= 300ms."
+            },
+            {
+              "id": "AC-FA3-10",
+              "name": "Button press feel — scale down on active",
+              "given": "The Higher or Lower button is enabled",
+              "when": "The player presses (mousedown/touchstart) the button",
+              "then": "The button scales down to approximately 0.95-0.97x for the duration of the press. On release (mouseup/touchend), it snaps back to 1.0x. The transition is fast (~100ms).",
+              "measurement": "CSS check: button has :active pseudo-class or equivalent with transform: scale(0.95-0.97). Transition duration for transform is <= 150ms."
+            },
+            {
+              "id": "AC-FA3-11",
+              "name": "Button hover state on desktop",
+              "given": "The player hovers over a button on a device with a pointer (desktop)",
+              "when": "The cursor enters the button area",
+              "then": "The button shows a subtle hover treatment — a slight background color shift, gentle elevation change, or opacity change. The change is visible but not dramatic.",
+              "measurement": "CSS check: button has :hover pseudo-class with a visual property change (background-color, box-shadow, or opacity differs from default state). Use @media (hover: hover) to scope to pointer devices only."
+            },
+            {
+              "id": "AC-FA3-12",
+              "name": "Button disabled state during reveal",
+              "given": "The game is in 'revealing' state (card flipping)",
+              "when": "The buttons are disabled",
+              "then": "Both buttons show reduced opacity (0.4-0.6) and pointer-events: none. The cursor does not change to pointer on hover. Buttons are visually 'dimmed' and clearly non-interactive.",
+              "measurement": "During revealing state: DOM check computed opacity of buttons is between 0.4-0.6. Computed pointer-events is 'none'. Clicking buttons has no effect (no event handlers fire)."
+            }
+          ],
+          "depends_on": [
+            "card-flip-animation"
+          ],
+          "po_checks": [
+            "Does the green/red feedback feel like a gentle acknowledgment or an alarm?",
+            "Does the button press feel physical — like pushing a real button?",
+            "Can you distinguish a push (tie) from a correct guess at a glance?"
+          ]
+        },
+        {
+          "id": "flow-and-ceremony",
+          "name": "Flow, Ceremony & Game-Over Transitions",
+          "feature_area": "FA3",
+          "status": "pending",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA3-13",
+              "name": "First deal ceremony — pause before initial flip",
+              "given": "A new game starts (from Ready state)",
+              "when": "The first card is dealt",
+              "then": "There is a deliberate pause of 200-400ms before the first card flips from back to face. The pause creates a 'moment of ceremony' — the game doesn't just snap to the first card. The card back is visible during this pause.",
+              "measurement": "Measure time between game-start trigger and the beginning of the flip animation. Assert delay is 200-400ms. During the delay, the card back is visible (card is in face-down state)."
+            },
+            {
+              "id": "AC-FA3-14",
+              "name": "Round transition — revealed card becomes current",
+              "given": "A correct guess has been made and the revealed card is showing",
+              "when": "The round transitions to the next guess",
+              "then": "The revealed card smoothly transitions to become the 'current' card position. This could be a cross-fade, a subtle slide, or a scale transition. The next unrevealed card appears in the deck position. The transition is seamless — no jarring jump, no blank frame.",
+              "measurement": "During round transition: no frame where the card area is empty (screenshot comparison at 60fps). The card value visible after transition matches the value of the previously revealed card."
+            },
+            {
+              "id": "AC-FA3-15",
+              "name": "Game over — in-place transformation, no modal",
+              "given": "The player makes a wrong guess",
+              "when": "The game-over state is entered",
+              "then": "The layout transforms in place: Higher/Lower buttons fade out and 'Play again' fades in at the same position. The streak becomes the prominent element. The card remains visible with its red feedback. NO overlay, NO modal, NO popup, NO full-screen takeover. The background does not dim.",
+              "measurement": "DOM check in game-over state: no elements with position:fixed covering the viewport, no elements with z-index layered above the game container as an overlay, no elements with a semi-transparent backdrop. The game container layout is the only visible layer."
+            },
+            {
+              "id": "AC-FA3-16",
+              "name": "Game over transition timing",
+              "given": "The wrong guess has been revealed",
+              "when": "The game-over state transitions in",
+              "then": "The transition from revealing to game-over takes 300-600ms total. Button swap (Higher/Lower out, Play again in) uses a cross-fade. The streak counter transitions to its prominent game-over size/position smoothly.",
+              "measurement": "Measure time from wrong-card reveal completion to game-over state fully rendered. Assert 300-600ms. Buttons have opacity transition applied (not instant show/hide)."
+            },
+            {
+              "id": "AC-FA3-17",
+              "name": "New best celebration — subtle indicator",
+              "given": "The game ends with a new personal best score",
+              "when": "The game-over screen shows the new best",
+              "then": "A 'New best!' text element appears near the best score display. The text fades in (not instant). The treatment is subtle — no confetti, no screen flash, no large animation. Just a quiet acknowledgment.",
+              "measurement": "DOM check: an element containing 'New best' or similar text is visible. The element has an opacity or fade-in transition applied. No particle effects, no elements with animation: covering more than the text area."
+            },
+            {
+              "id": "AC-FA3-18",
+              "name": "Deck complete celebration",
+              "given": "The player has correctly guessed all 51 cards (perfect run)",
+              "when": "The deck-complete state is entered",
+              "then": "The celebration is distinct from normal game-over but still restrained. The card or streak counter may glow, pulse, or show a unique color treatment. The 'Play again' affordance is still available. No modal, no confetti, no excessive animation.",
+              "measurement": "DOM check: deck-complete state has at least one visual element or class that does NOT appear during normal game-over. The unique treatment is visible but does not include particle elements or full-screen animations."
+            }
+          ],
+          "depends_on": [
+            "card-flip-animation"
+          ],
+          "po_checks": [
+            "Does the first-deal pause feel like ceremony or like a loading delay?",
+            "Does the game-over transition feel clean — like the game exhaled — or abrupt?",
+            "Would you know something special happened if you completed all 51 cards?"
+          ]
+        },
+        {
+          "id": "accessibility-edge-cases",
+          "name": "Accessibility & Edge Cases",
+          "feature_area": "FA3",
+          "status": "pending",
+          "acceptance_criteria": [
+            {
+              "id": "AC-FA3-19",
+              "name": "prefers-reduced-motion disables animations",
+              "given": "The user has prefers-reduced-motion: reduce set in their OS/browser",
+              "when": "Any animation would normally play (card flip, button press, streak pulse, transitions)",
+              "then": "All CSS animations and transitions are either disabled or replaced with instant opacity changes. The game is fully functional. Card reveals show the face immediately (no 3D flip). State transitions are instant or use simple fade (opacity only, < 200ms).",
+              "measurement": "Set prefers-reduced-motion: reduce in media query simulation. Trigger card flip: assert no transform: rotateY animation occurs. Assert card face appears via opacity transition or instantly. Time any remaining transitions: all < 200ms."
+            },
+            {
+              "id": "AC-FA3-20",
+              "name": "Keyboard-only gameplay",
+              "given": "The player uses only a keyboard (no mouse/touch)",
+              "when": "The player navigates and plays the game",
+              "then": "Tab navigates between Higher and Lower buttons (and Play Again when visible). Focused button shows a visible focus indicator (outline or ring, not removed). Enter or Space activates the focused button. All game states are reachable without a mouse.",
+              "measurement": "Using keyboard only: Tab to Higher button (visible focus ring appears), press Enter (game responds). Tab to Lower button (focus moves, ring visible). In game-over: Tab to Play Again, press Enter. Assert all interactions work without mouse events."
+            },
+            {
+              "id": "AC-FA3-21",
+              "name": "Screen reader announces game state changes",
+              "given": "A screen reader is active",
+              "when": "Game state changes (card revealed, correct, wrong, game over, streak update)",
+              "then": "State changes are announced via ARIA live regions. At minimum: the revealed card value and suit, the result (correct/wrong/push), the current streak on change, and the game-over state with final score. Card values use full names ('Ace of Spades', not 'A♠').",
+              "measurement": "DOM check: an aria-live='polite' or aria-live='assertive' region exists. After card reveal, the live region text content includes card name. After result, it includes 'correct'/'wrong'/'push'. On game-over, it includes streak count."
+            },
+            {
+              "id": "AC-FA3-22",
+              "name": "Color is not the only differentiator for suits",
+              "given": "A player with color vision deficiency views the cards",
+              "when": "Any card is displayed",
+              "then": "Suits are distinguishable by shape (♥♦♣♠ symbols) independent of color. The suit symbol is always visible alongside the value. A player who cannot distinguish red from black can still identify all four suits by shape alone.",
+              "measurement": "DOM check: every card face contains a text element with the suit symbol character (♥, ♦, ♣, or ♠). Simulate deuteranopia (green-blind) or protanopia (red-blind) in DevTools — suits remain distinguishable by shape."
+            },
+            {
+              "id": "AC-FA3-23",
+              "name": "No horizontal scroll on any supported viewport",
+              "given": "Any viewport width from 320px to 2560px",
+              "when": "The game renders in any state",
+              "then": "No horizontal scrollbar appears. No content overflows the viewport width. All elements are contained within the viewport.",
+              "measurement": "Test at viewports: 320px, 375px, 768px, 1024px, 1440px, 2560px. At each: assert document.body.scrollWidth <= window.innerWidth."
+            },
+            {
+              "id": "AC-FA3-24",
+              "name": "Page loads and becomes interactive under 2 seconds on 3G",
+              "given": "The page is loaded on a simulated slow 3G connection (400kbps)",
+              "when": "The page is requested",
+              "then": "The game is visible and interactive (first card shown, buttons clickable) within 2 seconds. Total page weight is under 100KB (HTML + CSS + JS + font). No render-blocking resources delay the game UI.",
+              "measurement": "DevTools Network throttle to Slow 3G. Measure Time to Interactive. Assert TTI < 2000ms. Measure total transferred bytes: assert < 100KB. No external script/style blocks rendering (async/defer on scripts, font-display: swap)."
+            },
+            {
+              "id": "AC-FA3-25",
+              "name": "Tab backgrounding preserves game state",
+              "given": "A game is in progress with streak S and N cards remaining",
+              "when": "The player switches to another tab for 5 minutes, then returns",
+              "then": "The game state is exactly as they left it. Same card displayed, same streak, same cards remaining. No timers expired. No errors. No need to restart.",
+              "measurement": "Record streak and current card, switch tabs, wait 5 minutes, return. Assert streak display unchanged. Assert current card value unchanged. Assert no error elements visible."
+            },
+            {
+              "id": "AC-FA3-26",
+              "name": "Page refresh cleanly resets game",
+              "given": "A game is in progress",
+              "when": "The player refreshes the page (F5 / pull-to-refresh)",
+              "then": "The game resets to the Ready state with a fresh shuffled deck. Streak is 0. No error. No partially preserved state. Best score in localStorage is retained.",
+              "measurement": "During active game: reload page. Assert state is 'ready'. Assert streak is 0 or hidden. Assert localStorage best score is unchanged from before reload."
+            }
+          ],
+          "depends_on": [
+            "feedback-microinteractions",
+            "flow-and-ceremony"
+          ],
+          "po_checks": [
+            "With animations off (reduced motion), does the game still feel polished or does it feel broken?",
+            "Can you play the entire game using only Tab and Enter?",
+            "Does the game load fast enough that it feels instant, not like waiting for a web app?"
+          ]
+        }
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "id": "esc-no-next-milestone-1777904203473",
+      "tier": 1,
+      "classification": "no-milestones-defined",
+      "summary": "Foundation is complete but no milestones are in state.milestones or task_ledger.json. The seeding step that decomposes the spec into milestones likely didn't finish. Reset to Ready and re-run seeding, or populate task_ledger.json manually.",
+      "story_id": null,
+      "status": "resolved",
+      "created_at": "2026-05-04T14:16:43.473Z",
+      "resolution": "Fixed by bridge: milestones populated, repo made public",
+      "resolved_at": "2026-05-04T15:51:43.346170Z"
+    },
+    {
+      "id": "esc-deploy-failed-1777907954504",
+      "tier": 1,
+      "classification": "deploy-failure",
+      "summary": "Staging deploy failed 3 times",
+      "story_id": null,
+      "status": "resolved",
+      "created_at": "2026-05-04T15:19:14.504Z",
+      "resolution": "Fixed by bridge: milestones populated, repo made public",
+      "resolved_at": "2026-05-04T15:51:43.347192Z"
+    },
+    {
+      "id": "esc-deploy-failed-1777909969429",
+      "tier": 1,
+      "classification": "deploy-failure",
+      "summary": "Staging deploy failed 3 times",
+      "story_id": null,
+      "status": "resolved",
+      "created_at": "2026-05-04T15:52:49.429Z",
+      "human_response": {
+        "type": "guidance",
+        "text": "So GitHub Pages, only publics, I can only publish the public ones. The repo was private. I've now made it public for you. You can continue.",
+        "submitted_at": "2026-05-04T15:56:18.917Z"
+      },
+      "resolved_at": "2026-05-04T15:56:19.547Z"
+    }
+  ],
+  "seedingProgress": {
+    "disciplines": [
+      {
+        "discipline": "brainstorming",
+        "status": "complete"
+      },
+      {
+        "discipline": "sizing",
+        "status": "complete"
+      },
+      {
+        "discipline": "taste",
+        "status": "complete"
+      },
+      {
+        "discipline": "competition",
+        "status": "complete"
+      },
+      {
+        "discipline": "spec",
+        "status": "complete"
+      },
+      {
+        "discipline": "infrastructure",
+        "status": "complete"
+      },
+      {
+        "discipline": "design",
+        "status": "complete"
+      },
+      {
+        "discipline": "legal-privacy",
+        "status": "complete"
+      },
+      {
+        "discipline": "marketing",
+        "status": "complete"
+      }
+    ],
+    "completedCount": 9,
+    "totalCount": 9,
+    "currentDiscipline": "marketing"
+  },
+  "createdAt": "2026-05-04T12:25:33.264Z",
+  "costs": {
+    "cumulative_tokens": 446084608,
+    "cumulative_cost_usd": 28.1983204,
+    "cumulative_cost_usd_real": 28.1983204,
+    "cumulative_cost_usd_estimated": 0,
+    "phase_tokens": 19094527,
+    "phase_cost_usd": 1.6916496000000003,
+    "phase_cost_source": "parsed"
+  },
+  "_version": 76,
+  "timestamp": "2026-05-04T16:21:09.192Z",
+  "github_repo": "https://github.com/gregario/highlow",
+  "foundation": {
+    "status": "complete",
+    "started_at": "2026-05-04T14:24:37.067Z",
+    "provisioning_steps": {
+      "github_repo": {
+        "status": "done",
+        "url": "https://github.com/gregario/highlow.git"
+      },
+      "deploy_target": {
+        "status": "done",
+        "target": "github-pages",
+        "url": null
+      }
+    },
+    "provisioned": true,
+    "completed_at": "2026-05-04T14:43:02.814Z"
+  },
+  "current_milestone": "game-logic",
+  "current_story": null,
+  "last_build_delta": 1,
+  "consecutive_failures": 0,
+  "stories_executed": [
+    {
+      "name": "Project scaffold",
+      "delta": 1,
+      "duration_ms": 0
+    },
+    {
+      "name": "Auth flows (none)",
+      "delta": 1,
+      "duration_ms": 0
+    },
+    {
+      "name": "App shell + navigation",
+      "delta": 0,
+      "duration_ms": 0
+    },
+    {
+      "name": "Deck & Card Model",
+      "delta": 2,
+      "duration_ms": 0
+    },
+    {
+      "name": "Game State Machine",
+      "delta": 3,
+      "duration_ms": 0
+    },
+    {
+      "name": "Higher-Lower Comparison & Streak",
+      "delta": 1,
+      "duration_ms": 0
+    },
+    {
+      "name": "Score Persistence & Best Tracking",
+      "delta": 1,
+      "duration_ms": 0
+    }
+  ],
+  "last_meaningful_progress_at": 1777907890049
+}

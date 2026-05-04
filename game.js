@@ -1,6 +1,7 @@
 'use strict';
 
 import { createGame } from './game-engine.js';
+import { renderCardFace } from './card-renderer.js';
 
 (function () {
   var gameEl = document.getElementById('game');
@@ -48,15 +49,7 @@ import { createGame } from './game-engine.js';
   }
 
   function renderCard(card) {
-    if (!card) {
-      els.cardFront.textContent = '';
-      return;
-    }
-    var color = (card.suit === 'hearts' || card.suit === 'diamonds')
-      ? 'var(--color-suit-red)'
-      : 'var(--color-suit-dark)';
-    els.cardFront.style.color = color;
-    els.cardFront.textContent = card.label + card.symbol;
+    renderCardFace(els.cardFront, card);
   }
 
   function renderStreak(streak) {

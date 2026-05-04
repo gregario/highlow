@@ -1,0 +1,55 @@
+{"ts":"2026-05-04T16:02:30.151Z","cmd":"goto","args":"http://localhost:3000","origin":"http://localhost:3000/","durationMs":850,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:02:50.815Z","cmd":"screenshot","args":"/tmp/state-ready.png","origin":"http://localhost:3000/","durationMs":117,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:02:57.047Z","cmd":"snapshot","args":"-i -a -o /tmp/ready-annotated.png","origin":"http://localhost:3000/","durationMs":516,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:05.229Z","cmd":"goto","args":"file:///Users/gregario/.rouge/projects/highlow/index.html","origin":"file:///Users/gregario/.rouge/projects/highlow/index.html","durationMs":123,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:09.540Z","cmd":"screenshot","args":"/tmp/state-ready.png","origin":"file:///Users/gregario/.rouge/projects/highlow/index.html","durationMs":35,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:09.608Z","cmd":"snapshot","args":"-i -a -o /tmp/ready-annotated.png","origin":"file:///Users/gregario/.rouge/projects/highlow/index.html","durationMs":36,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:12.940Z","cmd":"console","args":"--errors","origin":"file:///Users/gregario/.rouge/projects/highlow/index.html","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:12.970Z","cmd":"accessibility","args":"","origin":"file:///Users/gregario/.rouge/projects/highlow/index.html","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:21.755Z","cmd":"goto","args":"http://localhost:3000/index.html","origin":"http://localhost:3000/index.html","durationMs":288,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:25.008Z","cmd":"goto","args":"http://localhost:3000/","origin":"http://localhost:3000/","durationMs":136,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:28.708Z","cmd":"wait","args":"--load","origin":"http://localhost:3000/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:28.821Z","cmd":"screenshot","args":"/tmp/state-ready.png","origin":"http://localhost:3000/","durationMs":84,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:28.861Z","cmd":"snapshot","args":"-i","origin":"http://localhost:3000/","durationMs":15,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:40.764Z","cmd":"goto","args":"http://localhost:8080/","origin":"http://localhost:8080/","durationMs":10,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:44.602Z","cmd":"wait","args":"--load","origin":"http://localhost:8080/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:44.632Z","cmd":"text","args":"","origin":"http://localhost:8080/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:49.967Z","cmd":"screenshot","args":"/tmp/state-ready.png","origin":"http://localhost:8080/","durationMs":37,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:50.033Z","cmd":"snapshot","args":"-i -a -o /tmp/ready-annotated.png","origin":"http://localhost:8080/","durationMs":39,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:50.059Z","cmd":"console","args":"","origin":"http://localhost:8080/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:03:53.969Z","cmd":"accessibility","args":"","origin":"http://localhost:8080/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:02.739Z","cmd":"click","args":"@e1","origin":"http://localhost:8080/","durationMs":83,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:03.815Z","cmd":"screenshot","args":"/tmp/state-playing.png","origin":"http://localhost:8080/","durationMs":33,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:03.845Z","cmd":"snapshot","args":"-i","origin":"http://localhost:8080/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:07.797Z","cmd":"text","args":"","origin":"http://localhost:8080/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:21.612Z","cmd":"click","args":"@e1","origin":"http://localhost:8080/","durationMs":5007,"status":"error","hasCookies":false,"mode":"launched","error":"click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Higher' })\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"btn btn-higher\">Higher</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and s…"}
+{"ts":"2026-05-04T16:04:25.662Z","cmd":"console","args":"--errors","origin":"http://localhost:8080/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:28.963Z","cmd":"snapshot","args":"","origin":"http://localhost:8080/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:33.809Z","cmd":"js","args":"document.querySelector('#game').dataset.state","origin":"http://localhost:8080/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:41.083Z","cmd":"screenshot","args":"/tmp/state-after-guess.png","origin":"http://localhost:8080/","durationMs":38,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:41.113Z","cmd":"text","args":"","origin":"http://localhost:8080/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:41.140Z","cmd":"js","args":"document.querySelector('#game').dataset.state","origin":"http://localhost:8080/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:04:49.308Z","cmd":"network","args":"","origin":"http://localhost:8080/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:18:49.357Z","cmd":"goto","args":"https://gregario.github.io/highlow/","origin":"https://gregario.github.io/highlow/","durationMs":768,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:18:49.467Z","cmd":"screenshot","args":"screenshots/cycle-1/walk/initial-state.png","origin":"https://gregario.github.io/highlow/","durationMs":52,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:18:49.561Z","cmd":"snapshot","args":"-i -a -o screenshots/cycle-1/walk/interactive-annotated.png","origin":"https://gregario.github.io/highlow/","durationMs":63,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:18:54.373Z","cmd":"console","args":"","origin":"https://gregario.github.io/highlow/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:00.821Z","cmd":"click","args":"@e1","origin":"https://gregario.github.io/highlow/","durationMs":52,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:01.910Z","cmd":"screenshot","args":"screenshots/cycle-1/walk/after-first-click.png","origin":"https://gregario.github.io/highlow/","durationMs":19,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:01.952Z","cmd":"text","args":"","origin":"https://gregario.github.io/highlow/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:07.985Z","cmd":"snapshot","args":"-i","origin":"https://gregario.github.io/highlow/","durationMs":3,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:08.034Z","cmd":"click","args":"@e1","origin":"https://gregario.github.io/highlow/","durationMs":15,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:16.001Z","cmd":"screenshot","args":"screenshots/cycle-1/walk/new-game-ready.png","origin":"https://gregario.github.io/highlow/","durationMs":17,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:16.035Z","cmd":"text","args":"","origin":"https://gregario.github.io/highlow/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:16.066Z","cmd":"js","args":"document.querySelector('[data-state]').getAttribute('data-state')","origin":"https://gregario.github.io/highlow/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:16.100Z","cmd":"snapshot","args":"-i","origin":"https://gregario.github.io/highlow/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:16.153Z","cmd":"click","args":"@e1","origin":"https://gregario.github.io/highlow/","durationMs":21,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:23.411Z","cmd":"js","args":"document.querySelector('[data-state]').getAttribute('data-state')","origin":"https://gregario.github.io/highlow/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:23.456Z","cmd":"text","args":"","origin":"https://gregario.github.io/highlow/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:23.501Z","cmd":"screenshot","args":"screenshots/cycle-1/walk/after-first-guess-resolved.png","origin":"https://gregario.github.io/highlow/","durationMs":12,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:29.701Z","cmd":"click","args":"@e2","origin":"https://gregario.github.io/highlow/","durationMs":23,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:31.770Z","cmd":"js","args":"document.querySelector('[data-state]').getAttribute('data-state')","origin":"https://gregario.github.io/highlow/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:31.805Z","cmd":"text","args":"","origin":"https://gregario.github.io/highlow/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:39.287Z","cmd":"accessibility","args":"","origin":"https://gregario.github.io/highlow/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:39.325Z","cmd":"perf","args":"","origin":"https://gregario.github.io/highlow/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-05-04T16:19:39.511Z","cmd":"responsive","args":"screenshots/cycle-1/walk/responsive","origin":"https://gregario.github.io/highlow/","durationMs":152,"status":"ok","hasCookies":false,"mode":"launched"}

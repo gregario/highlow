@@ -1,0 +1,714 @@
+{
+  "_cycle_number": 1,
+  "_current_milestone": "game-logic",
+  "_current_story": "higher-lower-comparison",
+  "_phase_complete": "foundation",
+  "story_result": {
+    "story_id": "higher-lower-comparison",
+    "outcome": "pass",
+    "files_changed": [
+      "tests/comparison-streak.test.js"
+    ],
+    "tests_added": 30,
+    "tests_passing": 30,
+    "env_limitations": [],
+    "symptom": null,
+    "diagnosis": null,
+    "classification": null,
+    "fix_attempted": null,
+    "blocked_by": null,
+    "escalation": null
+  },
+  "deployment_url": null,
+  "previous_story_results": [
+    {
+      "story_id": "f-scaffold",
+      "outcome": "pass",
+      "tests_added": 42,
+      "tests_passing": 42
+    }
+  ],
+  "implemented": [
+    {
+      "task": "f-auth",
+      "category": "auth",
+      "acceptance_criteria": [
+        "Auth strategy is 'none' per infrastructure manifest — verified with 13 tests",
+        "No registration, login, logout, session, or protected route mechanisms exist",
+        "Game is immediately playable without authentication",
+        "localStorage used only for best score persistence, not auth tokens"
+      ],
+      "files_changed": [
+        "tests/auth.test.js"
+      ],
+      "tests_added": 13,
+      "tests_passing": 13,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
+    },
+    {
+      "task": "f-scaffold",
+      "category": "deploy",
+      "acceptance_criteria": [
+        "Framework initialized with correct config",
+        "All dependencies installed",
+        "Dev server starts without errors",
+        "Production build succeeds"
+      ],
+      "files_changed": [
+        ".gitignore",
+        ".nojekyll",
+        "package.json",
+        "vitest.config.js"
+      ],
+      "tests_added": 0,
+      "tests_passing": 0,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
+    },
+    {
+      "task": "f-ui-shell",
+      "category": "ui-scaffold",
+      "acceptance_criteria": [
+        "App shell renders without errors",
+        "Navigation includes links for all feature areas",
+        "Theme tokens applied consistently",
+        "Error boundaries catch and display errors",
+        "Loading states exist for async operations"
+      ],
+      "files_changed": [
+        "index.html",
+        "style.css"
+      ],
+      "tests_added": 20,
+      "tests_passing": 20,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
+    },
+    {
+      "task": "f-js-scaffold",
+      "category": "ui-scaffold",
+      "acceptance_criteria": [
+        "DOM element references wired",
+        "State get/set via data-state attribute",
+        "Screen reader announce helper",
+        "localStorage best score read/write with graceful degradation"
+      ],
+      "files_changed": [
+        "game.js"
+      ],
+      "tests_added": 0,
+      "tests_passing": 0,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
+    },
+    {
+      "task": "f-fixtures",
+      "category": "fixtures",
+      "acceptance_criteria": [
+        "Seed data for every entity in schema",
+        "Data is realistic (domain-appropriate names, values, dates)",
+        "Data generators produce consistent output",
+        "Fixtures importable by feature tests"
+      ],
+      "files_changed": [
+        "tests/fixtures.js",
+        "tests/fixtures.test.js"
+      ],
+      "tests_added": 6,
+      "tests_passing": 6,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
+    },
+    {
+      "task": "deck-and-card-model",
+      "acceptance_criteria": [
+        "AC-FA1-01: Standard 52-card deck creation — 4 suits x 13 values, exactly 52 unique cards",
+        "AC-FA1-02: Deck shuffle randomness — Fisher-Yates shuffle, two shuffles differ, first-card distribution approximately uniform over 1000 shuffles",
+        "AC-FA1-03: Card draw depletes deck — draw reduces size by 1, no duplicates across 52 draws, empty deck returns null",
+        "AC-FA1-04: Card value representation — numeric value 1-13, display label (A/2-10/J/Q/K), suit name+symbol, human-readable displayName"
+      ],
+      "files_changed": [
+        "deck.js",
+        "tests/deck.test.js",
+        "tests/fixtures.js"
+      ],
+      "tests_added": 19,
+      "tests_passing": 19
+    },
+    {
+      "task": "f-scaffold-tests",
+      "category": "test",
+      "acceptance_criteria": [
+        "Framework initialized with correct config — 4 tests",
+        "All dependencies installed — 3 tests",
+        "Dev server starts without errors — 5 tests",
+        "Production build succeeds — 4 tests"
+      ],
+      "files_changed": [
+        "tests/scaffold.test.js"
+      ],
+      "tests_added": 16,
+      "tests_passing": 16,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
+    },
+    {
+      "task": "game-state-machine",
+      "acceptance_criteria": [
+        "AC-FA1-05: Initial state is Ready — game starts in ready state, deck has 52 cards, streak is 0, Higher/Lower buttons visible",
+        "AC-FA1-06: Ready to Playing transition — startGame deals initial card face-up, transitions to playing, reduces deck by 1",
+        "AC-FA1-07: Playing to Revealing transition — guess draws next card, transitions to revealing, buttons disabled via CSS",
+        "AC-FA1-08: Revealing to Playing on correct guess — streak increments, nextCard becomes currentCard, back to playing",
+        "AC-FA1-09: Revealing to Game Over on wrong guess — transitions to game-over, streak preserved, play-again visible",
+        "AC-FA1-10: Revealing to Playing on tie (push) — streak unchanged, tied card discarded, new card drawn from deck, cardsRemaining decrements",
+        "AC-FA1-11: Game Over to Ready on restart — fresh shuffled 52-card deck, streak resets to 0, state returns to ready",
+        "AC-FA1-12: Deck Complete state — transitions to deck-complete on 51st correct guess, streak shows 51, play-again available"
+      ],
+      "files_changed": [
+        "game-engine.js",
+        "game.js",
+        "index.html",
+        "tests/game-engine.test.js",
+        "tests/game-state.test.js",
+        "tests/auth.test.js"
+      ],
+      "tests_added": 63,
+      "tests_passing": 63
+    },
+    {
+      "task": "higher-lower-comparison",
+      "acceptance_criteria": [
+        "AC-FA1-13: Higher guess correct when next card is higher — verified with boundary (Q→K)",
+        "AC-FA1-14: Lower guess correct when next card is lower — verified with boundary (2→A)",
+        "AC-FA1-15: Higher guess wrong when next card is lower — transitions to game-over",
+        "AC-FA1-16: Lower guess wrong when next card is higher — transitions to game-over",
+        "AC-FA1-17: Tie results in push regardless of guess direction — streak unchanged, tied card consumed, new card drawn",
+        "AC-FA1-18: Streak increments only on correct guess — verified 3-step sequence, no increment on wrong/push",
+        "AC-FA1-19: Streak resets on new game — from both game-over and deck-complete",
+        "AC-FA1-20: Cards remaining tracks deck depletion — start(52→51), guess(51→50), push consumes extra"
+      ],
+      "files_changed": [
+        "tests/comparison-streak.test.js"
+      ],
+      "tests_added": 30,
+      "tests_passing": 30
+    }
+  ],
+  "skipped": [
+    {
+      "task": "f-deploy",
+      "reason": "git push and gh CLI commands are blocked by session permission system. Cannot push to gh-pages branch. All local foundation work is complete and committed — deployment requires push permissions or manual repo push.",
+      "blocker_type": "infrastructure",
+      "unblocked_by": "Grant git push permissions in session, or manually run: git push origin main && npx -y gh-pages@6 -d . -b gh-pages --dotfiles",
+      "blocks_feature_areas": []
+    }
+  ],
+  "divergences": [
+    {
+      "spec_says": "f-ui-shell: Navigation includes links for all feature areas",
+      "actually_did": "No navigation links. This is a single-page game with one URL and state-based transitions. There are no routes or feature-area pages to link to.",
+      "rationale": "The product has zero navigation by design (vision.json scope.out includes 'multi-page routing', design pass-1 confirms 'No navigation. Single page, single URL.'). Navigation links would be scope creep.",
+      "affects_acceptance_criteria": [
+        "f-ui-shell AC: navigation links"
+      ],
+      "affects_feature_areas": [],
+      "reversible": true
+    },
+    {
+      "spec_says": "f-ui-shell: Error boundaries catch and display errors / Loading states exist for async operations",
+      "actually_did": "No error boundaries or loading states implemented. The product has no async operations, no network requests, no data fetching. Page renders instantly from static HTML (<100KB).",
+      "rationale": "Design pass-2 five-state analysis confirms: 'No loading state in the traditional sense — entire game is client-side with zero data fetching' and 'No error states exist in this product — no network requests, no API calls.' Error boundaries and loading states are structurally unnecessary.",
+      "affects_acceptance_criteria": [
+        "f-ui-shell AC: error boundaries",
+        "f-ui-shell AC: loading states"
+      ],
+      "affects_feature_areas": [],
+      "reversible": true
+    }
+  ],
+  "factory_decisions": [
+    {
+      "decision": "Vanilla HTML/CSS/JS with no framework, no bundler, no transpiler",
+      "context": "Infrastructure manifest explicitly specifies framework type 'none'. Vision scope declares 'zero dependencies' as a portfolio signal.",
+      "alternatives_considered": [
+        "Vite + vanilla — rejected: adds build step, node_modules dependency tree, complexity with no user benefit for a <100KB static page"
+      ],
+      "rationale": "The absence of a framework IS the design. Clean source code viewable with View Source. Sub-100KB total weight. No build step required. Vitest used for dev testing only — not shipped.",
+      "confidence": "high",
+      "affects": [
+        "index.html",
+        "style.css",
+        "game.js",
+        "all feature areas"
+      ]
+    },
+    {
+      "decision": "Inter from Google Fonts CDN with font-display: swap",
+      "context": "Design pass-3 specifies Inter as the single typeface. Infrastructure manifest confirms Google Fonts source.",
+      "alternatives_considered": [
+        "Self-hosted Inter — rejected: adds file management, same result, Google CDN has better cache hit rates",
+        "System font stack only — rejected: design spec requires a specific typeface for portfolio-quality typography"
+      ],
+      "rationale": "Inter is free, CDN-cached, excellent legibility, wide weight range. font-display: swap prevents FOIT. Preconnect hints for fast loading.",
+      "confidence": "high",
+      "affects": [
+        "index.html",
+        "style.css",
+        "FA2-visual-presentation"
+      ]
+    },
+    {
+      "decision": "CSS custom properties on :root for all design tokens (no preprocessor)",
+      "context": "Design pass-3 provides exact color values, typography scale, spacing grid. Need a token system for consistency.",
+      "alternatives_considered": [
+        "CSS preprocessor (Sass/Less) — rejected: adds build step, violates no-framework constraint",
+        "Inline values everywhere — rejected: no single source of truth, harder to maintain"
+      ],
+      "rationale": "Native CSS custom properties work in all modern browsers, no build step, tokens are inspectable in DevTools, single source of truth matching the design spec exactly.",
+      "confidence": "high",
+      "affects": [
+        "style.css",
+        "FA2-visual-presentation",
+        "FA3-polish-and-feel"
+      ]
+    },
+    {
+      "decision": "State management via data-state attribute on game container, CSS-driven visibility",
+      "context": "Game has 5 states (ready, playing, revealing, game-over, deck-complete). Elements show/hide per state.",
+      "alternatives_considered": [
+        "Class-based toggling per element — rejected: verbose, error-prone, requires JS for every show/hide",
+        "JS-driven display toggling — rejected: CSS can handle state-based visibility declaratively"
+      ],
+      "rationale": "Single data-state attribute controls all visibility via CSS selectors [data-state=\"X\"] .element { display: none }. Game logic only needs to call setAttribute once per state change. Clean separation of concerns.",
+      "confidence": "high",
+      "affects": [
+        "style.css",
+        "game.js",
+        "FA1-game-logic",
+        "FA2-visual-presentation",
+        "FA3-polish-and-feel"
+      ]
+    },
+    {
+      "decision": "Card back uses CSS repeating-linear-gradient crosshatch pattern",
+      "context": "Design pass-3 specifies 'repeating diagonal lines or crosshatch using repeating-linear-gradient' with base #3D3632 and accent rgba(245, 240, 235, 0.08).",
+      "alternatives_considered": [
+        "SVG pattern — rejected: adds asset, more complex",
+        "Solid color — rejected: design spec says 'not a solid color', must register as intentional"
+      ],
+      "rationale": "Pure CSS, zero file weight, matches spec exactly. Two overlapping 45deg/-45deg repeating gradients at 8px spacing with 1px accent lines.",
+      "confidence": "high",
+      "affects": [
+        "style.css",
+        "FA2-css-card-rendering"
+      ]
+    },
+    {
+      "decision": "Vitest + jsdom for testing (dev dependency only, not shipped)",
+      "context": "Need test infrastructure for TDD. Product is vanilla JS but tests need DOM environment.",
+      "alternatives_considered": [
+        "No tests — rejected: TDD is required by foundation protocol",
+        "Jest — rejected: vitest is faster, native ESM support, lighter config",
+        "Playwright/browser tests — rejected: overkill for unit/DOM tests at this stage"
+      ],
+      "rationale": "Vitest gives fast test execution with jsdom environment. Tests read the actual HTML/CSS files and parse them. 42 tests run in <500ms. Not included in production build.",
+      "confidence": "high",
+      "affects": [
+        "package.json",
+        "vitest.config.js",
+        "tests/"
+      ]
+    },
+    {
+      "decision": "Card flip uses CSS 3D transform with perspective 1000px, 400ms cubic-bezier(0.25, 0.1, 0.25, 1.0)",
+      "context": "Design pass-3 interaction spec defines exact flip parameters. Foundation scaffolds the CSS; game-logic stories trigger it.",
+      "alternatives_considered": [
+        "JavaScript animation — rejected: CSS transforms are GPU-accelerated, simpler, match the spec",
+        "Web Animations API — rejected: CSS is sufficient and more maintainable for a single transform"
+      ],
+      "rationale": "CSS 3D transforms with backface-visibility: hidden on both faces. Flip triggered by adding .flipped class to .card-inner. Easing decelerates like a physical card. Foundation provides the CSS plumbing; feature stories add the trigger logic.",
+      "confidence": "high",
+      "affects": [
+        "style.css",
+        "FA3-card-flip-animation"
+      ]
+    },
+    {
+      "decision": "Test fixtures provide SUITS, VALUES, makeCard(), makeDeck(), and sampleCards for all feature tests",
+      "context": "Feature stories need consistent card data for testing. Deck model tests need a full 52-card deck. Comparison tests need specific card pairs.",
+      "alternatives_considered": [
+        "Inline test data per test file — rejected: duplication, inconsistency",
+        "JSON fixture files — rejected: less flexible than JS functions that generate test data"
+      ],
+      "rationale": "Exported functions and constants that feature tests import. makeCard(value, suitIndex) produces any card. makeDeck() produces a full 52-card deck. sampleCards provides named realistic examples (Ace of Spades, Seven of Hearts, etc.).",
+      "confidence": "high",
+      "affects": [
+        "tests/fixtures.js",
+        "FA1-game-logic tests"
+      ]
+    },
+    {
+      "decision": "github-pages-config: static deployment with flat file structure at root",
+      "context": "Infrastructure manifest specifies github-pages deployment. No build step, no output directory — files served directly from root.",
+      "decided": {
+        "owner": "gregario",
+        "repo": "highlow",
+        "base_path": "/highlow",
+        "output_dir": ".",
+        "framework": "none",
+        "reason": "No framework, no build step. index.html, style.css, game.js served directly from root. .nojekyll file present. GitHub Pages Source = gh-pages branch."
+      },
+      "alternatives_considered": [],
+      "rationale": "Simplest possible deployment. No basePath needed since files are at root. .nojekyll prevents Jekyll processing.",
+      "confidence": "high",
+      "affects": [
+        "index.html",
+        "style.css",
+        "game.js",
+        ".nojekyll"
+      ]
+    },
+    {
+      "decision": "Search Before Building audit for cycle 1 story-building phase",
+      "context": "Pre-implementation code reuse analysis for f-scaffold story",
+      "alternatives_considered": [],
+      "rationale": "Found: 0 BUILD, 0 EXTEND, 4 REUSE, 0 REFACTOR-THEN-BUILD tasks. All 4 f-scaffold ACs are fully satisfied by existing foundation code. Added 16 targeted tests to verify each AC. No new implementation code needed — foundation phase already built everything.",
+      "confidence": "high",
+      "affects": [
+        "tests/scaffold.test.js"
+      ]
+    },
+    {
+      "decision": "f-auth story verified as correctly 'none' — no implementation needed, only verification tests",
+      "context": "Infrastructure manifest specifies auth strategy 'none'. Task ledger ACs (registration, login, logout, protected routes, session persistence) are generic foundation ACs that do not apply to this single-player anonymous game.",
+      "alternatives_considered": [
+        "Skip without tests — rejected: TDD protocol requires test evidence even for no-op stories",
+        "Implement stub auth — rejected: would add unnecessary code for a game with no users or protected resources"
+      ],
+      "rationale": "Wrote 13 verification tests confirming: no auth forms/buttons, no session tokens, no cookies, no auth providers, no protected routes, no redirect logic. Tests prove the absence is intentional and complete, not accidental. Game is immediately playable without authentication. localStorage used only for best score.",
+      "confidence": "high",
+      "affects": [
+        "tests/auth.test.js"
+      ]
+    },
+    {
+      "decision": "Search Before Building audit for f-ui-shell story",
+      "context": "Pre-implementation code reuse analysis for f-ui-shell story (cycle 1, story-building phase)",
+      "alternatives_considered": [],
+      "rationale": "Found: 0 BUILD, 0 EXTEND, 5 REUSE, 0 REFACTOR-THEN-BUILD tasks. All 5 f-ui-shell ACs are fully satisfied by existing foundation code. AC1 (app shell renders): index.html has game container with data-state='ready', all UI regions present — 9 tests in shell.test.js verify. AC3 (theme tokens): style.css has 11 color tokens, typography scale, spacing, radius, shadow tokens on :root — 11 tests in tokens.test.js verify. AC2 (navigation): correctly absent per vision scope.out ('multi-page routing'), divergence documented. AC4 (error boundaries): correctly absent per design analysis (no async ops), divergence documented. AC5 (loading states): correctly absent per design analysis (no data fetching), divergence documented. No new implementation code or tests needed — foundation phase built everything. 20 existing tests all pass.",
+      "confidence": "high",
+      "affects": [
+        "index.html",
+        "style.css",
+        "game.js",
+        "tests/shell.test.js",
+        "tests/tokens.test.js"
+      ]
+    },
+    {
+      "decision": "Search Before Building audit for deck-and-card-model story",
+      "context": "Pre-implementation code reuse analysis for deck-and-card-model story (cycle 1, game-logic milestone)",
+      "alternatives_considered": [],
+      "rationale": "Found: 1 BUILD (deck.js with createDeck, shuffleDeck, drawCard), 0 EXTEND, 1 REFACTOR-THEN-BUILD (fixtures.js duplicated card/deck logic — refactored to import from deck.js). Foundation fixtures already had SUITS, VALUES, makeCard, makeDeck — promoted to production deck.js module and fixtures now re-exports from it. Single source of truth for card model.",
+      "confidence": "high",
+      "affects": [
+        "deck.js",
+        "tests/deck.test.js",
+        "tests/fixtures.js"
+      ]
+    },
+    {
+      "decision": "deck.js is an ES module with named exports, consistent with test fixtures pattern",
+      "context": "game.js uses IIFE pattern (no modules, runs in browser). deck.js needs to be importable by both tests and game.js.",
+      "alternatives_considered": [
+        "IIFE pattern matching game.js — rejected: tests import deck functions via ESM, IIFE would require global pollution or separate test harness",
+        "CommonJS — rejected: vitest uses ESM, project has no bundler to transform CJS"
+      ],
+      "rationale": "deck.js exports via ESM for test imports. When game-state-machine story wires deck into game.js, it will either inline the functions or use a script type=module approach. The deck module is the canonical implementation; game.js will consume it. This keeps tests clean and the implementation reusable.",
+      "confidence": "high",
+      "affects": [
+        "deck.js",
+        "game.js",
+        "tests/deck.test.js"
+      ]
+    },
+    {
+      "decision": "Fisher-Yates shuffle returns new array, does not mutate input",
+      "context": "Shuffle algorithm choice for AC-FA1-02. Need randomized deck without losing original order.",
+      "alternatives_considered": [
+        "In-place shuffle (mutate) — rejected: callers may want to preserve original deck order for comparison or restart",
+        "Sort with random comparator — rejected: not uniform distribution, O(n log n) vs O(n)"
+      ],
+      "rationale": "Fisher-Yates is the standard O(n) uniform shuffle. Returning a new array (slice + swap) prevents accidental mutation bugs in game state management. Test verifies uniformity over 1000 shuffles.",
+      "confidence": "high",
+      "affects": [
+        "deck.js"
+      ]
+    },
+    {
+      "decision": "drawCard returns {card, remainingDeck} — immutable draw pattern",
+      "context": "AC-FA1-03 requires draw to deplete deck. Need to decide mutate vs. return-new.",
+      "alternatives_considered": [
+        "Mutate deck array in place (shift/pop) — rejected: mutable state is error-prone for game state management, harder to test",
+        "Deck class with internal state — rejected: adds class abstraction where plain functions suffice (McKinley: boring technology)"
+      ],
+      "rationale": "Returning {card, remainingDeck} lets game state management be explicit. Caller replaces their deck reference. Empty deck returns {card: null, remainingDeck: []}. Simple, testable, no hidden state.",
+      "confidence": "high",
+      "affects": [
+        "deck.js",
+        "game.js"
+      ]
+    },
+    {
+      "decision": "Search Before Building audit for game-state-machine story",
+      "context": "Pre-implementation code reuse analysis for game-state-machine story (cycle 1, game-logic milestone)",
+      "alternatives_considered": [],
+      "rationale": "Found: 1 BUILD (game-engine.js — pure state machine module), 1 EXTEND (game.js — refactored from IIFE to ES module importing game-engine.js), 0 REUSE, 0 REFACTOR-THEN-BUILD. deck.js already provides createDeck/shuffleDeck/drawCard used by engine. fixtures.js re-exports from deck.js for tests.",
+      "confidence": "high",
+      "affects": [
+        "game-engine.js",
+        "game.js",
+        "tests/game-engine.test.js",
+        "tests/game-state.test.js"
+      ]
+    },
+    {
+      "decision": "Separate pure game engine (game-engine.js) from DOM wiring (game.js)",
+      "context": "State machine logic needs to be testable without DOM. game.js was an IIFE that couldn't be imported by tests.",
+      "alternatives_considered": [
+        "All logic inline in game.js — rejected: untestable without full DOM setup, mixes concerns",
+        "Class-based state machine — rejected: plain functions with immutable state are simpler (McKinley: boring technology), and match deck.js pattern"
+      ],
+      "rationale": "game-engine.js exports createGame() returning an immutable state object with transition methods (startGame, guess, resolveWith, restartWith). Each method returns a new state object. compareCards is a pure function. This separation enables 39 unit tests without DOM, plus 24 DOM integration tests. game.js imports the engine and wires DOM events.",
+      "confidence": "high",
+      "affects": [
+        "game-engine.js",
+        "game.js",
+        "tests/game-engine.test.js"
+      ]
+    },
+    {
+      "decision": "Convert game.js from IIFE to ES module, update script tag to type=module",
+      "context": "game-engine.js and deck.js are ES modules. game.js needs to import from them. Prior decision noted this integration point.",
+      "alternatives_considered": [
+        "Inline engine code into game.js IIFE — rejected: violates separation of concerns, code duplication with deck.js",
+        "Use a bundler to compile modules to IIFE — rejected: adds build step, violates no-framework constraint"
+      ],
+      "rationale": "ES modules work natively in all modern browsers. type=module on script tag enables import syntax. The module defers automatically (no blocking). Broke auth.test.js which was eval()ing game.js — fixed by removing the eval (auth tests only verify absence of auth patterns in source, don't need script execution).",
+      "confidence": "high",
+      "affects": [
+        "game.js",
+        "index.html",
+        "tests/auth.test.js"
+      ]
+    },
+    {
+      "decision": "Immutable state transitions — every transition returns new state object",
+      "context": "Game state machine needs predictable, testable transitions. deck.js already uses immutable pattern (shuffleDeck returns new array, drawCard returns {card, remainingDeck}).",
+      "alternatives_considered": [
+        "Mutable state object — rejected: harder to test, harder to debug, prior factory_decision established immutable pattern with drawCard"
+      ],
+      "rationale": "Each state transition (startGame, guess, resolveWith, restartWith) returns a new state object. The caller replaces their reference. This matches the drawCard immutable pattern and makes every state transition independently testable. 39 unit tests verify all transition paths.",
+      "confidence": "high",
+      "affects": [
+        "game-engine.js"
+      ]
+    },
+    {
+      "decision": "Search Before Building audit for higher-lower-comparison story",
+      "context": "Pre-implementation code reuse analysis for higher-lower-comparison story (cycle 1, game-logic milestone)",
+      "alternatives_considered": [],
+      "rationale": "Found: 0 BUILD, 0 EXTEND, 8 REUSE, 0 REFACTOR-THEN-BUILD tasks. All 8 ACs (AC-FA1-13 through AC-FA1-20) are fully satisfied by existing code from the game-state-machine story. compareCards() in game-engine.js:5-11 handles all comparison logic. resolveWith() handles streak increment (correct), streak preservation (wrong/push), and cards-remaining tracking. game.js renderStreak() and renderCardsRemaining() handle DOM updates. Added 30 targeted tests verifying each AC with exact scenarios from the spec.",
+      "confidence": "high",
+      "affects": [
+        "tests/comparison-streak.test.js"
+      ]
+    },
+    {
+      "decision": "resolveWith takes explicit game state parameter rather than using this",
+      "context": "Need to resolve reveals after animation delay. Tests need to inject specific card combinations for deterministic testing.",
+      "alternatives_considered": [
+        "resolve() using this — rejected: harder to test with specific card combinations, animation timing couples state to DOM"
+      ],
+      "rationale": "resolveWith(gameState) lets tests inject exact currentCard/nextCard/guessDirection combinations for deterministic testing of correct/wrong/push/deck-complete paths. In production code, game.js calls engine.resolveWith(engine) after animation completes.",
+      "confidence": "high",
+      "affects": [
+        "game-engine.js",
+        "game.js",
+        "tests/game-engine.test.js"
+      ]
+    }
+  ],
+  "factory_questions": [
+    {
+      "question": "Foundation needs to create GitHub repo and deploy to gh-pages but git push and gh CLI commands are blocked by the session permission system.",
+      "found_in": "foundation_spec deploy task (f-deploy)",
+      "resolved_as": null,
+      "needs_clarification_from": "human",
+      "severity": "significant",
+      "suggested_alternatives": [
+        "Grant git push permissions in this session",
+        "Manually push: git push origin main && npx -y gh-pages@6 -d . -b gh-pages --dotfiles"
+      ],
+      "impact": "Blocks staging deployment verification. All local foundation work is complete. Feature cycles can proceed once push permissions are available."
+    },
+    {
+      "question": "f-auth acceptance criteria (registration, login, logout, protected routes, session persistence) are generic foundation ACs that don't apply when auth strategy is 'none'. Should these ACs be removed from the task ledger for projects with no auth?",
+      "found_in": "task_ledger.json f-auth story",
+      "resolved_as": "Verified absence with 13 tests. Story passes as 'auth correctly absent' rather than 'auth implemented'. The generic ACs serve as a checklist reminder — for this project, the correct implementation IS no implementation.",
+      "needs_clarification_from": "spec",
+      "severity": "minor"
+    }
+  ],
+  "foundation_completion": {
+    "schema_ready": true,
+    "auth_ready": true,
+    "integrations_ready": {},
+    "ui_scaffold_ready": true,
+    "deploy_ready": false,
+    "fixtures_ready": true,
+    "blocking_gaps": [
+      "Deploy blocked: git push permissions denied in session. GitHub repo exists at origin. All local work complete — needs push permissions or manual push."
+    ]
+  },
+  "foundation_eval_report": {
+    "verdict": "PASS",
+    "evaluated_by": "foundation-eval (independent evaluation)",
+    "evaluated_at": "2026-05-04",
+    "test_run": "55 passed, 0 failed, 0 skipped (626ms)",
+    "dimensions": {
+      "schema_completeness": {
+        "status": "SKIP",
+        "findings": [
+          "infrastructure_manifest.json: database type 'none'. No database, no schema, no migrations.",
+          "All data is client-side: 52-card deck generated in memory, single localStorage key ('highlow-best') for persistence.",
+          "Cross-referenced all feature areas (FA1 game-logic, FA2 visual-presentation, FA3 polish-and-feel) — all operate on in-memory card objects. No feature area requires a database schema.",
+          "SKIP reason: database explicitly out of scope per infrastructure manifest."
+        ]
+      },
+      "integration_scaffolds": {
+        "status": "SKIP",
+        "findings": [
+          "infrastructure_manifest.json: external_integrations = [], data_sources = [].",
+          "Only external resource is Google Fonts CDN (Inter), loaded via <link> with preconnect hints and display=swap — verified in index.html lines 8-10.",
+          "No API keys, no env vars, no client wrappers needed. infrastructure_manifest.json confirms env_vars: 'None'.",
+          "SKIP reason: no integrations in scope per infrastructure manifest."
+        ]
+      },
+      "auth_flows": {
+        "status": "SKIP",
+        "findings": [
+          "infrastructure_manifest.json: auth strategy 'none'. vision.json confirms no user accounts, single-player anonymous game.",
+          "13 verification tests in tests/auth.test.js independently confirm: no signup forms, no email/password inputs, no login buttons, no OAuth references, no session tokens, no cookies, no auth-gated localStorage, no redirect logic, no router references.",
+          "game.js localStorage usage verified — only key is 'highlow-best', used for score persistence not auth.",
+          "Game initializes to 'ready' state immediately without any auth gate.",
+          "SKIP reason: auth explicitly not needed by design. Absence is verified, not assumed."
+        ]
+      },
+      "shared_components": {
+        "status": "PASS",
+        "findings": [
+          "App shell renders: index.html has game container (#game) with data-state='ready', card with front/back faces, Higher/Lower buttons, Play Again button, streak display, cards-remaining, best-score, sr-announcer. 9 shell tests verify.",
+          "Navigation: correctly absent — vision.json scope.out includes 'multi-page routing'. Divergence documented in cycle_context with rationale.",
+          "Theme tokens: 11 color tokens (bg, fg, card-face, card-back, suit-red, suit-dark, accent-correct, accent-wrong, accent-push, btn-bg, btn-hover), full typography scale (5 size tiers), spacing, radius, shadow tokens on :root. Warm palette — bg #F5F0EB not white, fg #2C2825 not black. 11 token tests verify.",
+          "Error boundaries / loading states: correctly absent — product has no async operations, no network requests, no data fetching. Divergence documented.",
+          "State visibility: CSS rules for all 5 game states (ready, playing, revealing, game-over, deck-complete) — verified show/hide logic for streak, cards-remaining, action-buttons, play-again, best-score across all states.",
+          "Card structure: front/back faces with backface-visibility:hidden, 3D flip via rotateY(180deg), 400ms cubic-bezier easing, 1000px perspective, crosshatch pattern on back via repeating-linear-gradient. 5:7 aspect ratio.",
+          "Accessibility: aria-live='polite' announcer with sr-only positioning, :focus-visible outline on buttons, hover scoped to @media (hover: hover), prefers-reduced-motion disables all transitions/animations.",
+          "Responsive: max-width 480px container, min-width 140px card, 48px min-height buttons (exceeds 44px touch target), dvh units for full-height layout, padding 48px/24px.",
+          "Button scaffold: :active scale(0.96), hover state, disabled state (opacity 0.5, pointer-events:none in revealing state), btn-active inset shadow.",
+          "All features (FA1, FA2, FA3) can build on this shell. FA1 adds game logic to game.js. FA2 adds card face rendering. FA3 adds animation triggers. None need to modify the HTML structure or CSS token system."
+        ]
+      },
+      "deployment_pipeline": {
+        "status": "SKIP",
+        "findings": [
+          "Deployment blocked by session permission denial for git push — documented in cycle_context.skipped with clear unblock path.",
+          "All local foundation work complete. .nojekyll file present. Flat file structure (index.html, style.css, game.js at root) ready for GitHub Pages.",
+          "deployment_url is null — cannot verify staging environment.",
+          "SKIP reason: infrastructure blocker (session permissions), not a foundation quality issue.",
+          "Feature development is not blocked — all feature work is local. Deploy can be unblocked independently."
+        ]
+      },
+      "test_fixtures": {
+        "status": "PASS",
+        "findings": [
+          "SUITS constant: 4 suits (hearts/♥, diamonds/♦, clubs/♣, spades/♠) with name and symbol. Realistic domain data.",
+          "VALUES constant: 13 values (Ace=1 through King=13) with numeric value, display label (A, 2-10, J, Q, K), and full name. Correct mapping verified.",
+          "makeCard(value, suitIndex): produces card objects with value, label, name, suit, symbol, and displayName ('Seven of Hearts'). Realistic output.",
+          "makeDeck(): produces exactly 52 unique cards covering all 4×13 combinations. Verified by uniqueness test.",
+          "sampleCards: 6 named cards (aceOfSpades, sevenOfHearts, kingOfDiamonds, threeOfClubs, tenOfHearts, queenOfSpades) covering all 4 suits and diverse values. Realistic names.",
+          "All exports are ESM — importable by feature tests via import statement. 6 fixture tests pass.",
+          "No placeholder data: grep for test123, foo@bar, lorem, placeholder, hardcoded — zero matches across all source files."
+        ]
+      }
+    },
+    "silent_degradation_check": {
+      "status": "PASS",
+      "evidence": [
+        "Grep for TODO/FIXME/HACK/PLACEHOLDER/STUB/MOCK across *.html, *.css, *.js — zero matches.",
+        "Grep for test123/foo@bar/lorem/placeholder/hardcoded — zero matches.",
+        "game.js is a real scaffold (56 lines): IIFE wrapping, DOM references for all 10 elements, getState/setState via data-state attribute, announce() for aria-live region, readBestScore/writeBestScore with try/catch graceful degradation, init() sets 'ready' state and announces. No stubs, no mock returns.",
+        "CSS design tokens are real values from design spec — warm palette (#F5F0EB background, not white; #2C2825 foreground, not black; #C45B4A suit-red, not pure red).",
+        "Card back crosshatch pattern: two repeating-linear-gradient layers at 45deg/-45deg, 8px spacing, 1px accent lines. Not a solid color.",
+        "Flip animation: rotateY(180deg), 400ms cubic-bezier(0.25, 0.1, 0.25, 1.0), perspective 1000px, backface-visibility hidden on both faces, transform-style preserve-3d. Fully specified, not a stub.",
+        "State visibility rules: 5 states × multiple elements = 15+ CSS rules governing show/hide. Not simplified.",
+        "Reduced motion: disables animation-duration, transition-duration to 0.01ms, removes card-inner transition. Real implementation.",
+        "Total source weight: index.html ~1.2KB + style.css ~4.7KB + game.js ~1.2KB ≈ 7KB. Well under 100KB budget.",
+        "All 55 tests run and pass in 626ms. No .skip markers, no .only markers, no empty test bodies, no tests that assert true unconditionally. Tests verify real properties of real files."
+      ]
+    },
+    "structural_gaps": [],
+    "integration_gaps": [],
+    "recommendations": [
+      "Deploy can be unblocked by granting push permissions or manually running: git push origin main && npx -y gh-pages@6 -d . -b gh-pages --dotfiles. Independent of feature work.",
+      "game.js init() is intentionally minimal — feature stories (FA1) will add deck creation, event listeners, comparison logic, and state transitions. The scaffold provides DOM wiring and state management primitives. Correct for foundation."
+    ]
+  },
+  "infrastructure": {
+    "readiness": {
+      "posthog": true,
+      "sentry": false,
+      "supabase": false,
+      "cloudflare": false
+    }
+  },
+  "vision": {
+    "infrastructure": {
+      "deployment_target": "github-pages",
+      "needs_database": false,
+      "needs_auth": false
+    }
+  },
+  "decomposition_strategy": {
+    "profile": "single-page",
+    "rationale": "Single HTML file, vanilla JS, no framework, no routing, no database. Product is a single-page game with state-based transitions.",
+    "foundation_pass": "none needed beyond what was already built",
+    "capabilities": {
+      "foundation-needed": false,
+      "dependency-ordering": false,
+      "parallel-building": false,
+      "integration-pass": false,
+      "integration-escalation": false
+    }
+  }
+}
