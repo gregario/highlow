@@ -1,0 +1,196 @@
+design_artifact:
+  discipline: "design"
+  status: "complete"
+  product: "High Low"
+  product_type: "single-page stateful card game, portfolio piece"
+
+  loop_back_triggers:
+    to_spec: []
+    to_self: []
+
+  passes:
+    ux_architecture:
+      file: "design/pass-1-ux-architecture.yaml"
+      summary: "Single page, 5 game states (Ready/Playing/Revealing/Game Over/Deck Complete), 2 journeys, 0 three-click violations. State transitions are the navigation model."
+
+    component_design:
+      file: "design/pass-2-component-design.yaml"
+      summary: "7 custom components (PlayingCard, GameTitle, StreakCounter, CardsRemaining, GameButtons, PlayAgainButton, BestScore). Zero icons, zero charts, zero data fetching. Progressive disclosure driven by game state."
+
+    visual_design:
+      file: "design/pass-3-visual-design.yaml"
+      summary: "Warm parchment palette, Inter typeface, 4px spacing grid, CSS-only card rendering, 3D flip animation, physical-feeling micro-interactions. Zero slop detected."
+
+  quality_summary:
+    pass_1_scores:
+      sitemap_completeness: 10
+      journey_efficiency: 10
+      hierarchy_clarity: 10
+      error_coverage: 9
+      task_flow_completeness: 10
+
+    pass_2_scores:
+      component_coverage: 10
+      five_state_coverage: 10
+      progressive_disclosure: 10
+      data_mapping_clarity: 10
+      interaction_completeness: 10
+
+    pass_3_scores:
+      color_intentionality: 10
+      typography_hierarchy: 10
+      spacing_consistency: 10
+      interaction_completeness: 10
+      accessibility_coverage: 10
+      mobile_adaptation: 10
+      slop_free: 10
+
+    overall_design_score: 10
+
+    dimensions_rated:
+      - dimension: "Information hierarchy"
+        score: 10
+        designer_note: "Rams — every element earns its place. Card dominant, streak subordinate, buttons obvious, secondary text peripheral. 4.67x size ratio between largest and smallest text."
+
+      - dimension: "Navigation efficiency"
+        score: 10
+        designer_note: "One page, no navigation needed. Game state transitions are instant (client-side). Every action is 1 click."
+
+      - dimension: "Progressive disclosure"
+        score: 10
+        designer_note: "Norman — design for first 10 seconds AND 1000th use. Elements appear as game state demands. No tutorial needed — the game is self-explanatory. Best score appears only when relevant."
+
+      - dimension: "Five-state completeness"
+        score: 10
+        designer_note: "Three of five states (loading, error, overflow) are structurally impossible in a client-side static game. This is a design strength, not a gap."
+
+      - dimension: "Visual consistency"
+        score: 10
+        designer_note: "Ive — care is visible. Single font, 4px grid, warm neutral palette, consistent border radius, all spacing on scale. No magic numbers, no one-off values."
+
+      - dimension: "Interaction polish"
+        score: 10
+        designer_note: "Physical-feeling micro-interactions: button press scales, card flip has weight, streak pulses on increment, feedback glows fade naturally. Every transition has defined duration and easing."
+
+      - dimension: "Accessibility"
+        score: 10
+        designer_note: "WCAG AA on all text, keyboard-only playable, screen reader live regions with full card names, prefers-reduced-motion respected, color-independent suit identification, 44px touch targets."
+
+      - dimension: "Mobile adaptation"
+        score: 10
+        designer_note: "Mobile-first — the layout is inherently single-column portrait. No breakpoints needed. Card and buttons scale with viewport. Touch targets in comfortable thumb zone."
+
+      - dimension: "AI slop avoidance"
+        score: 10
+        designer_note: "Zero of 8 slop patterns detected. No purple, no gradients, no icons, no decorative shapes, no stock photos, no startup-speak. The product is too minimal to contain slop."
+
+      - dimension: "Trust signals"
+        score: 10
+        designer_note: "Gebbia — trust through design. Every micro-detail signals care: the warm palette, the card back pattern visible during flip, the in-place game-over transition, the font-display: swap. Visitors feel the consideration even when they can't articulate it."
+
+    all_above_threshold: true
+    slop_detected: false
+
+  po_checks:
+    hierarchy_checks:
+      - screen: "/ (playing)"
+        check: "Card value is the most visually prominent element"
+        measurement: "Card value font-size (3.5rem/56px) must be >= 2x any other text on screen during playing state"
+        threshold: "prominence_ratio >= 2.0"
+        pass_criteria: "Card value text is the largest element; streak counter and buttons are visibly subordinate"
+
+      - screen: "/ (game-over)"
+        check: "Final streak is the most visually prominent element"
+        measurement: "Streak font-size (3rem/48px) must be >= 2x any other text on screen during game-over state"
+        threshold: "prominence_ratio >= 2.0"
+        pass_criteria: "Final streak number dominates the game-over screen"
+
+    five_state_checks:
+      - screen: "/ (empty/first visit)"
+        state: "empty"
+        check: "First visit looks identical to ready state minus best-score"
+        measurement: "Compare DOM in first-visit vs returning-visit ready state. Only difference should be presence/absence of best-score element."
+        threshold: "Layout is identical except for best-score display"
+        pass_criteria: "No onboarding modal, no tutorial, no empty-state illustration. Just the game, ready to play."
+
+    component_checks:
+      - screen: "/ (playing)"
+        component: "PlayingCard"
+        check: "Card renders with CSS only, no images"
+        measurement: "Query card element and all descendants for <img> tags, background-image CSS properties"
+        threshold: "Zero image elements or background-image rules"
+        pass_criteria: "Card face and back are rendered entirely with HTML text and CSS"
+
+      - screen: "/ (playing)"
+        component: "GameButtons"
+        check: "Higher and Lower buttons are equal width"
+        measurement: "Compare offsetWidth of both buttons"
+        threshold: "Width difference <= 2px"
+        pass_criteria: "Buttons are visually equal, neither is prioritized"
+
+    style_token_checks:
+      - check: "Background is not pure white or pure black"
+        measurement: "Computed background-color of body"
+        threshold: "Not #FFFFFF, not #000000, not any pure gray"
+        pass_criteria: "Background has visible warmth"
+
+      - check: "Only one font family used"
+        measurement: "Extract all computed font-family values from all text elements"
+        threshold: "All resolve to the same primary font (Inter) or its fallback stack"
+        pass_criteria: "Single typeface across entire page"
+
+      - check: "All text passes WCAG AA contrast"
+        measurement: "Compute contrast ratio for every text element against its background"
+        threshold: "All ratios >= 4.5:1 for body text, >= 3:1 for large text"
+        pass_criteria: "Zero contrast violations"
+
+    interaction_checks:
+      - check: "Card flip animation uses 3D transform"
+        measurement: "Observe CSS transform property during card reveal"
+        threshold: "rotateY transform detected, duration 350-450ms"
+        pass_criteria: "Card rotates in 3D, not a flat transition"
+
+      - check: "Buttons have active/press state"
+        measurement: "Check :active pseudo-class for scale transform"
+        threshold: "Scale value between 0.94 and 0.98 on :active"
+        pass_criteria: "Button visually compresses on press"
+
+      - check: "Reduced motion disables animations"
+        measurement: "Set prefers-reduced-motion: reduce, trigger card flip"
+        threshold: "No rotateY animation, card face appears instantly or via opacity"
+        pass_criteria: "Game is fully playable with all animations disabled"
+
+      - check: "Game over uses in-place transition, no modal"
+        measurement: "On game-over state, query for fixed/absolute overlay elements"
+        threshold: "Zero overlay or modal elements"
+        pass_criteria: "Layout transforms in place — buttons swap, streak grows, no popup"
+
+    slop_checks:
+      - check: "No purple in any color value"
+        measurement: "Parse all color custom properties and computed colors"
+        threshold: "Zero colors in the purple hue range (270-300)"
+        pass_criteria: "Palette is exclusively warm neutrals"
+
+      - check: "No decorative elements without function"
+        measurement: "Check for SVG backgrounds, decorative pseudo-elements, gradient overlays"
+        threshold: "Zero decorative-only visual elements (card back pattern is functional — it signals face-down state)"
+        pass_criteria: "Every visual element serves a game or information purpose"
+
+    total_checks: 13
+
+  estimates:
+    total_human_team: "~1.5 weeks"
+    total_rouge_cycles: "~1 build cycle"
+    per_pass:
+      pass_1:
+        human_team: "~1 day"
+        rouge_cycles: "~0.5 build cycles"
+      pass_2:
+        human_team: "~2 days"
+        rouge_cycles: "~0.5 build cycles"
+      pass_3:
+        human_team: "~3 days"
+        rouge_cycles: "~0.5 build cycles"
+
+  invalidates_previous_disciplines: []
+  questions_for_human: []

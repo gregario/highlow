@@ -1,0 +1,66 @@
+{
+  "project": "highlow",
+  "name": "highlow",
+  "current_state": "foundation-eval",
+  "budget_cap_usd": 100,
+  "milestones": [],
+  "escalations": [],
+  "seedingProgress": {
+    "disciplines": [
+      {
+        "discipline": "brainstorming",
+        "status": "complete"
+      },
+      {
+        "discipline": "sizing",
+        "status": "complete"
+      },
+      {
+        "discipline": "taste",
+        "status": "complete"
+      },
+      {
+        "discipline": "competition",
+        "status": "complete"
+      },
+      {
+        "discipline": "spec",
+        "status": "complete"
+      },
+      {
+        "discipline": "infrastructure",
+        "status": "complete"
+      },
+      {
+        "discipline": "design",
+        "status": "complete"
+      },
+      {
+        "discipline": "legal-privacy",
+        "status": "complete"
+      },
+      {
+        "discipline": "marketing",
+        "status": "complete"
+      }
+    ],
+    "completedCount": 9,
+    "totalCount": 9,
+    "currentDiscipline": "marketing"
+  },
+  "createdAt": "2026-05-04T12:25:33.264Z",
+  "foundation": {
+    "status": "evaluating"
+  },
+  "costs": {
+    "cumulative_tokens": 110325411,
+    "cumulative_cost_usd": 3.68305325,
+    "cumulative_cost_usd_real": 3.68305325,
+    "cumulative_cost_usd_estimated": 0,
+    "phase_tokens": 110325411,
+    "phase_cost_usd": 3.68305325,
+    "phase_cost_source": "parsed"
+  },
+  "_version": 4,
+  "timestamp": "2026-05-04T14:12:51.875Z"
+}

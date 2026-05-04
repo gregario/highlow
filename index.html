@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>High Low</title>
+  <meta name="description" content="A higher-or-lower card game that demonstrates taste.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="game" class="game" data-state="ready">
+    <header class="game-title">HIGH LOW</header>
+
+    <div class="card-area">
+      <div class="card" aria-label="Playing card">
+        <div class="card-inner">
+          <div class="card-face card-front"></div>
+          <div class="card-face card-back"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="streak-display" aria-label="Current streak"></div>
+
+    <div class="cards-remaining" aria-label="Cards remaining"></div>
+
+    <div class="action-buttons">
+      <button class="btn btn-higher" type="button">Higher</button>
+      <button class="btn btn-lower" type="button">Lower</button>
+    </div>
+
+    <div class="play-again-area">
+      <button class="btn btn-play-again" type="button">Play again</button>
+    </div>
+
+    <div class="best-score" aria-label="Best score"></div>
+
+    <div class="sr-announcer" role="status" aria-live="polite" aria-atomic="true"></div>
+  </main>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

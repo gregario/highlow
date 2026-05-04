@@ -1,0 +1,270 @@
+{
+  "schema_version": "product-standard-v1",
+  "generated": true,
+  "generated_at": "2026-05-04T13:23:10.381Z",
+  "source": "library/global",
+  "heuristics": [
+    {
+      "id": "empty-state-guidance",
+      "name": "Empty states have CTAs",
+      "rule": "100% of empty states must include a call-to-action guiding the user",
+      "measurement": {
+        "type": "dom-analysis",
+        "method": "Navigate to each empty state, verify CTA element exists"
+      },
+      "threshold": 1,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "error-recovery",
+      "name": "Error states have recovery",
+      "rule": "100% of error states must have a clear recovery path",
+      "measurement": {
+        "type": "interaction-test",
+        "method": "Trigger each error state, verify recovery action is visible and functional"
+      },
+      "threshold": 1,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "five-state-coverage",
+      "name": "Five UI states per screen",
+      "rule": "Every interactive screen must be designed in 5 states: empty, loading, populated, error, overflow",
+      "measurement": {
+        "type": "code-analysis",
+        "method": "Check component code for all 5 state branches"
+      },
+      "threshold": 5,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "hierarchy-levels",
+      "name": "Three visual weight tiers",
+      "rule": "Every screen must have exactly 3 visual weight tiers: primary, secondary, tertiary",
+      "measurement": {
+        "type": "dom-analysis",
+        "method": "Identify distinct font-size/weight clusters per screen"
+      },
+      "threshold": 3,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "hierarchy-primary",
+      "name": "Primary content dominance",
+      "rule": "Primary content must have at least 1.5x the visual weight of secondary content",
+      "measurement": {
+        "type": "dom-analysis",
+        "method": "Compare computed font-size and area of primary vs secondary elements"
+      },
+      "threshold": 1.5,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "interactive-feedback",
+      "name": "All elements respond to interaction",
+      "rule": "100% of interactive elements must respond visually to hover and click",
+      "measurement": {
+        "type": "interaction-test",
+        "method": "Hover and click each interactive element, capture screenshot diff"
+      },
+      "threshold": 1,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "journey-completeness",
+      "name": "All journeys completable",
+      "rule": "100% of defined user journeys must be completable end-to-end",
+      "measurement": {
+        "type": "journey-test",
+        "method": "Execute each journey via browser automation, verify completion"
+      },
+      "threshold": 1,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "lighthouse-accessibility",
+      "name": "Lighthouse accessibility score",
+      "rule": "Lighthouse accessibility score must be 90 or above",
+      "measurement": {
+        "type": "lighthouse-metric",
+        "method": "Run Lighthouse, check categories.accessibility.score"
+      },
+      "threshold": 0.9,
+      "type": "non-functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "lighthouse-performance",
+      "name": "Lighthouse performance score",
+      "rule": "Lighthouse performance score must be 80 or above",
+      "measurement": {
+        "type": "lighthouse-metric",
+        "method": "Run Lighthouse, check categories.performance.score"
+      },
+      "threshold": 0.8,
+      "type": "non-functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "mobile-responsive",
+      "name": "Mobile responsive",
+      "rule": "Application must be usable at 375px width with minimum 44px tap targets",
+      "measurement": {
+        "type": "interaction-test",
+        "method": "Set viewport to 375px, verify layout and measure tap target sizes"
+      },
+      "threshold": {
+        "min_width": 375,
+        "min_tap_target": 44
+      },
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "no-console-errors",
+      "name": "Zero console errors",
+      "rule": "No JavaScript console errors on any page",
+      "measurement": {
+        "type": "interaction-test",
+        "method": "Navigate all pages, collect console.error output via $B console --errors"
+      },
+      "threshold": 0,
+      "type": "non-functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "page-load-time",
+      "name": "Fast page load",
+      "rule": "Largest Contentful Paint must be under 2000ms",
+      "measurement": {
+        "type": "lighthouse-metric",
+        "method": "Run Lighthouse, check audits.largest-contentful-paint.numericValue"
+      },
+      "threshold": 2000,
+      "type": "non-functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "progressive-disclosure",
+      "name": "Limited primary actions",
+      "rule": "No more than 7 primary actions visible at any time",
+      "measurement": {
+        "type": "dom-analysis",
+        "method": "Count visible primary action elements (buttons, links with primary styling)"
+      },
+      "threshold": 7,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "three-click-rule",
+      "name": "Core tasks in 3 clicks",
+      "rule": "Core user tasks must complete in 3 clicks or fewer",
+      "measurement": {
+        "type": "journey-test",
+        "method": "Simulate each core journey, count click events"
+      },
+      "threshold": 3,
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    },
+    {
+      "id": "visual-consistency",
+      "name": "Consistent typography and color",
+      "rule": "Use at most 2 font families, 5 font sizes, and 8 colors",
+      "measurement": {
+        "type": "code-analysis",
+        "method": "Parse CSS/Tailwind config for font-family count, font-size count, color count"
+      },
+      "threshold": {
+        "font_families": 2,
+        "font_sizes": 5,
+        "colors": 8
+      },
+      "type": "functional",
+      "tier": "global",
+      "domain": null,
+      "source": "rouge-seed-v1",
+      "version": 1,
+      "status": "active",
+      "deprecated_reason": null
+    }
+  ]
+}

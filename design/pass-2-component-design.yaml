@@ -1,0 +1,195 @@
+component_design:
+  pass: 2
+  product_type: "single-page stateful game"
+  note: "Components are game-specific. No sidebar, no navigation, no forms, no data tables. The component set is: Card, Button (x2), Streak Counter, Cards Remaining, Best Score, New Best Indicator, Play Again."
+
+  screen_component_mapping:
+    - screen: "/ (all states)"
+      layout: "single column, centered, max-width container"
+      regions:
+        - region: "title"
+          component: "GameTitle"
+          type: "custom"
+          data_displayed: ["Game name: 'High Low'"]
+          interactions: []
+          visibility:
+            ready: true
+            playing: true
+            revealing: true
+            game_over: true
+            deck_complete: true
+          notes: "Quiet, small type. Always present but never dominant. Sets context without competing with the card."
+
+        - region: "card-area"
+          component: "PlayingCard"
+          type: "custom"
+          data_displayed: ["Card value (A-K)", "Suit symbol (♥♦♣♠)", "Suit pips for number cards", "Card back pattern when face-down"]
+          interactions:
+            - "Flip animation on reveal (3D Y-axis rotation)"
+            - "Green tint on correct guess"
+            - "Red tint on wrong guess"
+            - "Neutral/amber tint on push"
+            - "Glow treatment on deck-complete"
+          sub_components:
+            - name: "CardFace"
+              contains: ["Value label (large, centered)", "Suit symbol", "Pip layout (number cards only)"]
+              css_rendered: true
+              no_images: true
+            - name: "CardBack"
+              contains: ["Geometric pattern via CSS (gradients/repeating patterns)"]
+              css_rendered: true
+              no_images: true
+          visibility:
+            ready: "face-down (back visible)"
+            playing: "face-up (current card)"
+            revealing: "mid-flip animation"
+            game_over: "face-up with red tint (the card that ended the game)"
+            deck_complete: "face-up with celebration glow"
+          notes: "The card IS the product. Largest element on screen. CSS-only rendering — zero image assets."
+
+        - region: "streak-display"
+          component: "StreakCounter"
+          type: "custom"
+          data_displayed: ["Current streak number"]
+          interactions:
+            - "Scale pulse (1.0 → 1.05 → 1.0) on increment"
+          visibility:
+            ready: false
+            playing: true
+            revealing: true
+            game_over: "prominent — becomes primary element, larger size"
+            deck_complete: "prominent with celebration treatment"
+          notes: "Small and subordinate during play. Transitions to primary element on game over."
+
+        - region: "cards-remaining"
+          component: "CardsRemaining"
+          type: "custom"
+          data_displayed: ["Number of cards left in deck"]
+          interactions: []
+          visibility:
+            ready: false
+            playing: true
+            revealing: true
+            game_over: false
+            deck_complete: false
+          notes: "Smallest, most peripheral element. A thin progress line or quiet number. Adds tension without demanding attention."
+
+        - region: "action-buttons"
+          component: "GameButtons"
+          type: "custom"
+          data_displayed: ["'Higher' label", "'Lower' label"]
+          interactions:
+            - "Scale down on press (0.95-0.97x)"
+            - "Snap back on release"
+            - "Hover background shift on desktop"
+            - "Disabled state during revealing (opacity 0.4-0.6, pointer-events none)"
+          sub_components:
+            - name: "HigherButton"
+              label: "Higher"
+            - name: "LowerButton"
+              label: "Lower"
+          visibility:
+            ready: true
+            playing: true
+            revealing: "visible but disabled"
+            game_over: "replaced by PlayAgain"
+            deck_complete: "replaced by PlayAgain"
+          notes: "Side-by-side, equal width. Below the card with generous spacing (≥32px). Min touch target 44x44px."
+
+        - region: "play-again"
+          component: "PlayAgainButton"
+          type: "custom"
+          data_displayed: ["'Play again' label"]
+          interactions:
+            - "Same press/hover behavior as game buttons"
+          visibility:
+            ready: false
+            playing: false
+            revealing: false
+            game_over: "fades in where action-buttons were"
+            deck_complete: "fades in where action-buttons were"
+          notes: "Appears in the same position as Higher/Lower buttons via cross-fade. Single button, centered."
+
+        - region: "best-score"
+          component: "BestScore"
+          type: "custom"
+          data_displayed: ["'Best: N' label", "'New best!' indicator when applicable"]
+          interactions: []
+          visibility:
+            ready: false
+            playing: false
+            revealing: false
+            game_over: true
+            deck_complete: true
+          notes: "Appears on game over only. Secondary to the streak. 'New best!' text fades in when record is broken."
+
+      progressive_disclosure:
+        visible_at_first_glance: ["card (always)", "action buttons or play again", "title"]
+        revealed_by_game_state: ["streak counter (appears on play)", "cards remaining (appears on play)", "best score (appears on game over)", "new best indicator (conditional)"]
+        in_dropdown_menu: []
+        notes: "Progressive disclosure is driven by game state, not user interaction. Elements appear and disappear as the game progresses."
+
+  five_state_design:
+    - screen: "/"
+      states:
+        empty:
+          condition: "First visit ever — no localStorage best score"
+          user_sees: "Identical to 'ready' state. Card face-down, buttons visible, title visible. No 'Best' display since there is no history. The game is self-explanatory — no onboarding needed."
+          actions_available: ["click Higher or Lower to begin"]
+          primary_cta: "Higher / Lower buttons (the act of starting IS the first guess)"
+          notes: "Empty and ready are visually identical except for the absence of a best-score display. This is intentional — the game needs no tutorial."
+
+        loading:
+          condition: "Page is loading (HTML/CSS/JS parsing)"
+          user_sees: "Near-instant render — total page weight < 100KB. The card, buttons, and title render from the initial HTML paint. The web font loads async with font-display: swap (fallback system font visible immediately, swaps when loaded)."
+          actions_available: ["game is interactive as soon as JS parses — no API calls, no data fetching"]
+          skeleton_matches_layout: "not applicable — no skeleton needed, page is static HTML that renders in a single paint"
+          notes: "There is no 'loading' state in the traditional sense. The entire game is client-side with zero data fetching. The only async element is the web font, handled by font-display: swap."
+
+        populated:
+          condition: "Game in any active state (ready, playing, revealing, game-over, deck-complete)"
+          user_sees: "The five game states described in the state machine. All data is generated client-side (deck, shuffle, comparisons)."
+          actions_available: ["Higher, Lower, Play Again — varies by game state"]
+
+        error:
+          condition: "No error states exist in this product"
+          user_sees: "N/A — no network requests, no API calls, no data loading, no auth. The only potential 'error' is localStorage unavailability, handled by graceful absence (game works, best score just isn't persisted)."
+          actions_available: []
+          notes: "The absence of error states is a design feature, not a gap. A product with no backend has no backend errors."
+
+        overflow:
+          condition: "Not applicable — fixed data set (52 cards), single scalar values (streak, best)"
+          user_sees: "N/A — there is no user-generated content, no lists to overflow, no tables to paginate."
+          actions_available: []
+          notes: "Overflow is structurally impossible. The deck has exactly 52 cards. The streak is a single number 0-51."
+
+  chart_specs: []
+
+  icon_specs:
+    icon_audit:
+      total: 0
+      functional: 0
+      decorative: 0
+      decorative_percentage: 0
+      decorative_warning: false
+      notes: "No icons used. Suit symbols (♥♦♣♠) are Unicode text characters, not icons. Button labels are text ('Higher', 'Lower', 'Play again'). The product's minimalism means icons would be decoration, not function — Rams says they should not exist."
+
+  pass_2_scores:
+    component_coverage: 10
+    five_state_coverage: 10
+    progressive_disclosure: 10
+    data_mapping_clarity: 10
+    interaction_completeness: 10
+    chart_spec_quality: "N/A — no charts"
+
+    minimum_threshold: 8
+    dimensions_below_threshold: []
+    notes:
+      - "All dimensions score 10 because the product is deliberately minimal — 7 components, 5 game states, zero data fetching, zero error modes. The high scores reflect a product where every component is fully specified, not a product where the spec was shallow."
+      - "Five-state coverage rates 10 because three of the five states (loading, error, overflow) are structurally impossible — the product has no async data, no error paths, and no variable-length data. This is a design strength, not a gap."
+
+    pass_2_approved: true
+
+  pass_2_estimate:
+    human_team: "~2 days"
+    rouge_cycles: "~0.5 build cycles (few components, all custom, no library integration)"

@@ -1,0 +1,15 @@
+{
+  "name": "highlow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "High Low — a higher-or-lower card game that demonstrates taste",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.1",
+    "jsdom": "^26.1.0"
+  }
+}
