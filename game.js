@@ -132,7 +132,24 @@ import { createGame } from './game-engine.js';
         announce(
           engine.nextCard.displayName + '. You guessed ' + direction + '.'
         );
-        resolveAfterDelay();
+
+        setTimeout(function () {
+          var prevEngine = engine;
+          engine = engine.resolveWith(engine);
+          render();
+
+          if (engine.lastResult === 'correct') {
+            announce('Correct! ' + prevEngine.nextCard.displayName + '. Streak: ' + engine.streak + '. Higher or Lower?');
+          } else if (engine.lastResult === 'wrong') {
+            announce('Wrong. ' + prevEngine.nextCard.displayName + '. Game over. Final streak: ' + engine.streak + '.');
+          } else if (engine.lastResult === 'push') {
+            announce('Push! ' + prevEngine.nextCard.displayName + '. Streak stays at ' + engine.streak + '. Higher or Lower?');
+          }
+
+          if (engine.state === 'deck-complete') {
+            announce('Incredible! You guessed all 51 cards! Streak: 51.');
+          }
+        }, 400);
       }, 300);
       return;
     }
