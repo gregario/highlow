@@ -1,0 +1,29 @@
+[2026-05-04T19:38:14Z] [rouge-loop] starting pid=35201 filter=highlow node=v25.6.1 cwd=/Users/gregario/Projects/ClaudeCode/The-Rouge
+[2026-05-04T19:38:14Z] [deploy] Deploying highlow to staging (target: github-pages)
+[2026-05-04T19:38:14Z] [deploy]   $ git config --get remote.origin.url
+[2026-05-04T19:38:15Z] [deploy]   $ npm run build
+[2026-05-04T19:38:16Z] [deploy] github-pages deploy failed: npm error Missing script: "build"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/gregario/.npm/_logs/2026-05-04T19_38_15_945Z-debug-0.log
+
+[2026-05-04T19:38:46Z] [deploy] Deploying highlow to staging (target: github-pages)
+[2026-05-04T19:38:46Z] [deploy]   $ git config --get remote.origin.url
+[2026-05-04T19:38:46Z] [deploy]   $ npm run build
+[2026-05-04T19:38:46Z] [deploy] github-pages deploy failed: npm error Missing script: "build"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/gregario/.npm/_logs/2026-05-04T19_38_46_902Z-debug-0.log
+
+[2026-05-04T19:39:16Z] [deploy] Deploying highlow to staging (target: github-pages)
+[2026-05-04T19:39:16Z] [deploy]   $ git config --get remote.origin.url
+[2026-05-04T19:39:17Z] [deploy]   $ npm run build
+[2026-05-04T19:39:17Z] [deploy] github-pages deploy failed: npm error Missing script: "build"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/gregario/.npm/_logs/2026-05-04T19_39_17_748Z-debug-0.log
+
+[2026-05-04T20:00:35Z] [rouge-loop] starting pid=52040 filter=highlow node=v25.6.1 cwd=/Users/gregario/Projects/ClaudeCode/The-Rouge
