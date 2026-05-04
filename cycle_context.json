@@ -1,10 +1,58 @@
 {
   "_cycle_number": 1,
-  "_current_milestone": null,
-  "_current_story": null,
+  "_current_milestone": "Foundation",
+  "_current_story": "f-ui-shell",
   "_phase_complete": "foundation",
+  "story_result": {
+    "story_id": "f-ui-shell",
+    "outcome": "pass",
+    "files_changed": [
+      "index.html",
+      "style.css",
+      "game.js",
+      "tests/shell.test.js",
+      "tests/tokens.test.js"
+    ],
+    "tests_added": 0,
+    "tests_passing": 20,
+    "env_limitations": [],
+    "symptom": null,
+    "diagnosis": null,
+    "classification": null,
+    "fix_attempted": null,
+    "blocked_by": null,
+    "escalation": null
+  },
   "deployment_url": null,
+  "previous_story_results": [
+    {
+      "story_id": "f-scaffold",
+      "outcome": "pass",
+      "tests_added": 42,
+      "tests_passing": 42
+    }
+  ],
   "implemented": [
+    {
+      "task": "f-auth",
+      "category": "auth",
+      "acceptance_criteria": [
+        "Auth strategy is 'none' per infrastructure manifest — verified with 13 tests",
+        "No registration, login, logout, session, or protected route mechanisms exist",
+        "Game is immediately playable without authentication",
+        "localStorage used only for best score persistence, not auth tokens"
+      ],
+      "files_changed": [
+        "tests/auth.test.js"
+      ],
+      "tests_added": 13,
+      "tests_passing": 13,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
+    },
     {
       "task": "f-scaffold",
       "category": "deploy",
@@ -90,21 +138,34 @@
         "FA2",
         "FA3"
       ]
+    },
+    {
+      "task": "f-scaffold-tests",
+      "category": "test",
+      "acceptance_criteria": [
+        "Framework initialized with correct config — 4 tests",
+        "All dependencies installed — 3 tests",
+        "Dev server starts without errors — 5 tests",
+        "Production build succeeds — 4 tests"
+      ],
+      "files_changed": [
+        "tests/scaffold.test.js"
+      ],
+      "tests_added": 16,
+      "tests_passing": 16,
+      "serves_feature_areas": [
+        "FA1",
+        "FA2",
+        "FA3"
+      ]
     }
   ],
   "skipped": [
     {
-      "task": "f-auth",
-      "reason": "Infrastructure manifest specifies auth strategy 'none'. Single-player anonymous game with no user accounts, no protected resources. Auth is correctly absent.",
-      "blocker_type": "spec_contradiction",
-      "unblocked_by": "N/A — no auth needed by design",
-      "blocks_feature_areas": []
-    },
-    {
       "task": "f-deploy",
-      "reason": "GitHub CLI commands (gh repo view, gh repo create) were denied by the session permission system. Cannot create the GitHub remote repository or push to gh-pages branch. All local foundation work is complete and committed — deployment requires gh CLI access or manual repo creation.",
+      "reason": "git push and gh CLI commands are blocked by session permission system. Cannot push to gh-pages branch. All local foundation work is complete and committed — deployment requires push permissions or manual repo push.",
       "blocker_type": "infrastructure",
-      "unblocked_by": "Grant gh CLI permissions, or manually create gregario/highlow on GitHub and push. Then enable GitHub Pages with Source = Deploy from branch > gh-pages.",
+      "unblocked_by": "Grant git push permissions in session, or manually run: git push origin main && npx -y gh-pages@6 -d . -b gh-pages --dotfiles",
       "blocks_feature_areas": []
     }
   ],
@@ -216,7 +277,7 @@
         "Jest — rejected: vitest is faster, native ESM support, lighter config",
         "Playwright/browser tests — rejected: overkill for unit/DOM tests at this stage"
       ],
-      "rationale": "Vitest gives fast test execution with jsdom environment. Tests read the actual HTML/CSS files and parse them. 26 tests run in <500ms. Not included in production build.",
+      "rationale": "Vitest gives fast test execution with jsdom environment. Tests read the actual HTML/CSS files and parse them. 42 tests run in <500ms. Not included in production build.",
       "confidence": "high",
       "affects": [
         "package.json",
@@ -272,20 +333,64 @@
         "game.js",
         ".nojekyll"
       ]
+    },
+    {
+      "decision": "Search Before Building audit for cycle 1 story-building phase",
+      "context": "Pre-implementation code reuse analysis for f-scaffold story",
+      "alternatives_considered": [],
+      "rationale": "Found: 0 BUILD, 0 EXTEND, 4 REUSE, 0 REFACTOR-THEN-BUILD tasks. All 4 f-scaffold ACs are fully satisfied by existing foundation code. Added 16 targeted tests to verify each AC. No new implementation code needed — foundation phase already built everything.",
+      "confidence": "high",
+      "affects": [
+        "tests/scaffold.test.js"
+      ]
+    },
+    {
+      "decision": "f-auth story verified as correctly 'none' — no implementation needed, only verification tests",
+      "context": "Infrastructure manifest specifies auth strategy 'none'. Task ledger ACs (registration, login, logout, protected routes, session persistence) are generic foundation ACs that do not apply to this single-player anonymous game.",
+      "alternatives_considered": [
+        "Skip without tests — rejected: TDD protocol requires test evidence even for no-op stories",
+        "Implement stub auth — rejected: would add unnecessary code for a game with no users or protected resources"
+      ],
+      "rationale": "Wrote 13 verification tests confirming: no auth forms/buttons, no session tokens, no cookies, no auth providers, no protected routes, no redirect logic. Tests prove the absence is intentional and complete, not accidental. Game is immediately playable without authentication. localStorage used only for best score.",
+      "confidence": "high",
+      "affects": [
+        "tests/auth.test.js"
+      ]
+    },
+    {
+      "decision": "Search Before Building audit for f-ui-shell story",
+      "context": "Pre-implementation code reuse analysis for f-ui-shell story (cycle 1, story-building phase)",
+      "alternatives_considered": [],
+      "rationale": "Found: 0 BUILD, 0 EXTEND, 5 REUSE, 0 REFACTOR-THEN-BUILD tasks. All 5 f-ui-shell ACs are fully satisfied by existing foundation code. AC1 (app shell renders): index.html has game container with data-state='ready', all UI regions present — 9 tests in shell.test.js verify. AC3 (theme tokens): style.css has 11 color tokens, typography scale, spacing, radius, shadow tokens on :root — 11 tests in tokens.test.js verify. AC2 (navigation): correctly absent per vision scope.out ('multi-page routing'), divergence documented. AC4 (error boundaries): correctly absent per design analysis (no async ops), divergence documented. AC5 (loading states): correctly absent per design analysis (no data fetching), divergence documented. No new implementation code or tests needed — foundation phase built everything. 20 existing tests all pass.",
+      "confidence": "high",
+      "affects": [
+        "index.html",
+        "style.css",
+        "game.js",
+        "tests/shell.test.js",
+        "tests/tokens.test.js"
+      ]
     }
   ],
   "factory_questions": [
     {
-      "question": "Foundation needs to create GitHub repo and deploy to gh-pages but gh CLI commands were denied by the session permission system.",
+      "question": "Foundation needs to create GitHub repo and deploy to gh-pages but git push and gh CLI commands are blocked by the session permission system.",
       "found_in": "foundation_spec deploy task (f-deploy)",
       "resolved_as": null,
       "needs_clarification_from": "human",
       "severity": "significant",
       "suggested_alternatives": [
-        "Grant gh CLI permissions in this session",
-        "Manually create gregario/highlow on GitHub, push commits, enable Pages"
+        "Grant git push permissions in this session",
+        "Manually push: git push origin main && npx -y gh-pages@6 -d . -b gh-pages --dotfiles"
       ],
-      "impact": "Blocks staging deployment verification. All local foundation work is complete. Feature cycles can proceed once repo exists."
+      "impact": "Blocks staging deployment verification. All local foundation work is complete. Feature cycles can proceed once push permissions are available."
+    },
+    {
+      "question": "f-auth acceptance criteria (registration, login, logout, protected routes, session persistence) are generic foundation ACs that don't apply when auth strategy is 'none'. Should these ACs be removed from the task ledger for projects with no auth?",
+      "found_in": "task_ledger.json f-auth story",
+      "resolved_as": "Verified absence with 13 tests. Story passes as 'auth correctly absent' rather than 'auth implemented'. The generic ACs serve as a checklist reminder — for this project, the correct implementation IS no implementation.",
+      "needs_clarification_from": "spec",
+      "severity": "minor"
     }
   ],
   "foundation_completion": {
@@ -296,98 +401,128 @@
     "deploy_ready": false,
     "fixtures_ready": true,
     "blocking_gaps": [
-      "Deploy blocked: gh CLI permissions denied. GitHub repo not yet created. All local work complete — needs manual repo creation and push, then enable GitHub Pages."
+      "Deploy blocked: git push permissions denied in session. GitHub repo exists at origin. All local work complete — needs push permissions or manual push."
     ]
   },
   "foundation_eval_report": {
     "verdict": "PASS",
+    "evaluated_by": "foundation-eval (independent evaluation)",
+    "evaluated_at": "2026-05-04",
+    "test_run": "55 passed, 0 failed, 0 skipped (626ms)",
     "dimensions": {
       "schema_completeness": {
         "status": "SKIP",
         "findings": [
-          "infrastructure_manifest.json specifies database type 'none'. No database, no schema, no migrations.",
-          "All data is client-side: a 52-card deck generated in memory and a single localStorage key ('highlow-best') for persistence.",
-          "Every feature area (FA1 game-logic, FA2 visual-presentation, FA3 polish-and-feel) operates on in-memory card objects — no schema changes needed.",
-          "SKIP reason: database is explicitly out of scope per infrastructure manifest."
+          "infrastructure_manifest.json: database type 'none'. No database, no schema, no migrations.",
+          "All data is client-side: 52-card deck generated in memory, single localStorage key ('highlow-best') for persistence.",
+          "Cross-referenced all feature areas (FA1 game-logic, FA2 visual-presentation, FA3 polish-and-feel) — all operate on in-memory card objects. No feature area requires a database schema.",
+          "SKIP reason: database explicitly out of scope per infrastructure manifest."
         ]
       },
       "integration_scaffolds": {
         "status": "SKIP",
         "findings": [
           "infrastructure_manifest.json: external_integrations = [], data_sources = [].",
-          "The only external resource is Google Fonts CDN (Inter), loaded via <link> with preconnect hints and display=swap.",
-          "No API keys, no env vars, no client wrappers needed.",
+          "Only external resource is Google Fonts CDN (Inter), loaded via <link> with preconnect hints and display=swap — verified in index.html lines 8-10.",
+          "No API keys, no env vars, no client wrappers needed. infrastructure_manifest.json confirms env_vars: 'None'.",
           "SKIP reason: no integrations in scope per infrastructure manifest."
         ]
       },
       "auth_flows": {
         "status": "SKIP",
         "findings": [
-          "infrastructure_manifest.json specifies auth strategy 'none'.",
-          "vision.json confirms: no user accounts, no protected resources, single-player anonymous game.",
-          "Foundation builder correctly skipped f-auth with documented rationale.",
-          "SKIP reason: auth is explicitly not needed by design."
+          "infrastructure_manifest.json: auth strategy 'none'. vision.json confirms no user accounts, single-player anonymous game.",
+          "13 verification tests in tests/auth.test.js independently confirm: no signup forms, no email/password inputs, no login buttons, no OAuth references, no session tokens, no cookies, no auth-gated localStorage, no redirect logic, no router references.",
+          "game.js localStorage usage verified — only key is 'highlow-best', used for score persistence not auth.",
+          "Game initializes to 'ready' state immediately without any auth gate.",
+          "SKIP reason: auth explicitly not needed by design. Absence is verified, not assumed."
         ]
       },
       "shared_components": {
         "status": "PASS",
         "findings": [
-          "App shell renders: index.html has valid structure with game container, card area, buttons, streak, cards-remaining, best-score, and sr-announcer.",
-          "Navigation: correctly absent — vision.json scope.out includes 'multi-page routing'. Single-page game with state-based transitions. Divergence documented and justified.",
-          "Theme tokens: 11 color tokens, full typography scale (card-value, streak, btn, secondary, title), spacing, radius, shadow tokens all defined on :root. 11 token tests pass.",
-          "Error boundaries / loading states: correctly absent — no async operations, no network requests, no data fetching. Divergence documented with rationale from design analysis.",
-          "State visibility: CSS rules for all 5 game states (ready, playing, revealing, game-over, deck-complete) showing/hiding correct elements.",
-          "Card structure: front/back faces with backface-visibility:hidden, 3D flip CSS, crosshatch pattern on back. 5:7 aspect ratio enforced.",
-          "Accessibility scaffolding: aria-live announcer, focus-visible styles, hover scoped to pointer devices, prefers-reduced-motion support.",
-          "Responsive: max-width 480px container, min-width 140px card, 48px min-height buttons (exceeds 44px touch target), dvh units for full-height layout.",
-          "9 shell tests + 11 token tests all pass (20 total).",
-          "All features (FA1, FA2, FA3) can build on this shell without modifying index.html or style.css structure."
+          "App shell renders: index.html has game container (#game) with data-state='ready', card with front/back faces, Higher/Lower buttons, Play Again button, streak display, cards-remaining, best-score, sr-announcer. 9 shell tests verify.",
+          "Navigation: correctly absent — vision.json scope.out includes 'multi-page routing'. Divergence documented in cycle_context with rationale.",
+          "Theme tokens: 11 color tokens (bg, fg, card-face, card-back, suit-red, suit-dark, accent-correct, accent-wrong, accent-push, btn-bg, btn-hover), full typography scale (5 size tiers), spacing, radius, shadow tokens on :root. Warm palette — bg #F5F0EB not white, fg #2C2825 not black. 11 token tests verify.",
+          "Error boundaries / loading states: correctly absent — product has no async operations, no network requests, no data fetching. Divergence documented.",
+          "State visibility: CSS rules for all 5 game states (ready, playing, revealing, game-over, deck-complete) — verified show/hide logic for streak, cards-remaining, action-buttons, play-again, best-score across all states.",
+          "Card structure: front/back faces with backface-visibility:hidden, 3D flip via rotateY(180deg), 400ms cubic-bezier easing, 1000px perspective, crosshatch pattern on back via repeating-linear-gradient. 5:7 aspect ratio.",
+          "Accessibility: aria-live='polite' announcer with sr-only positioning, :focus-visible outline on buttons, hover scoped to @media (hover: hover), prefers-reduced-motion disables all transitions/animations.",
+          "Responsive: max-width 480px container, min-width 140px card, 48px min-height buttons (exceeds 44px touch target), dvh units for full-height layout, padding 48px/24px.",
+          "Button scaffold: :active scale(0.96), hover state, disabled state (opacity 0.5, pointer-events:none in revealing state), btn-active inset shadow.",
+          "All features (FA1, FA2, FA3) can build on this shell. FA1 adds game logic to game.js. FA2 adds card face rendering. FA3 adds animation triggers. None need to modify the HTML structure or CSS token system."
         ]
       },
       "deployment_pipeline": {
         "status": "SKIP",
         "findings": [
-          "Deployment was blocked by session permission denial for gh CLI commands.",
-          "All local foundation work is complete. .nojekyll file present. Flat file structure ready for GitHub Pages.",
+          "Deployment blocked by session permission denial for git push — documented in cycle_context.skipped with clear unblock path.",
+          "All local foundation work complete. .nojekyll file present. Flat file structure (index.html, style.css, game.js at root) ready for GitHub Pages.",
           "deployment_url is null — cannot verify staging environment.",
-          "SKIP reason: infrastructure blocker (permissions), not a foundation quality issue. Builder documented the blocker and unblock path clearly.",
-          "NOTE: This does not block feature development — all feature work is local. Deploy can be unblocked independently."
+          "SKIP reason: infrastructure blocker (session permissions), not a foundation quality issue.",
+          "Feature development is not blocked — all feature work is local. Deploy can be unblocked independently."
         ]
       },
       "test_fixtures": {
         "status": "PASS",
         "findings": [
-          "SUITS constant: 4 suits with name and symbol (♥♦♣♠). Realistic domain data.",
-          "VALUES constant: 13 values (Ace through King) with numeric value, display label, and full name. Correct mapping.",
+          "SUITS constant: 4 suits (hearts/♥, diamonds/♦, clubs/♣, spades/♠) with name and symbol. Realistic domain data.",
+          "VALUES constant: 13 values (Ace=1 through King=13) with numeric value, display label (A, 2-10, J, Q, K), and full name. Correct mapping verified.",
           "makeCard(value, suitIndex): produces card objects with value, label, name, suit, symbol, and displayName ('Seven of Hearts'). Realistic output.",
-          "makeDeck(): produces 52 unique cards covering all suit×value combinations. Verified by test.",
-          "sampleCards: 6 named cards covering all 4 suits (Ace of Spades, Seven of Hearts, King of Diamonds, Three of Clubs, Ten of Hearts, Queen of Spades). Realistic names, diverse values.",
-          "All exports are ESM — importable by feature tests. 6 fixture tests pass.",
-          "No placeholder data: no 'test123', no 'foo@bar', no lorem ipsum. All card data matches real playing card domain."
+          "makeDeck(): produces exactly 52 unique cards covering all 4×13 combinations. Verified by uniqueness test.",
+          "sampleCards: 6 named cards (aceOfSpades, sevenOfHearts, kingOfDiamonds, threeOfClubs, tenOfHearts, queenOfSpades) covering all 4 suits and diverse values. Realistic names.",
+          "All exports are ESM — importable by feature tests via import statement. 6 fixture tests pass.",
+          "No placeholder data: grep for test123, foo@bar, lorem, placeholder, hardcoded — zero matches across all source files."
         ]
       }
     },
     "silent_degradation_check": {
       "status": "PASS",
       "evidence": [
-        "No TODO/FIXME/HACK/PLACEHOLDER markers found in any source file (index.html, style.css, game.js).",
-        "No hardcoded credentials, no mock services, no test stubs that always return true.",
-        "game.js is a minimal but real scaffold: DOM references wired, state get/set via data-state, announce() helper for screen reader, localStorage read/write with try/catch graceful degradation, init() function that sets ready state.",
-        "CSS design tokens are real values matching the design spec — not placeholder colors. Warm palette (#F5F0EB bg, #2C2825 fg, #C45B4A red suit, etc.), not defaults.",
-        "Card back uses actual CSS crosshatch pattern (two overlapping repeating-linear-gradients) — not a solid color placeholder.",
-        "Flip animation CSS is fully specified (400ms, cubic-bezier, perspective 1000px, preserve-3d, backface-visibility) — not a stub.",
-        "State visibility rules cover all 5 states with specific show/hide behavior — not a simplified version.",
-        "Reduced motion media query is real (disables all animations/transitions) — not an empty rule.",
-        "No JSON blobs where typed data should be. Card model uses discrete properties (value, label, name, suit, symbol).",
-        "Total source weight: ~10KB (HTML 1.6KB + CSS 6.8KB + JS 1.4KB). Well under 100KB budget.",
-        "All 26 tests run and pass in <550ms. No skipped tests, no .skip markers."
+        "Grep for TODO/FIXME/HACK/PLACEHOLDER/STUB/MOCK across *.html, *.css, *.js — zero matches.",
+        "Grep for test123/foo@bar/lorem/placeholder/hardcoded — zero matches.",
+        "game.js is a real scaffold (56 lines): IIFE wrapping, DOM references for all 10 elements, getState/setState via data-state attribute, announce() for aria-live region, readBestScore/writeBestScore with try/catch graceful degradation, init() sets 'ready' state and announces. No stubs, no mock returns.",
+        "CSS design tokens are real values from design spec — warm palette (#F5F0EB background, not white; #2C2825 foreground, not black; #C45B4A suit-red, not pure red).",
+        "Card back crosshatch pattern: two repeating-linear-gradient layers at 45deg/-45deg, 8px spacing, 1px accent lines. Not a solid color.",
+        "Flip animation: rotateY(180deg), 400ms cubic-bezier(0.25, 0.1, 0.25, 1.0), perspective 1000px, backface-visibility hidden on both faces, transform-style preserve-3d. Fully specified, not a stub.",
+        "State visibility rules: 5 states × multiple elements = 15+ CSS rules governing show/hide. Not simplified.",
+        "Reduced motion: disables animation-duration, transition-duration to 0.01ms, removes card-inner transition. Real implementation.",
+        "Total source weight: index.html ~1.2KB + style.css ~4.7KB + game.js ~1.2KB ≈ 7KB. Well under 100KB budget.",
+        "All 55 tests run and pass in 626ms. No .skip markers, no .only markers, no empty test bodies, no tests that assert true unconditionally. Tests verify real properties of real files."
       ]
     },
     "structural_gaps": [],
     "integration_gaps": [],
     "recommendations": [
-      "Deploy can be unblocked by granting gh CLI permissions or manually creating the GitHub repo. This is independent of feature work.",
-      "game.js init() is minimal — feature stories will add deck creation, event listeners, and game logic. The scaffold provides the wiring but not the behavior, which is correct for foundation."
+      "Deploy can be unblocked by granting push permissions or manually running: git push origin main && npx -y gh-pages@6 -d . -b gh-pages --dotfiles. Independent of feature work.",
+      "game.js init() is intentionally minimal — feature stories (FA1) will add deck creation, event listeners, comparison logic, and state transitions. The scaffold provides DOM wiring and state management primitives. Correct for foundation."
     ]
+  },
+  "infrastructure": {
+    "readiness": {
+      "posthog": true,
+      "sentry": false,
+      "supabase": false,
+      "cloudflare": false
+    }
+  },
+  "vision": {
+    "infrastructure": {
+      "deployment_target": "github-pages",
+      "needs_database": false,
+      "needs_auth": false
+    }
+  },
+  "decomposition_strategy": {
+    "profile": "single-page",
+    "rationale": "Single HTML file, vanilla JS, no framework, no routing, no database. Product is a single-page game with state-based transitions.",
+    "foundation_pass": "none needed beyond what was already built",
+    "capabilities": {
+      "foundation-needed": false,
+      "dependency-ordering": false,
+      "parallel-building": false,
+      "integration-pass": false,
+      "integration-escalation": false
+    }
   }
 }
