@@ -369,17 +369,44 @@ body {
   transition: opacity var(--transition-medium);
 }
 
+/* --- Start button --- */
+
+.start-area {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-start {
+  width: 100%;
+}
+
 /* --- State visibility --- */
 
 [data-state="ready"] .streak-display,
 [data-state="ready"] .cards-remaining,
 [data-state="ready"] .play-again-area,
-[data-state="ready"] .best-score {
+[data-state="ready"] .best-score,
+[data-state="ready"] .action-buttons {
   display: none;
 }
 
+[data-state="playing"] .start-area,
 [data-state="playing"] .play-again-area,
 [data-state="playing"] .best-score {
+  display: none;
+}
+
+[data-state="revealing"] .start-area {
+  display: none;
+}
+
+[data-state="game-over"] .start-area {
+  display: none;
+}
+
+[data-state="deck-complete"] .start-area {
   display: none;
 }
 

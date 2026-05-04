@@ -141,43 +141,16 @@ import { renderCardFace } from './card-renderer.js';
     }
   }
 
+  function handleStart() {
+    if (engine.state !== 'ready') return;
+    engine = engine.startGame();
+    renderCard(engine.currentCard);
+    flipToFaceUp();
+    render();
+    announce(engine.currentCard.displayName + '. Higher or Lower?');
+  }
+
   function handleGuess(direction) {
-    if (engine.state === 'ready') {
-      engine = engine.startGame();
-      render();
-      announce(engine.currentCard.displayName + '. Higher or Lower?');
-
-      setTimeout(function () {
-        engine = engine.guess(direction);
-        setState('revealing');
-        renderCard(engine.nextCard);
-        announce(
-          engine.nextCard.displayName + '. You guessed ' + direction + '.'
-        );
-
-        setTimeout(function () {
-          var prevEngine = engine;
-          engine = engine.resolveWith(engine);
-          render();
-          applyCardFeedback(engine.lastResult);
-          if (engine.lastResult === 'correct') pulseStreak();
-
-          if (engine.lastResult === 'correct') {
-            announce('Correct! ' + prevEngine.nextCard.displayName + '. Streak: ' + engine.streak + '. Higher or Lower?');
-          } else if (engine.lastResult === 'wrong') {
-            announce('Wrong. ' + prevEngine.nextCard.displayName + '. Game over. Final streak: ' + engine.streak + '.');
-          } else if (engine.lastResult === 'push') {
-            announce('Push! ' + prevEngine.nextCard.displayName + '. Streak stays at ' + engine.streak + '. Higher or Lower?');
-          }
-
-          if (engine.state === 'deck-complete') {
-            announce('Incredible! You guessed all 51 cards! Streak: 51.');
-          }
-        }, 400);
-      }, 300);
-      return;
-    }
-
     if (engine.state !== 'playing') return;
 
     clearCardFeedback();
@@ -218,7 +191,12 @@ import { renderCardFace } from './card-renderer.js';
     if (engine.state !== 'game-over' && engine.state !== 'deck-complete') return;
     engine = engine.restartWith(engine);
     render();
-    announce('New game. Press Higher or Lower to begin.');
+    announce('New game. Press Start to begin.');
+  }
+
+  var startBtn = gameEl.querySelector('.btn-start');
+  if (startBtn) {
+    startBtn.addEventListener('click', handleStart);
   }
 
   els.higherBtn.addEventListener('click', function () {
